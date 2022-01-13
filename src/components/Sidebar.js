@@ -2,25 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as Home } from '../Assets/Icons/Home.svg';
 import { ReactComponent as Popular } from '../Assets/Icons/Popular.svg';
 import { ReactComponent as Recent } from '../Assets/Icons/Recent.svg';
-import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as Doge } from '../Assets/doge.svg';
 import { ReactComponent as User } from '../Assets/SVGs/user.svg';
 import { ReactComponent as Notification } from '../Assets/Icons/Notifications.svg';
+// import {ReactComponent as Popular} from '../Assets/Icons/Popular.svg'
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { useMobile } from '../contexts/MobileContext';
 import '../CSS Components/Sidebar.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import Countdown from './Countdown';
 import TrendingTopics from './TrendingTopics';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faShare,
-  faComment,
-  faCrown,
-  faClock,
-} from '@fortawesome/free-solid-svg-icons';
 import CountdownTimer from './CountdownTimer';
 
 export default function Sidebar(props) {
@@ -123,7 +114,6 @@ export default function Sidebar(props) {
                   style={
                     props.active === 0
                       ? {
-                          fill: 'var(--primary-accent)',
                           stroke: 'var(--primary-accent)',
                         }
                       : null
@@ -165,7 +155,9 @@ export default function Sidebar(props) {
             >
               <Popular
                 style={
-                  props.active === 2 ? { fill: 'var(--primary-accent)' } : null
+                  props.active === 2
+                    ? { stroke: 'var(--primary-accent)' }
+                    : null
                 }
               />
               <span className="navigation-group-text">{t('popular')}</span>

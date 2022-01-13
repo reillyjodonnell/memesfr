@@ -3,8 +3,8 @@ import React from 'react';
 export default function FullscreenPlayer() {
   return (
     <div className="fullscreen-player">
-      <div></div>
-      <div></div>
+      <div className="fullscreen-player-loader"></div>
+      <div className="fullscreen-player-loader"></div>
       <video
         autoPlay={true}
         loop={true}

@@ -6,9 +6,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   z-index: 1000;
+  /* position: fixed; */
+  height: -webkit-fill-available;
+  width: 100%;
+  height: 100%;
+}
+
+html {
+}
+#root {
+  height: 100%;
 }
 
 :root {
+  height: 100%;
   /* --bg: #272932; */
   --light-bg: #4c4d62;
   --bg-accent: #b74f6f;
@@ -23,7 +34,7 @@ body {
   --dark-text: black;
 
   --light-text-secondary: rgba(34, 34, 34, 0.705);
-  --dark-text-secondary: #fdfdfd91;
+  --dark-text-secondary: #fdfdfdc9;
 
   --light-secondary-title-color: rgba(0, 0, 0, 0.753);
   --dark-secondary-title-color: #ffffffc4;
@@ -37,12 +48,21 @@ body {
   --light-mode-hover: #d4d4d473;
   --dark-mode-hover: #393c469f;
 
+  --light-mode-navigation: #000000d6;
+  --dark-mode-navigation: #ffffffeb;
+
+  --background-transparent-light: #4a4a4a17;
+  --background-transparent-dark: #9d9d9d14;
+
   --bg: var(--dark-bg);
   --text-color: var(--light-text);
   --secondary-text-color: var(--dark-text-secondary);
   --highlight: var(--purple-highlight);
   --light-highlight: var(--purple-light-highlight);
   --secondary-title-color: var(--dark-secondary-title-color);
+  --navigation: var(--light-mode-navigation);
+
+  --bg-transparent: var(--background-transparent-dark);
 
   --shadow: var(--dark-mode-shadow);
   --neon-font-color: #ffffffab;

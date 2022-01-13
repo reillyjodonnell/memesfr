@@ -19,6 +19,8 @@ import RightSidebar from './RightSidebar';
 import Feed from './routes/home/Feed';
 import { Outlet } from 'react-router-dom';
 import Topbar from './TopBar';
+import Modal from './Modal';
+import PopupModal from './templates/PopupModal';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -171,6 +173,7 @@ export default function Dashboard(props) {
   const createMemePost = () => {
     createPostFunction(!createPost);
   };
+
   const resetUserPassword = () => {
     document.getElementById('root').style.filter = '';
     resetPasswordFunction(!resetPassword);
@@ -416,10 +419,13 @@ export default function Dashboard(props) {
   return (
     <div className="dashboard">
       <div className="dashboard-content">
+        {createPost && (
+          <PopupModal toggleState={createMemePost}>
+            <span>Test modal</span>
+          </PopupModal>
+        )}
         {isMobile ? (
           <>
-            <MobileHeader activeUser={currentUser} />
-
             <Outlet />
             <MobileNav
               active={nav.count}
@@ -456,6 +462,7 @@ export default function Dashboard(props) {
               resetPassword={resetUserPassword}
             />
             <div
+              className="meme-content"
               style={{
                 display: 'flex',
                 position: 'relative',

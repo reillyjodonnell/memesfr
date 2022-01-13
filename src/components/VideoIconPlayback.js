@@ -79,39 +79,21 @@ export default function VideoIconPlayback({
             )}
           </div>
         </>
-        {inView ? (
-          <video
-            onClick={openFullScreen}
-            id="playback-video"
-            type="video/mp4"
-            style={{ objectFit: 'cover' }}
-            loop
-            muted={isMuted}
-            defaultMuted
-            playsInline
-            autoPlay={true}
-            // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
-            className="meme-image"
-            poster={poster}
-            src={`${image}#t=0`}
-          />
-        ) : (
-          <video
-            onClick={openFullScreen}
-            id="playback-video"
-            type="video/mp4"
-            style={{ objectFit: 'cover' }}
-            // loop
-            muted={true}
-            defaultMuted
-            playsInline
-            // autoPlay={true}
-            // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
-            className="meme-image"
-            poster={poster}
-            src={`${image}`}
-          />
-        )}
+        <video
+          onClick={openFullScreen}
+          id="playback-video"
+          type="video/mp4"
+          style={{ objectFit: 'cover' }}
+          loop
+          muted={isMuted}
+          defaultMuted
+          playsInline
+          autoPlay={true}
+          // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
+          className="meme-image"
+          poster={poster}
+          src={`${image}#t=0`}
+        />
       </div>
     </>
   );

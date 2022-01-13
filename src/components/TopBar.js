@@ -3,21 +3,17 @@ import '../CSS Components/TopBar.css';
 import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
 import { ReactComponent as Plus } from '../Assets/Icons/Plus.svg';
 import { ReactComponent as Logout } from '../Assets/SVGs/logout.svg';
+import { ReactComponent as Login } from '../Assets/SVGs/login.svg';
 import { ReactComponent as Coins } from '../Assets/Icons/Coins.svg';
 import { ReactComponent as Language } from '../Assets/Icons/Language.svg';
 import { ReactComponent as Help } from '../Assets/Icons/Help.svg';
-import { ReactComponent as Wallet } from '../Assets/Icons/Wallet.svg';
 import { ReactComponent as User } from '../Assets/SVGs/user.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
-
-import {
-  Message,
-  Settings,
-  AccountBalanceWalletRounded,
-} from '@material-ui/icons';
+import { useAuth } from '../contexts/AuthContext';
+import { Message, Settings } from '@material-ui/icons';
 
 export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
@@ -25,6 +21,8 @@ export default function TopBar(props) {
   const [showIconText, setShowIconText] = useState(false);
 
   const { t, i18n } = useTranslation('common');
+
+  const { currentUser } = useAuth();
 
   const {
     setLanguageToSpanish,
@@ -37,14 +35,6 @@ export default function TopBar(props) {
     setLanguageToRussian,
     languagePreference,
   } = useLanguage();
-
-  const beginCountdownForModal = (count) => {
-    setTimeout(() => {
-      setIsHovering(false);
-    }, count);
-  };
-
-  const handleHoveringState = () => {};
 
   const LanguageModal = () => {
     return (
@@ -147,14 +137,6 @@ export default function TopBar(props) {
     setShowIconText((prev) => !prev);
   };
 
-  // const IconText = ({ iconText }) => {
-  //   return (
-  //     <div className="icon-text-modal">
-  //       <span>Icon name</span>
-  //     </div>
-  //   );
-  // };
-
   const navigateAndClose = (navigate) => {
     navigate();
     handleMouseOut();
@@ -203,12 +185,35 @@ export default function TopBar(props) {
         </div>
         <div className="topbar-profile-modal-logout-container">
           <div className="topbar-profile-modal-item-logout">
-            <Logout className="topbar-profile-modal-icon" />
-            <span className="topbar-profile-modal-item-text">
-              {t('logout')}
-            </span>
+            {currentUser ? (
+              <>
+                <Logout className="topbar-profile-modal-icon" />
+                <span className="topbar-profile-modal-item-text">
+                  {t('logout')}
+                </span>
+              </>
+            ) : (
+              <>
+                <Login className="topbar-profile-modal-icon" />
+                <span className="topbar-profile-modal-item-text">
+                  {t('login')}
+                </span>
+              </>
+            )}
           </div>
         </div>
+      </div>
+    );
+  };
+
+  const LoggedInSection = () => {
+    return <></>;
+  };
+
+  const LoggedOutSection = () => {
+    return (
+      <div onClick={props.createPost} className="topbar-login-container">
+        <span className="topbar-login-text">{t('login')}</span>
       </div>
     );
   };
@@ -221,28 +226,33 @@ export default function TopBar(props) {
           <span>Memesfr</span>
         </div>
         <div className="topbar-icon-container">
+          {!currentUser && <LoggedOutSection />}
+
           <div
-            onMouseOver={handleShowText}
-            onClick={props.navigateToCreate}
+            onClick={props.createPost}
             className="topbar-upload-meme-button topbar-first-button"
           >
             <Plus />
           </div>
+          {currentUser ? (
+            <>
+              <div
+                onMouseOver={handleShowText}
+                className="topbar-upload-meme-button"
+                onClick={props.navigateToMessage}
+              >
+                <Message />
+              </div>
+              <div
+                onMouseOver={handleShowText}
+                className="topbar-upload-meme-button"
+                onClick={props.navigateToWallet}
+              >
+                <FontAwesomeIcon icon={faBoxOpen} />
+              </div>
+            </>
+          ) : null}
 
-          <div
-            onMouseOver={handleShowText}
-            className="topbar-upload-meme-button"
-            onClick={props.navigateToMessage}
-          >
-            <Message />
-          </div>
-          <div
-            onMouseOver={handleShowText}
-            className="topbar-upload-meme-button"
-            onClick={props.navigateToWallet}
-          >
-            <FontAwesomeIcon icon={faBoxOpen} />
-          </div>
           {/* <div
             onMouseOver={handleShowText}
             className="topbar-upload-meme-button"
@@ -251,27 +261,20 @@ export default function TopBar(props) {
             <Wallet />
           </div> */}
         </div>
-        {props.avatar ? (
-          <div
-            className="topbar-avatar-container"
-            onClick={props.navigateToProfile}
-            onMouseOver={handleMouseOver}
-          >
+        <div
+          className="topbar-upload-meme-button"
+          onClick={props.navigateToProfile}
+          onMouseEnter={handleMouseOver}
+        >
+          {/* {props.avatar && (
             <img
               className="sidebar-avatar"
               alt="user avatar"
               src={props.avatar}
             />
-          </div>
-        ) : (
-          <div
-            onMouseEnter={handleMouseOver}
-            className="topbar-upload-meme-button"
-            onClick={props.navigateToLogin}
-          >
-            <User className="sidebar-avatar" />
-          </div>
-        )}
+          )} */}
+          <User className="topbar-avatar" />
+        </div>
 
         {isHovering && !languageModal ? (
           <ProfileModal />

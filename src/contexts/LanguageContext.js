@@ -28,10 +28,8 @@ export default function LanguageProvider({ children }) {
     const languageJSON = window.localStorage.getItem('language');
     setLanguagePreference(languageJSON);
     if (!languageJSON) {
-      const i18nextLngValue = window.localStorage.getItem('i18nextLng');
-      //Just get the first two letters
-      const firstTwoLettersOfLanguage = i18nextLngValue.slice(0, 2);
-
+      const languageValue = navigator.languages[0];
+      const firstTwoLettersOfLanguage = languageValue.slice(0, 2);
       switch (firstTwoLettersOfLanguage) {
         case 'en':
           setLanguagePreference('English');
@@ -74,56 +72,47 @@ export default function LanguageProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log(`Language has been updated to ${languagePreference}`);
     setLanguageChanged(false);
   }, [languagePreference, languageChanged]);
 
   useEffect(() => {
     switch (languagePreference) {
       case 'English':
-        console.log('English is language');
         i18n.changeLanguage('en');
         window.localStorage.setItem('language', 'English');
 
         break;
       case 'Spanish':
-        console.log('Espanol');
         i18n.changeLanguage('es');
         window.localStorage.setItem('language', 'Spanish');
 
         break;
       case 'French':
-        console.log('French');
         i18n.changeLanguage('fr');
         window.localStorage.setItem('language', 'French');
 
         break;
       case 'German':
-        console.log('German');
         i18n.changeLanguage('de');
         window.localStorage.setItem('language', 'German');
 
         break;
       case 'Chinese':
-        console.log('Chinese');
         i18n.changeLanguage('zh');
         window.localStorage.setItem('language', 'Chinese');
 
         break;
       case 'Arabic':
-        console.log('Arabic');
         i18n.changeLanguage('ar');
         window.localStorage.setItem('language', 'Arabic');
 
         break;
       case 'Russian':
-        console.log('Russian');
         i18n.changeLanguage('ru');
         window.localStorage.setItem('language', 'Russian');
 
         break;
       case 'Portuguese':
-        console.log('Portuguese');
         i18n.changeLanguage('pt');
         window.localStorage.setItem('language', 'Portuguese');
 

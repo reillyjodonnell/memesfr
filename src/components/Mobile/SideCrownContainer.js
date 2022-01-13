@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faShare,
@@ -11,11 +11,23 @@ import { user } from 'firebase-functions/lib/providers/auth';
 import { ReactComponent as User } from '../../Assets/SVGs/user.svg';
 
 export default function SideCrownContainer() {
+  const [likes, changeLikes] = useState(69);
+  const [needSubmit, setNeedSubmit] = useState(false);
+  const [thumbUp, setThumbUp] = useState(false);
+
   const currentUser = false;
-  const thumbUp = false;
-  const toggleThumbUp = () => {};
+  // const thumbUp = false;
+  const toggleThumbUp = () => {
+    setNeedSubmit(true);
+    if (thumbUp === true) {
+      setThumbUp(!thumbUp);
+      changeLikes((likes) => likes - 1);
+    } else {
+      setThumbUp(!thumbUp);
+      changeLikes((likes) => likes + 1);
+    }
+  };
   const activatePrompt = () => {};
-  const likes = 69;
   const comments = 420;
   const shares = 42069;
 
@@ -42,8 +54,13 @@ export default function SideCrownContainer() {
             </div> */}
 
         <div
-          onClick={currentUser ? toggleThumbUp : activatePrompt}
-          className="side-crown-container-icon-container"
+          onClick={toggleThumbUp}
+          // className="side-crown-container-icon-container"
+          className={
+            thumbUp
+              ? 'side-crown-container-icon-container-active'
+              : 'side-crown-container-icon-container'
+          }
         >
           {/* <LikeIcon
                 style={thumbUp ? { fill: 'url(#thumb-grad)' } : null}

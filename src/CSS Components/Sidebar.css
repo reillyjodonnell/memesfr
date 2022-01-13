@@ -1,13 +1,13 @@
 .sidebar-fixed {
   height: 90vh;
-  max-width: 400px;
   display: flex;
-  background-color: var(--bg);
+  /* background-color: var(--bg); */
   overflow: hidden;
-  top: 76px;
+  top: 66px;
   color: #fbfaf8;
-  min-width: 285px;
-  top: 80px;
+  min-width: 372px;
+  max-width: 372px;
+
   position: -webkit-sticky;
   position: sticky;
   overflow-y: auto;
@@ -78,8 +78,6 @@
   object-fit: cover;
   object-position: 50% 50%;
   border: 2px solid transparent;
-  box-shadow: rgb(6 24 44 / 40%) 0px 0px 0px 2px,
-    rgb(6 24 44 / 65%) 0px 4px 6px -1px, rgb(255 255 255 / 8%) 0px 1px 0px inset;
 }
 .sidebar-username {
   font-weight: 600;
@@ -147,7 +145,7 @@
   font-size: 1rem;
   cursor: pointer;
   font-size: 1.2rem;
-  color: var(--text-color);
+  color: var(--navigation);
   font-weight: 600;
   border-radius: 20px;
   min-width: 200px;
@@ -160,7 +158,8 @@
 .navigation-group-memelord-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .navigation-group-memelord {
@@ -202,10 +201,9 @@
   justify-content: flex-start;
   align-items: center;
 }
-.navigation-group-items svg {
-  stroke-width: 0.5px;
-  stroke: black;
-}
+/* .navigation-group-items svg {
+  stroke: var(--text-color);
+} */
 
 .sidebar-login {
   padding: 1rem 0;
@@ -276,6 +274,7 @@
   border-top: 1px solid var(--line);
 }
 .memelord-container {
+  margin-left: 8px;
   padding: 1rem;
   display: flex;
   flex-direction: row;

@@ -1,5 +1,5 @@
 .popup-modal-container {
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 40vw;
@@ -18,4 +18,54 @@
   margin: -35px -35px 0 0;
   padding: 2rem;
   border-radius: 20px;
+}
+.popup-modal-content-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.popup-modal-container-close-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: var(--line);
+  padding: 8px;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.popup-modal-container-close-button:hover {
+  transition: all var(--speed);
+  background-color: var(--shadow);
+}
+
+.popup-modal-container-close-button svg {
+  height: 28px;
+  width: 28px;
+  stroke-width: 1.5;
+  stroke: var(--text-color);
+}
+
+.popup-modal-background-filter {
+  display: block;
+  position: absolute;
+  background: rgb(30 30 30 / 50%);
+  inset: 0px;
+}
+
+.popup-modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  flex-direction: column;
+}
+.popup-modal-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
 }

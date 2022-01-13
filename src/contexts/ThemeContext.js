@@ -77,6 +77,11 @@ export default function ThemeProvider({ children }) {
       '--secondary-title-color',
       'var(--light-secondary-title-color)'
     );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-light)'
+    );
+    r.style.setProperty('--navigation', 'var(--light-mode-navigation)');
   };
 
   const handleDarkMode = () => {
@@ -90,6 +95,11 @@ export default function ThemeProvider({ children }) {
       '--secondary-title-color',
       'var(--dark-secondary-title-color)'
     );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-dark)'
+    );
+    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
   };
 
   const toggleDarkMode = () => {

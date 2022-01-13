@@ -14,7 +14,8 @@ import '../../../CSS Components/routes/home/Feed.css';
 import FullscreenPlayer from './FullscreenPlayer';
 import SideCrownContainer from '../../Mobile/SideCrownContainer';
 import { ReactComponent as User } from '../../../Assets/SVGs/user.svg';
-
+import MobileHeader from '../../MobileHeader';
+import Swipable from './Swipable';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -138,6 +139,7 @@ export default function Feed(props) {
   const [usersLikedPosts, setUsersLikedPosts] = useState([]);
   const [usersHeartedPosts, setUsersHeartedPosts] = useState([]);
   const [isMuted, setIsMuted] = useState(true);
+  const [activeVideoURL, setActiveVideoURL] = useState('');
 
   const [nav, setNav] = useState(0);
 
@@ -376,17 +378,20 @@ export default function Feed(props) {
   return isMobile ? (
     <div className="home-content-mobile">
       <div className="home-mobile-scroll"></div>
-      <FullscreenPlayer />
-      <SideCrownContainer />
+      {/* <FullscreenPlayer activeVideoURL={activeVideoURL} /> */}
+      <MobileHeader activeUser={currentUser} />
+      <Swipable setActiveVideoURL={setActiveVideoURL} />
+
+      {/* <SideCrownContainer />
       <div className="home-content-user-information">
         <div className="home-content-username-and-title">
           <span className="home-content-username">@Reilly</span>
           <span className="home-content-title">This is a sample 😂</span>
         </div>
         <div className="home-content-avatar">
-          <User className="sidebar-avatar" />
+          <User className="home-content-avatar-image" />
         </div>
-      </div>
+      </div> */}
     </div>
   ) : (
     <div className="main-content">
