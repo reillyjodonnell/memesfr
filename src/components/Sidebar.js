@@ -13,6 +13,8 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import TrendingTopics from './TrendingTopics';
 import { useTranslation } from 'react-i18next';
 import CountdownTimer from './CountdownTimer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFire } from '@fortawesome/free-solid-svg-icons';
 
 export default function Sidebar(props) {
   const [activeNav, setActiveNav] = useState();
@@ -188,7 +190,7 @@ export default function Sidebar(props) {
               <span className="navigation-group-text">{t('recent')}</span>
             </div>
             <div
-              onClick={props.navigateToProfile}
+              onClick={currentUser ? props.navigateToProfile : props.login}
               className={
                 props.active === 4
                   ? 'navigation-group navigation-group-active'

@@ -13,6 +13,16 @@
   "languages": "اللغات",
   "login": "تسجيل الدخول",
   "logout": "تسجيل خروج",
+  "signup": "يسجل",
+  "next": "التالي",
+  "or": "أو",
+  "loginOptions": "رقم الهاتف أو اسم المستخدم أو البريد الإلكتروني",
+  "continueWithGoogle": "Google تواصل مع",
+  "continueWithFacebook": "Facebook تواصل مع",
+  "continueWithApple": "Apple تواصل مع",
+  "continueWithTwitter": "Twitter تواصل مع",
+  "continueWithInstagram": "Instagram تواصل مع",
+  "dontHaveAccount": "ليس لديك حساب؟",
   "display": "عرض",
   "accountAndPrivacy": "الحساب والخصوصية",
   "changeYourPassword": "غير كلمة المرور الخاصة بك",
@@ -27,5 +37,9 @@
   "french": "فرنسي",
   "german": "هولندي",
   "chinese": "صينى",
-  "arabic": "عربى"
+  "arabic": "عربى",
+  "accentColor": "لون التمييز",
+  "backgroundColor": "لون الخلفية",
+  "darkMode": "الوضع المظلم",
+  "lightMode": "وضع الضوء"
 }

@@ -189,7 +189,7 @@
 }
 .navigation-group svg,
 .logout-container svg {
-  width: 34px;
+  width: 34px !important;
   height: 34px;
 }
 .navigation-group-text {

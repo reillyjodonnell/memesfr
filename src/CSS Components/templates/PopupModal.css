@@ -1,21 +1,21 @@
 .popup-modal-container {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 40vw;
+  width: 30vw;
   max-width: 1000px;
+  min-width: 470px;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  height: 80vh;
   z-index: 100;
   background-color: var(--bg);
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: -35px -35px 0 0;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 2rem;
   border-radius: 20px;
 }
@@ -35,6 +35,16 @@
   justify-content: center;
   align-items: center;
 }
+.popup-modal-branding {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-modal-memesfr-brandname {
+  display: flex;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
 .popup-modal-container-close-button:hover {
   transition: all var(--speed);
   background-color: var(--shadow);
@@ -52,6 +62,12 @@
   position: absolute;
   background: rgb(30 30 30 / 50%);
   inset: 0px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .popup-modal-content {

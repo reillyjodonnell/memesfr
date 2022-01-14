@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '@material-ui/core/Button';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -21,42 +21,47 @@ import firebase from '../services/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-function Copyright() {
-  const navigate = useNavigate();
+import { useTranslation } from 'react-i18next';
 
-  function redirectHome() {
-    navigate('/');
-  }
-  return (
-    <Typography
-      variant="body2"
-      color="white"
-      style={{ marginTop: '5rem', cursor: 'pointer', color: 'white' }}
-      align="center"
-    >
-      {'Copyright © '}
-      <Link color="inherit" cursor="pointer" onClick={redirectHome}>
-        Memesfr
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
+    MuiInputBase: {
+      root: {},
+      input: {
+        zIndex: 1,
+        color: 'var(--text-color)',
+      },
+      label: {
+        color: 'var(--secondary-text-color)',
+      },
+    },
+    MuiInputLabel: {
+      outlined: {
+        color: 'var(--secondary-text-color)',
+      },
+    },
+    MuiIconButton: {
+      root: {
+        zIndex: 2,
+      },
+      label: {
+        color: 'var(--secondary-text-color)',
+      },
+    },
+
     MuiOutlinedInput: {
       root: {
         '& $notchedOutline': {
-          borderColor: 'white',
-          backgroundColor: '#e3e3e34a',
-          color: 'black',
+          borderColor: 'var(--line)',
+          backgroundColor: 'var(--bg)',
+          color: 'var(--text-color)',
         },
+        textColor: 'var(--text-color)',
         '&:hover $notchedOutline': {
-          borderColor: 'white',
+          borderColor: 'var(--line)',
         },
         '&$focused $notchedOutline': {
-          borderColor: 'white',
+          borderColor: 'var(--hover)',
         },
       },
     },
@@ -64,22 +69,25 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
+  multilineColor: {
+    color: 'red',
+  },
   root: {
     height: '100vh',
     '& .MuiPaper-root': {
-      backgroundColor: '#272932',
+      backgroundColor: 'var(--bg)',
     },
     '& label.Mui-focused': {
-      color: 'white',
+      color: 'var(--text-color)',
     },
     '& label.Mui': {
-      color: 'white',
+      color: 'var(--primary-accent)',
     },
+    color: 'var(--text-color)',
   },
   image: {
     backgroundImage: `url(${Doge})`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor: '#4c4d62',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -96,22 +104,17 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: 'linear-gradient(350deg,  #EA3788, #00A7E1)',
+    background: 'var(--primary-accent)',
+    height: '56px',
   },
-  textfield: {
-    color: 'white',
-    '& $notchedOutline': {
-      //add this nested selector
-      borderColor: 'red',
-    },
-  },
+  inputField: {},
 }));
 
-export default function SignInSide(props) {
+export default function Login() {
   const [error, setError] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [showPassword, showPasswordFunction] = useState(false);
-
+  const [emailValue, setEmailValue] = useState('');
   const classes = useStyles();
 
   const emailRef = useRef();
@@ -119,12 +122,13 @@ export default function SignInSide(props) {
 
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t, i18n } = useTranslation('common');
 
   useEffect(() => {
     let mount = true;
     if (mount === true) {
       const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-        setCurrentUser(user);
+        console.log(user);
       });
       return unsubscribe;
     }
@@ -192,7 +196,6 @@ export default function SignInSide(props) {
               >
                 <TextField
                   inputRef={emailRef}
-                  variant="outlined"
                   margin="normal"
                   required
                   fullWidth
@@ -200,9 +203,9 @@ export default function SignInSide(props) {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  autoFocus
+                  variant="outlined"
                   InputProps={{
-                    className: 'textfield',
+                    className: classes.inputField,
                   }}
                 />
                 <TextField
@@ -217,13 +220,14 @@ export default function SignInSide(props) {
                   id="password"
                   autoComplete="current-password"
                   InputProps={{
-                    className: 'textfield',
+                    className: classes.input,
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
                           edge="end"
                           onClick={enablePassword}
+                          inputProps={{ className: classes.input }}
                         >
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
@@ -232,31 +236,16 @@ export default function SignInSide(props) {
                   }}
                 />
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link
-                      href="#"
-                      style={{ color: '#129eda' }}
-                      onClick={redirectToSignup}
-                      variant="body2"
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
+                <div className="login-submit-button">
+                  <span>Sign In</span>
+                </div>
 
-                <Box mt={5}>
-                  <Copyright />
-                </Box>
+                <div className="login-signup-prompt">
+                  <span>{t('dontHaveAccount')}</span>
+                  <span className="login-signup-prompt-action">
+                    {t('signup')}
+                  </span>
+                </div>
               </form>
             </div>
           </Grid>

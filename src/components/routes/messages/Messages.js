@@ -1,8 +1,10 @@
 import React from 'react';
 import '../../../CSS Components/routes/messages/Messages.css';
-
+import { useTranslation } from 'react-i18next';
 export default function Messages() {
-  document.title = '✉️ Messages - Memesfr';
+  const { t, i18n } = useTranslation('common');
+
+  document.title = `✉️ ${t('messages')} - Memesfr`;
 
   return (
     <div className="main-content">

@@ -15,8 +15,13 @@ import { HelpOutlineRounded } from '@material-ui/icons';
 
 export default function Settings() {
   const [activeMenu, setActiveMenu] = useState(0);
-  const { activeColor, SelectAnotherColor, darkMode, toggleDarkMode } =
-    useTheme();
+  const {
+    activeColor,
+    SelectAnotherColor,
+    darkMode,
+    activeBackground,
+    handleBackgroundColor,
+  } = useTheme();
 
   const { t, i18n } = useTranslation('common');
 
@@ -26,6 +31,10 @@ export default function Settings() {
         <CheckMark className="color-container-active-icon" />
       </div>
     );
+  };
+
+  const handleBackgroundIndex = (index) => {
+    handleBackgroundColor(index);
   };
 
   return (
@@ -56,7 +65,7 @@ export default function Settings() {
           }`}
         >
           <HelpOutlineRounded className="settings-header-option-icon" />
-          <span className="settings-header-option-text">{t('Help')}</span>
+          <span className="settings-header-option-text">{t('help')}</span>
         </div>
       </div>
       <div className="settings-dropdown-column">
@@ -112,7 +121,7 @@ export default function Settings() {
         {activeMenu === 1 && (
           <>
             <div className="setting-dropdown-title">
-              <span>Accent Color</span>
+              <span>{t('accentColor')}</span>
             </div>
             <div className="select-accent-color">
               <div
@@ -157,31 +166,49 @@ export default function Settings() {
               </div>
             </div>
             <div className="setting-dropdown-title">
-              <span>Background Color</span>
+              <span>{t('backgroundColor')}</span>
             </div>
             <div className="select-accent-color">
               <div
                 className="accent-color-1"
-                onClick={!darkMode ? toggleDarkMode : null}
+                onClick={
+                  activeBackground !== 0 ? () => handleBackgroundIndex(0) : null
+                }
               >
                 <div
                   className={`color-container-expanded dark-mode-container ${
-                    darkMode && 'color-container-expanded-active'
+                    activeBackground === 0 && 'color-container-expanded-active'
                   }`}
                 >
-                  Dark mode
+                  {t('darkMode')}
                 </div>
               </div>
               <div
                 className="accent-color-1"
-                onClick={darkMode ? toggleDarkMode : null}
+                onClick={
+                  activeBackground !== 1 ? () => handleBackgroundIndex(1) : null
+                }
+              >
+                <div
+                  className={`color-container-expanded default-mode-container ${
+                    activeBackground === 1 && 'color-container-expanded-active'
+                  }`}
+                >
+                  {t('defaultMode')}
+                </div>
+              </div>
+              <div
+                className="accent-color-1"
+                onClick={
+                  activeBackground !== 2 ? () => handleBackgroundIndex(2) : null
+                }
               >
                 <div
                   className={`color-container-expanded light-mode-container ${
-                    !darkMode && 'color-container-expanded-active'
+                    activeBackground === 2 && 'color-container-expanded-active'
                   }`}
                 >
-                  Light mode
+                  {t('lightMode')}
                 </div>
               </div>
             </div>

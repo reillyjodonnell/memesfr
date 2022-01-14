@@ -16,6 +16,7 @@ export default function AuthProvider({ children }) {
   const [userExists, setUserExists] = useState(true);
   const [recentlyUploaded, setRecentlyUploaded] = useState([]);
   const [notConfirmedEmail, setNotConfirmedEmail] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(false);
 
   const actionCodeSettings = {
     url: 'https://memesfr.com/',
@@ -703,26 +704,34 @@ export default function AuthProvider({ children }) {
   }
 
   useEffect(() => {
+    console.log('running useeffect');
+    setLoadingUser(true);
+
     let mount = true;
     if (mount === true) {
       const unsubscribe = auth.onAuthStateChanged((user) => {
+        console.log('Looking for user');
         if (user) {
+          console.log(user);
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
+            setLoadingUser(false);
           }
           if (user.displayName && !user.emailVerified) {
             setNotConfirmedEmail(true);
+            setLoadingUser(false);
           }
           if (user.emailVerified && user.displayName === null) {
             setCurrentUser(user);
+            setLoadingUser(false);
+
             navigate('/setup');
           }
+        } else {
+          console.log('No user found');
+          setLoadUser(false);
+          setLoadingUser(false);
         }
-        if (!user) {
-          navigate('/');
-        }
-
-        setLoadUser(false);
       });
       return unsubscribe;
     }
@@ -758,6 +767,7 @@ export default function AuthProvider({ children }) {
     setCurrentUser,
     notConfirmedEmail,
     retrieveProfileData,
+    loadingUser,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

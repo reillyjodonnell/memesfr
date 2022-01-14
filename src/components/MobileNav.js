@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { ReactComponent as Home } from '../Assets/Icons/Home.svg';
 import { ReactComponent as Notification } from '../Assets/Icons/Notifications.svg';
 
@@ -6,6 +6,7 @@ import { ReactComponent as Popular } from '../Assets/Icons/Popular.svg';
 import { ReactComponent as Recent } from '../Assets/Icons/Recent.svg';
 import { ReactComponent as Random } from '../Assets/Icons/Random.svg';
 import { ReactComponent as User } from '../Assets/SVGs/user.svg';
+import { useTheme } from '../contexts/ThemeContext';
 
 import { ReactComponent as Plus } from '../Assets/Icons/Plus.svg';
 import { useAuth } from '../contexts/AuthContext';
@@ -20,6 +21,14 @@ import {
 
 import { People } from '@material-ui/icons';
 export default function MobileNav(props) {
+  const { darkMode, toggleDarkMode } = useTheme();
+
+  useEffect(() => {
+    if (!darkMode) {
+      toggleDarkMode();
+    }
+  }, []);
+
   const { currentUser } = useAuth();
 
   return (

@@ -16,6 +16,7 @@ import SideCrownContainer from '../../Mobile/SideCrownContainer';
 import { ReactComponent as User } from '../../../Assets/SVGs/user.svg';
 import MobileHeader from '../../MobileHeader';
 import Swipable from './Swipable';
+import { useTranslation } from 'react-i18next';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -143,13 +144,17 @@ export default function Feed(props) {
 
   const [nav, setNav] = useState(0);
 
+  const { t, i18n } = useTranslation('common');
+
+  const { login } = props;
+
   const myRef = useRef(null);
 
   useEffect(() => {
     showPopular();
   }, []);
 
-  document.title = '🏠 Memesfr - Dankest Memes';
+  document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
 
   const {
     currentUser,
@@ -407,6 +412,7 @@ export default function Feed(props) {
           }
           return (
             <Card
+              login={login}
               hearted={hearted}
               liked={liked}
               key={index}

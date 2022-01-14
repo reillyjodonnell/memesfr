@@ -3,7 +3,12 @@ import Dashboard from './Dashboard';
 import { useAuth } from '../contexts/AuthContext';
 import Loading from './Loading';
 
-export default function Home({ notificationCount, setPosts }) {
+export default function Home({
+  notificationCount,
+  setPosts,
+  login,
+  loginModal,
+}) {
   const [loading, setLoading] = useState(true);
   const { loadUser, currentUser } = useAuth();
 
@@ -39,7 +44,11 @@ export default function Home({ notificationCount, setPosts }) {
         <Loading />
       ) : (
         <>
-          <Dashboard notificationCount={notificationCount} />
+          <Dashboard
+            login={login}
+            loginModal={loginModal}
+            notificationCount={notificationCount}
+          />
         </>
       )}
     </>

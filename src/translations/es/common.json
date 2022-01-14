@@ -13,6 +13,17 @@
   "languages": "Idiomas",
   "login": "Iniciar sesión",
   "logout": "Cerrar sesión",
+  "signup": "Registrarse",
+  "next": "Siguiente",
+  "or": "O",
+  "loginOptions": "Teléfono, nombre de usuario, o email",
+  "continueWithGoogle": "Continua con Google",
+  "continueWithApple": "Continua con Apple",
+  "continueWithTwitter": "Continua con Twitter",
+  "continueWithFacebook": "Continua con Facebook",
+  "continueWithInstagram": "Continua con Instagram",
+
+  "dontHaveAccount": "¿No tienes una cuenta?",
   "display": "Monitor",
   "accountAndPrivacy": "Cuenta y Privacidad",
   "changeYourPassword": "Cambia tu contraseña",
@@ -25,5 +36,9 @@
   "english": "Inglés",
   "spanish": "Español",
   "french": "Francés",
-  "german": "Alemán"
+  "german": "Alemán",
+  "accentColor": "Acentuar el Color",
+  "backgroundColor": "Color de Fondo",
+  "darkMode": "Modo Oscuro",
+  "lightMode": "Modo de Luz"
 }

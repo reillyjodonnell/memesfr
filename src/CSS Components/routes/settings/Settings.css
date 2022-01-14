@@ -142,6 +142,10 @@
   background-color: black;
   color: white;
 }
+.default-mode-container {
+  background-color: var(--dark-bg);
+  color: white;
+}
 .light-mode-container {
   background-color: white;
   color: black;

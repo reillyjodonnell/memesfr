@@ -1,0 +1,179 @@
+.login-modal-options-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.login-modal-option {
+  cursor: default;
+  display: flex;
+  padding: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.login-modal-option-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0.5rem 4rem;
+  border: 1px solid var(--line);
+}
+.login-modal-signup-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.login-modal-signup-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+.login-modal-signup-action {
+  cursor: pointer;
+  color: var(--primary-accent);
+  margin-left: 5px;
+}
+.login-modal-signup-action:hover {
+  transition: all var(--speed);
+  font-weight: 700;
+}
+
+.login-modal-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  cursor: pointer;
+}
+.login-modal-option-container span {
+  cursor: pointer;
+}
+.login-modal-option-username {
+  box-sizing: border-box;
+  padding: 0.75rem;
+  display: flex;
+  border: 1px solid var(--line);
+  width: 100%;
+  /* color: var(--secondary-text-color); */
+  color: var(--text-color);
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  min-height: 50px;
+  background-color: var(--bg);
+}
+.login-modal-option-username:focus {
+  transition: all var(--speed);
+  outline: none;
+  border: 1px solid var(--primary-accent);
+}
+.login-modal-option-username-small {
+  box-sizing: border-box;
+  padding: 0.75rem;
+  display: flex;
+  border: 1px solid var(--line);
+  width: 100%;
+  /* color: var(--secondary-text-color); */
+  color: var(--text-color);
+  font-size: 1.25rem;
+  min-height: 50px;
+  background-color: var(--bg);
+}
+.login-modal-option-username-small:placeholder-shown {
+  font-size: 0.7rem;
+}
+.login-modal-option-username-small:focus {
+  transition: all var(--speed);
+  outline: none;
+  border: 1px solid var(--primary-accent);
+}
+.login-modal-option-next-button-inactive {
+  cursor: default;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 40px;
+  background-color: var(--line);
+  cursor: not-allowed;
+  /* color: white; */
+  color: var(--text-color);
+  margin: 0.5rem 0;
+  width: 100%;
+  border: 1px solid var(--line);
+}
+.login-modal-option-next-button-inactive span {
+  cursor: not-allowed;
+}
+.login-modal-option-next-button-active {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 40px;
+  /* background-color: var(--primary-accent); */
+  cursor: pointer;
+  /* color: white; */
+  color: var(--text-color);
+  margin: 0.5rem 0;
+
+  width: 100%;
+  border: 1px solid var(--line);
+}
+.login-modal-option-next-button-active span {
+  cursor: pointer;
+}
+.login-modal-option-next-button-active:hover {
+  transition: all var(--speed);
+  color: white;
+  background-color: var(--primary-accent);
+}
+
+.login-modal-back-button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: var(--line);
+  padding: 8px;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.login-modal-back-button svg {
+  height: 28px;
+  width: 28px;
+  stroke-width: 1.5;
+  stroke: var(--text-color);
+}
+.login-modal-option-next-login {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 40px;
+  background-color: var(--primary-accent);
+  color: white;
+  cursor: pointer;
+  margin: 0.5rem 0;
+  width: 100%;
+  border: 1px solid var(--line);
+}
+.login-modal-option-next-login:hover {
+  transition: all var(--speed);
+  filter: brightness(0.8);
+}

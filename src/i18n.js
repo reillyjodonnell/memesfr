@@ -9,6 +9,7 @@ import common_zh from './translations/zh/common.json';
 import common_ar from './translations/ar/common.json';
 import common_ru from './translations/ru/common.json';
 import common_pt from './translations/pt/common.json';
+import common_ja from './translations/ja/common.json';
 
 i18n
   // detect user language
@@ -48,6 +49,9 @@ i18n
       },
       pt: {
         common: common_pt,
+      },
+      ja: {
+        common: common_ja,
       },
     },
   });

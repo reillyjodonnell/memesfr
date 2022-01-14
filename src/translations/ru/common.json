@@ -13,6 +13,16 @@
   "languages": "Языки",
   "login": "авторизоваться",
   "logout": "Выйти",
+  "signup": "Зарегистрироваться",
+  "next": "Следующий",
+  "or": "Или",
+  "loginOptions": "Номер телефона, имя пользователя или электронная почта",
+  "continueWithGoogle": "Продолжить через Google",
+  "continueWithApple": "Продолжить с Apple",
+  "continueWithTwitter": "Продолжить с Twitter",
+  "continueWithFacebook": "Продолжить с Facebook",
+  "continueWithInstagram": "Продолжить с  Instagram",
+  "dontHaveAccount": "У вас нет аккаунта?",
   "display": "Отображать",
   "accountAndPrivacy": "Учетная запись и конфиденциальность",
   "changeYourPassword": "Измените свой пароль",
@@ -25,5 +35,9 @@
   "english": "английский",
   "spanish": "испанский язык",
   "french": "Французский",
-  "german": "Немецкий"
+  "german": "Немецкий",
+  "accentColor": "Акцентный цвет",
+  "backgroundColor": "Фоновый цвет",
+  "darkMode": "Темный режим",
+  "lightMode": "Легкий режим"
 }

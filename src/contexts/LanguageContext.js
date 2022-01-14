@@ -55,6 +55,9 @@ export default function LanguageProvider({ children }) {
         case 'pt':
           setLanguagePreference('Portuguese');
           break;
+        case 'ja':
+          setLanguagePreference('Japanese');
+          break;
         // case 'it':
         //   setLanguagePreference('Italian');
         //   break;
@@ -117,6 +120,11 @@ export default function LanguageProvider({ children }) {
         window.localStorage.setItem('language', 'Portuguese');
 
         break;
+      case 'Japanese':
+        i18n.changeLanguage('ja');
+        window.localStorage.setItem('language', 'Japanese');
+
+        break;
       default:
     }
   }, [languagePreference]);
@@ -161,6 +169,11 @@ export default function LanguageProvider({ children }) {
     i18n.changeLanguage('pt');
     setLanguageChanged(true);
   };
+  const setLanguageToJapanese = () => {
+    setLanguagePreference('Japanese');
+    i18n.changeLanguage('ja');
+    setLanguageChanged(true);
+  };
 
   const values = {
     languagePreference,
@@ -172,6 +185,7 @@ export default function LanguageProvider({ children }) {
     setLanguageToArabic,
     setLanguageToRussian,
     setLanguageToPortuguese,
+    setLanguageToJapanese,
   };
 
   return (

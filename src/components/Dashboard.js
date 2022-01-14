@@ -21,6 +21,8 @@ import { Outlet } from 'react-router-dom';
 import Topbar from './TopBar';
 import Modal from './Modal';
 import PopupModal from './templates/PopupModal';
+import { useTranslation } from 'react-i18next';
+import LoginModal from './LoginModal';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -144,9 +146,13 @@ export default function Dashboard(props) {
 
   const [nav, setNav] = useState({ count: 0 });
 
+  const { login, loginModal } = props;
+
   const myRef = useRef(null);
 
   const { isMobile } = useMobile();
+
+  const { t, i18n } = useTranslation('common');
 
   const {
     currentUser,
@@ -180,62 +186,62 @@ export default function Dashboard(props) {
   };
 
   //Runs three times
-  useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      async function match() {
-        if (currentUser) {
-          const results = await hasUserLikedPost();
-          let [{ likedPosts }, { heartedPosts }] = results;
-          setUsersLikedPosts(likedPosts);
-          setUsersHeartedPosts(heartedPosts);
-        }
-      }
-      match();
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [nav, loadAnotherRandomMeme]);
+  // useEffect(() => {
+  //   let mounted = true;
+  //   if (mounted) {
+  //     async function match() {
+  //       if (currentUser) {
+  //         const results = await hasUserLikedPost();
+  //         let [{ likedPosts }, { heartedPosts }] = results;
+  //         setUsersLikedPosts(likedPosts);
+  //         setUsersHeartedPosts(heartedPosts);
+  //       }
+  //     }
+  //     match();
+  //   }
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, [nav, loadAnotherRandomMeme]);
 
-  useEffect(() => {
-    let mounted = true;
+  // useEffect(() => {
+  //   let mounted = true;
 
-    // Confirm the link is a sign-in with email link.
-    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-      // Additional state parameters can also be passed via URL.
-      // This can be used to continue the user's intended action before triggering
-      // the sign-in operation.
-      // Get the email if available. This should be available if the user completes
-      // the flow on the same device where they started it.
-      const email = window.localStorage.getItem('emailForSignIn');
-      if (!email) {
-        // User opened the link on a different device. To prevent session fixation
-        // attacks, ask the user to provide the associated email again. For example:
-      }
-      // The client SDK will parse the code from the link for you.
-      if (mounted)
-        firebase
-          .auth()
-          .signInWithEmailLink(email, window.location.href)
-          .then((result) => {
-            // Clear email from storage.
-            window.localStorage.removeItem('emailForSignIn');
-            // You can access the new user via result.user
-            // Additional user info profile not available via:
-            // result.additionalUserInfo.profile == null
-            // You can check if the user is new or existing:
-            // result.additionalUserInfo.isNewUser
-            setCurrentUser(result.user);
-            navigate('/setup');
-          })
-          .catch((error) => {
-            // Some error occurred, you can inspect the code: error.code
-            // Common errors could be invalid email and invalid or expired OTPs.
-          });
-      return () => (mounted = false);
-    }
-  }, []);
+  //   // Confirm the link is a sign-in with email link.
+  //   if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+  //     // Additional state parameters can also be passed via URL.
+  //     // This can be used to continue the user's intended action before triggering
+  //     // the sign-in operation.
+  //     // Get the email if available. This should be available if the user completes
+  //     // the flow on the same device where they started it.
+  //     const email = window.localStorage.getItem('emailForSignIn');
+  //     if (!email) {
+  //       // User opened the link on a different device. To prevent session fixation
+  //       // attacks, ask the user to provide the associated email again. For example:
+  //     }
+  //     // The client SDK will parse the code from the link for you.
+  //     if (mounted)
+  //       firebase
+  //         .auth()
+  //         .signInWithEmailLink(email, window.location.href)
+  //         .then((result) => {
+  //           // Clear email from storage.
+  //           window.localStorage.removeItem('emailForSignIn');
+  //           // You can access the new user via result.user
+  //           // Additional user info profile not available via:
+  //           // result.additionalUserInfo.profile == null
+  //           // You can check if the user is new or existing:
+  //           // result.additionalUserInfo.isNewUser
+  //           setCurrentUser(result.user);
+  //           navigate('/setup');
+  //         })
+  //         .catch((error) => {
+  //           // Some error occurred, you can inspect the code: error.code
+  //           // Common errors could be invalid email and invalid or expired OTPs.
+  //         });
+  //     return () => (mounted = false);
+  //   }
+  // }, []);
 
   function filterHome() {
     if (nav !== 0) {
@@ -309,6 +315,11 @@ export default function Dashboard(props) {
   const navigateToCreate = () => {
     setNav({ count: null });
     navigate('/create');
+  };
+
+  const navigateToLogin = () => {
+    setNav({ count: null });
+    navigate('/login');
   };
 
   const ConfirmEmailPrompt = () => {
@@ -420,10 +431,12 @@ export default function Dashboard(props) {
     <div className="dashboard">
       <div className="dashboard-content">
         {createPost && (
-          <PopupModal toggleState={createMemePost}>
-            <span>Test modal</span>
-          </PopupModal>
+          <PopupModal
+            title={t('createPost')}
+            toggleState={createMemePost}
+          ></PopupModal>
         )}
+        {loginModal && <LoginModal login={login} />}
         {isMobile ? (
           <>
             <Outlet />
@@ -437,6 +450,7 @@ export default function Dashboard(props) {
               createPost={createMemePost}
               resetPassword={resetUserPassword}
               navigateToCreate={navigateToCreate}
+              navigateToLogin={navigateToLogin}
             />
           </>
         ) : (
@@ -455,7 +469,9 @@ export default function Dashboard(props) {
               navigateToMessage={navigateToMessage}
               navigateToWallet={navigateToWallet}
               navigateToCreate={navigateToCreate}
+              navigateToLogin={navigateToLogin}
               createPost={createMemePost}
+              login={login}
               active={nav.count}
               username={username}
               avatar={avatar}
@@ -477,7 +493,9 @@ export default function Dashboard(props) {
                 randomFilter={filterRandom}
                 navigateToProfile={navigateToProfile}
                 navigateToNotifications={navigateToNotifications}
+                navigateToLogin={navigateToLogin}
                 createPost={createMemePost}
+                login={login}
                 notificationCount={props.notificationCount}
                 active={nav.count}
                 username={username}
@@ -490,7 +508,7 @@ export default function Dashboard(props) {
         )}
 
         {/* <main className={classes.content}>
-          <Topbar createPost={createMemePost} />
+          // <Topbar createPost={createMemePost} />
 
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={5}></Grid>

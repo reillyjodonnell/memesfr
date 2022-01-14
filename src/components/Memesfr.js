@@ -18,12 +18,17 @@ import { useAuth } from '../contexts/AuthContext';
 import Messages from './routes/messages/Messages';
 import Wallet from './routes/wallet/Wallet';
 import LanguageProvider from '../contexts/LanguageContext';
-import Post from './routes/post/Post';
+import Create from './routes/create/Create';
 
 export default function Memesfr() {
   const [nav, setNav] = useState({ count: 0 });
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
+  const [loginModal, setLoginModal] = useState(false);
+
+  const login = () => {
+    setLoginModal(!loginModal);
+  };
 
   document.title = 'Memesfr - Dankest Memes';
 
@@ -40,6 +45,8 @@ export default function Memesfr() {
                     path="/"
                     element={
                       <Home
+                        login={login}
+                        loginModal={loginModal}
                         setPosts={setPosts}
                         notificationCount={notificationCount}
                       />
@@ -47,7 +54,14 @@ export default function Memesfr() {
                   >
                     <Route
                       path="/"
-                      element={<Feed postsData={posts} nav={nav} />}
+                      element={
+                        <Feed
+                          login={login}
+                          loginModal={loginModal}
+                          postsData={posts}
+                          nav={nav}
+                        />
+                      }
                     />
                     <Route path=":userId" element={<UserProfile />}></Route>
                     <Route
@@ -62,7 +76,7 @@ export default function Memesfr() {
                     <Route path="/help" element={<Help />} />
                     <Route path="/messages" element={<Messages />} />
                     <Route path="/wallet" element={<Wallet />} />
-                    <Route path="/create" element={<Post />} />
+                    <Route path="/create" element={<Create />} />
                   </Route>
                   <Route path="/signup" element={<Register />} />
                   <Route path="/setup" element={<CreateProfile />} />

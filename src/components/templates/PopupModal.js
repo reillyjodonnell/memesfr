@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDom from 'react-dom';
 import '../../CSS Components/templates/PopupModal.css';
 import { ReactComponent as Cancel } from '../../Assets/SVGs/x.svg';
+import { ReactComponent as Castle } from '../../Assets/SVGs/castle.svg';
 
 export default function PopupModal({
   children,
@@ -27,6 +28,10 @@ export default function PopupModal({
             <Cancel />
           </div>
           <div className="popup-modal-content">
+            {/* <div className="popup-modal-branding">
+              <Castle />
+              <span className="popup-modal-memesfr-brandname">Memesfr</span>
+            </div> */}
             <div className="popup-modal-title">
               <span>{title}</span>
             </div>

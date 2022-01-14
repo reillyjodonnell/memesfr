@@ -29,6 +29,7 @@ html {
   /*BackgroundColor presets*/
   --light-bg: #ffffff;
   --dark-bg: #272932;
+  --black-bg: #000000;
 
   --light-text: #ffffff;
   --dark-text: black;
@@ -47,6 +48,7 @@ html {
 
   --light-mode-hover: #d4d4d473;
   --dark-mode-hover: #393c469f;
+  --normal-mode-hover: #e4e4e418;
 
   --light-mode-navigation: #000000d6;
   --dark-mode-navigation: #ffffffeb;

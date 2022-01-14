@@ -37,6 +37,8 @@ export default function Card(props) {
 
   const { isMobile } = useMobile();
 
+  const { login } = props;
+
   const { t, i18n } = useTranslation('common');
 
   /* FOR DEV ONLY */
@@ -335,7 +337,7 @@ export default function Card(props) {
             </div> */}
 
                 <div
-                  onClick={currentUser ? toggleThumbUp : activatePrompt}
+                  onClick={currentUser ? toggleThumbUp : login}
                   className={
                     thumbUp ? 'crown-container-active' : 'crown-container'
                   }
@@ -368,14 +370,20 @@ export default function Card(props) {
                       <span className="number-of-likes">{comments}</span>
                     </div> */}
 
-                <div className="like-container">
+                <div
+                  className="like-container"
+                  onClick={currentUser ? () => console.log('Comments') : login}
+                >
                   <FontAwesomeIcon
                     icon={faComment}
                     style={{ width: '1.5rem', height: '1.5rem' }}
                   />
                   <span className="number-of-likes">{comments}</span>
                 </div>
-                <div className="like-container">
+                <div
+                  className="like-container"
+                  onClick={currentUser ? () => console.log('share') : login}
+                >
                   <FontAwesomeIcon
                     icon={faShare}
                     style={{ width: '1.5rem', height: '1.5rem' }}
@@ -463,7 +471,7 @@ export default function Card(props) {
             </div> */}
 
           <div
-            onClick={currentUser ? toggleThumbUp : activatePrompt}
+            onClick={currentUser ? toggleThumbUp : login}
             className={thumbUp ? 'crown-container-active' : 'crown-container'}
           >
             {/* <LikeIcon
@@ -487,14 +495,14 @@ export default function Card(props) {
             <span className="number-of-likes">{likes}</span>
           </div>
 
-          <div className="like-container">
+          <div className="like-container" onClick={!currentUser && login}>
             <FontAwesomeIcon
               icon={faComment}
               style={{ width: '1.5rem', height: '1.5rem' }}
             />
             <span className="number-of-likes">{comments}</span>
           </div>
-          <div className="like-container">
+          <div className="like-container" onClick={!currentUser && login}>
             <FontAwesomeIcon
               icon={faShare}
               style={{ width: '1.5rem', height: '1.5rem' }}

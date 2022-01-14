@@ -2,6 +2,9 @@
   display: flex;
   width: 100%;
   color: var(--text-color);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .create-post-subtitle {
   color: var(--secondary-text-color);

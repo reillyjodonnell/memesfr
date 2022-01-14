@@ -9,9 +9,6 @@ body {
   text-align: center;
   font-family: 'Roboto';
 }
-span {
-  cursor: pointer;
-}
 
 img {
   cursor: pointer;

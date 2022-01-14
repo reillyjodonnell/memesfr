@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../CSS Components/TopBar.css';
 import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
 import { ReactComponent as Plus } from '../Assets/Icons/Plus.svg';
@@ -8,6 +8,7 @@ import { ReactComponent as Coins } from '../Assets/Icons/Coins.svg';
 import { ReactComponent as Language } from '../Assets/Icons/Language.svg';
 import { ReactComponent as Help } from '../Assets/Icons/Help.svg';
 import { ReactComponent as User } from '../Assets/SVGs/user.svg';
+
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +23,7 @@ export default function TopBar(props) {
 
   const { t, i18n } = useTranslation('common');
 
-  const { currentUser } = useAuth();
+  const { currentUser, loadingUser } = useAuth();
 
   const {
     setLanguageToSpanish,
@@ -34,6 +35,7 @@ export default function TopBar(props) {
     setLanguageToPortuguese,
     setLanguageToRussian,
     languagePreference,
+    setLanguageToJapanese,
   } = useLanguage();
 
   const LanguageModal = () => {
@@ -120,6 +122,16 @@ export default function TopBar(props) {
         >
           <span className="topbar-profile-modal-item-text">русский</span>
         </div>
+        <div
+          onClick={() => navigateAndClose(setLanguageToJapanese)}
+          className={
+            languagePreference === 'Japanese'
+              ? 'topbar-profile-modal-item-active'
+              : 'topbar-profile-modal-item'
+          }
+        >
+          <span className="topbar-profile-modal-item-text">日本</span>
+        </div>
       </div>
     );
   };
@@ -184,23 +196,27 @@ export default function TopBar(props) {
           </span>
         </div>
         <div className="topbar-profile-modal-logout-container">
-          <div className="topbar-profile-modal-item-logout">
-            {currentUser ? (
-              <>
-                <Logout className="topbar-profile-modal-icon" />
-                <span className="topbar-profile-modal-item-text">
-                  {t('logout')}
-                </span>
-              </>
-            ) : (
-              <>
-                <Login className="topbar-profile-modal-icon" />
-                <span className="topbar-profile-modal-item-text">
-                  {t('login')}
-                </span>
-              </>
-            )}
-          </div>
+          {currentUser ? (
+            <div
+              className="topbar-profile-modal-item-logout"
+              onClick={props.handleLogout}
+            >
+              <Logout className="topbar-profile-modal-icon" />
+              <span className="topbar-profile-modal-item-text">
+                {t('logout')}
+              </span>
+            </div>
+          ) : (
+            <div
+              className="topbar-profile-modal-item-logout"
+              onClick={props.navigateToLogin}
+            >
+              <Login className="topbar-profile-modal-icon" />
+              <span className="topbar-profile-modal-item-text">
+                {t('login')}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -212,7 +228,7 @@ export default function TopBar(props) {
 
   const LoggedOutSection = () => {
     return (
-      <div onClick={props.createPost} className="topbar-login-container">
+      <div onClick={props.login} className="topbar-login-container">
         <span className="topbar-login-text">{t('login')}</span>
       </div>
     );
@@ -226,15 +242,15 @@ export default function TopBar(props) {
           <span>Memesfr</span>
         </div>
         <div className="topbar-icon-container">
-          {!currentUser && <LoggedOutSection />}
+          {!currentUser && !loadingUser ? <LoggedOutSection /> : null}
 
           <div
-            onClick={props.createPost}
+            onClick={currentUser ? props.navigateToCreate : props.login}
             className="topbar-upload-meme-button topbar-first-button"
           >
             <Plus />
           </div>
-          {currentUser ? (
+          {!loadingUser || currentUser ? (
             <>
               <div
                 onMouseOver={handleShowText}
@@ -263,7 +279,7 @@ export default function TopBar(props) {
         </div>
         <div
           className="topbar-upload-meme-button"
-          onClick={props.navigateToProfile}
+          onClick={currentUser && props.navigateToProfile}
           onMouseEnter={handleMouseOver}
         >
           {/* {props.avatar && (

@@ -10,21 +10,27 @@ export function useTheme() {
 export default function ThemeProvider({ children }) {
   const [doge, setDoge] = useState(false);
   const [activeColor, setActiveColor] = useState(1);
+  const [activeBackground, setActiveBackground] = useState(null);
   const [darkMode, setDarkMode] = useState(null);
   const [accentColor, setAccentColor] = useState('');
 
   useEffect(() => {
     const darkModeJSON = localStorage.getItem('backgroundColor');
     // const darkModeValue = JSON.parse(darkModeJSON);
-    if (darkModeJSON === 'dark') {
-      handleDarkMode();
-      setDarkMode(true);
-    } else if (darkModeJSON === 'light') {
-      handleLightMode();
-      setDarkMode(false);
-    } else {
-      handleDarkMode();
-      setDarkMode(true);
+    switch (darkModeJSON) {
+      case 'dark':
+        handleDarkMode();
+        setActiveBackground(0);
+        break;
+      case 'oldSchool':
+        handleDefaultMode();
+        setActiveBackground(1);
+        break;
+      case 'light':
+        handleLightMode();
+        setActiveBackground(2);
+      default:
+        break;
     }
   }, []);
 
@@ -85,6 +91,24 @@ export default function ThemeProvider({ children }) {
   };
 
   const handleDarkMode = () => {
+    r.style.setProperty('--bg', 'var(--black-bg)');
+    r.style.setProperty('--text-color', 'var(--light-text)');
+    r.style.setProperty('--line', 'var(--dark-mode-hover)');
+    r.style.setProperty('--secondary-text-color', 'var(--dark-text-secondary)');
+    r.style.setProperty('--shadow', 'var(--dark-mode-shadow)');
+    r.style.setProperty('--hover', 'var(--normal-mode-hover)');
+    r.style.setProperty(
+      '--secondary-title-color',
+      'var(--dark-secondary-title-color)'
+    );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-dark)'
+    );
+    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
+  };
+
+  const handleDefaultMode = () => {
     r.style.setProperty('--bg', 'var(--dark-bg)');
     r.style.setProperty('--text-color', 'var(--light-text)');
     r.style.setProperty('--line', 'var(--dark-mode-line)');
@@ -102,6 +126,29 @@ export default function ThemeProvider({ children }) {
     r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
   };
 
+  const handleBackgroundColor = (index) => {
+    switch (index) {
+      case 0:
+        localStorage.setItem('backgroundColor', 'dark');
+        handleDarkMode();
+        setActiveBackground(0);
+        break;
+      case 1:
+        localStorage.setItem('backgroundColor', 'oldSchool');
+        handleDefaultMode();
+        setActiveBackground(1);
+
+        break;
+      case 2:
+        localStorage.setItem('backgroundColor', 'light');
+        handleLightMode();
+        setActiveBackground(2);
+
+        break;
+      default:
+        break;
+    }
+  };
   const toggleDarkMode = () => {
     if (darkMode) {
       localStorage.setItem('backgroundColor', 'light');
@@ -142,8 +189,10 @@ export default function ThemeProvider({ children }) {
     setActiveColor,
     SelectAnotherColor,
     darkMode,
-    toggleDarkMode,
+    handleBackgroundColor,
     accentColor,
+    toggleDarkMode,
+    activeBackground,
   };
   return (
     <ThemeContext.Provider value={values}>{children}</ThemeContext.Provider>
