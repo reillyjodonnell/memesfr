@@ -1,11 +1,32 @@
-import React, { useState, useEffect } from "react";
-import Dashboard from "./Dashboard";
-import { useAuth } from "../contexts/AuthContext";
-import Loading from "./Loading";
+import React, { useState, useEffect } from 'react';
+import Dashboard from './Dashboard';
+import { useAuth } from '../contexts/AuthContext';
+import Loading from './Loading';
 
-export default function Home() {
+export default function Home({
+  notificationCount,
+  setPosts,
+  login,
+  loginModal,
+}) {
   const [loading, setLoading] = useState(true);
   const { loadUser, currentUser } = useAuth();
+
+  const { retrievePopularPosts } = useAuth();
+
+  useEffect(() => {
+    async function retrievePosts() {
+      const postsPromises = await retrievePopularPosts();
+      const retrieveData = Promise.all(postsPromises).then((data) => {
+        return data;
+      });
+      return retrieveData;
+    }
+    retrievePosts().then((data) => {
+      // console.log(data);
+      setPosts(data);
+    });
+  }, []);
 
   useEffect(() => {
     let mount = true;
@@ -23,7 +44,11 @@ export default function Home() {
         <Loading />
       ) : (
         <>
-          <Dashboard />
+          <Dashboard
+            login={login}
+            loginModal={loginModal}
+            notificationCount={notificationCount}
+          />
         </>
       )}
     </>

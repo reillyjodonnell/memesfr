@@ -1,47 +1,94 @@
-import React, { useState } from "react";
-import Login from "./Login";
-import Register from "./SignUp";
-import Home from "./Home";
-import AuthProvider from "../contexts/AuthContext";
-import ThemeProvider from "../contexts/ThemeContext";
-import MobileProvider from "../contexts/MobileContext";
-import CreateProfile from "./CreateProfile";
-import Help from "./Help";
-import Edit from "./EditProfile";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState } from 'react';
+import Login from './Login';
+import Register from './SignUp';
+import Home from './Home';
+import AuthProvider from '../contexts/AuthContext';
+import ThemeProvider from '../contexts/ThemeContext';
+import MobileProvider from '../contexts/MobileContext';
+import CreateProfile from './CreateProfile';
+import Edit from './EditProfile';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import UserProfile from './routes/users/UserProfile';
+import Notifications from './routes/notifications/Notifications';
+import Feed from './routes/home/Feed';
+import Settings from './routes/settings/Settings';
+import Help from './routes/help/Help';
+import Coins from './routes/coins/Coins';
+import { useAuth } from '../contexts/AuthContext';
+import Messages from './routes/messages/Messages';
+import Wallet from './routes/wallet/Wallet';
+import LanguageProvider from '../contexts/LanguageContext';
+import Create from './routes/create/Create';
 
 export default function Memesfr() {
-  const [register, openRegister] = useState(false);
-  const [signIn, openSignIn] = useState(false);
-  const [home, displayHome] = useState(true);
+  const [nav, setNav] = useState({ count: 0 });
+  const [notificationCount, setNotificationCount] = useState(69);
+  const [posts, setPosts] = useState({});
+  const [loginModal, setLoginModal] = useState(false);
 
-  const updateRegister = () => {
-    displayHome(!home);
-    openRegister(!register);
+  const login = () => {
+    setLoginModal(!loginModal);
   };
-  const updateSignIn = () => {
-    displayHome(!home);
-    openSignIn(!signIn);
-  };
+
+  document.title = 'Memesfr - Dankest Memes';
 
   return (
     <>
-      <Router>
+      <BrowserRouter>
         <MobileProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/signup" component={Register} />
-                <Route path="/setup" component={CreateProfile} />
-                <Route path="/login" component={Login} />
-                <Route path="/help" component={Help} />
-                <Route path="/edit" component={Edit} />
-              </Switch>
-            </AuthProvider>
-          </ThemeProvider>
+          <LanguageProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <Routes>
+                  <Route
+                    exact
+                    path="/"
+                    element={
+                      <Home
+                        login={login}
+                        loginModal={loginModal}
+                        setPosts={setPosts}
+                        notificationCount={notificationCount}
+                      />
+                    }
+                  >
+                    <Route
+                      path="/"
+                      element={
+                        <Feed
+                          login={login}
+                          loginModal={loginModal}
+                          postsData={posts}
+                          nav={nav}
+                        />
+                      }
+                    />
+                    <Route path=":userId" element={<UserProfile />}></Route>
+                    <Route
+                      path="/notifications"
+                      element={
+                        <Notifications notificationCount={notificationCount} />
+                      }
+                    />
+
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/coins" element={<Coins />} />
+                    <Route path="/help" element={<Help />} />
+                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/wallet" element={<Wallet />} />
+                    <Route path="/create" element={<Create />} />
+                  </Route>
+                  <Route path="/signup" element={<Register />} />
+                  <Route path="/setup" element={<CreateProfile />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/edit" element={<Edit />} />
+                </Routes>
+              </AuthProvider>
+            </ThemeProvider>
+          </LanguageProvider>
         </MobileProvider>
-      </Router>
+      </BrowserRouter>
     </>
   );
 }
