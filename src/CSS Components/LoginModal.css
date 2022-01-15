@@ -24,6 +24,19 @@
   margin: 0.5rem 4rem;
   border: 1px solid var(--line);
 }
+.login-modal-forgot-password-prompt {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+.login-modal-forgot-password-prompt:hover {
+  transition: all var(--speed);
+  color: var(--secondary-text-color);
+}
 .login-modal-signup-container {
   margin-top: 2rem;
   display: flex;
@@ -44,7 +57,7 @@
 }
 .login-modal-signup-action:hover {
   transition: all var(--speed);
-  font-weight: 700;
+  filter: brightness(1.25);
 }
 
 .login-modal-login-container {

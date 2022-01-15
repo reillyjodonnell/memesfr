@@ -1,5 +1,5 @@
 .popup-modal-container {
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 30vw;
@@ -18,7 +18,9 @@
   text-align: center;
   padding: 2rem;
   border-radius: 20px;
+  overflow-y: auto;
 }
+
 .popup-modal-content-container {
   position: relative;
   height: 100%;
@@ -59,7 +61,7 @@
 
 .popup-modal-background-filter {
   display: block;
-  position: absolute;
+  position: fixed;
   background: rgb(30 30 30 / 50%);
   inset: 0px;
   height: 100vh;

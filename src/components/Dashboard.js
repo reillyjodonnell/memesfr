@@ -428,7 +428,7 @@ export default function Dashboard(props) {
   };
 
   return (
-    <div className="dashboard">
+    <div id="dashboard" className="dashboard">
       <div className="dashboard-content">
         {createPost && (
           <PopupModal

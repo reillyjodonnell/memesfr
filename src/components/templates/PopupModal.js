@@ -10,15 +10,17 @@ export default function PopupModal({
   title = 'Log in to Memesfr',
 }) {
   useEffect(() => {
-    document.getElementById('root').style.filter = 'blur(5px)';
+    document.getElementById('dashboard').style.filter = 'blur(5px)';
+    document.getElementById('root').style.overflowY = 'hidden';
   }, []);
   const handleClose = () => {
-    document.getElementById('root').style.filter = 'blur(0px)';
+    document.getElementById('dashboard').style.filter = 'blur(0px)';
+    document.getElementById('root').style.overflowY = 'auto';
 
     toggleState();
   };
   return ReactDom.createPortal(
-    <div className="popup-modal-background-filter">
+    <div id="dashboard" className="popup-modal-background-filter">
       <div className="popup-modal-container">
         <div className="popup-modal-content-container">
           <div

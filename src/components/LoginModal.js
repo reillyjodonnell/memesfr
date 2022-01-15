@@ -5,13 +5,20 @@ import '../CSS Components/LoginModal.css';
 import { useLanguage } from '../contexts/LanguageContext';
 import { ReactComponent as BackArrow } from '../Assets/Icons/ChevronLeft.svg';
 export default function LoginModal({ login }) {
-  const [loginField, setLoginField] = useState(null);
+  const [loginField, setLoginField] = useState('');
+  const [detectedLoginType, setDetectedLoginType] = useState('');
   const [smallerInput, setSmallerInput] = useState(false);
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(false);
+  const [validInput, setValidInput] = useState(false);
 
   const { t, i18n } = useTranslation('common');
 
   const { languagePreference } = useLanguage();
+
+  useEffect(() => {
+    console.log(loginField);
+  }, [loginField]);
 
   useEffect(() => {
     switch (languagePreference) {
@@ -25,8 +32,37 @@ export default function LoginModal({ login }) {
   }, [languagePreference]);
 
   const handleForm = (e) => {
-    setLoginField(e);
+    e.preventDefault();
+    setLoginField(e.target.value);
+    parseCategoryOfInput(e.target.value);
   };
+
+  function parseCategoryOfInput(passedValue) {
+    console.log(isOnlyNumbers(passedValue));
+    if (formatPhoneNumber(passedValue) !== null && isOnlyNumbers(passedValue)) {
+      const formattedNumber = formatPhoneNumber(passedValue);
+      setLoginField(formattedNumber);
+      setValidInput(true);
+      setDetectedLoginType('phone');
+    } else if (passedValue.length > 4 && isOnlyNumbers(passedValue) === false) {
+      setValidInput(true);
+      setDetectedLoginType('username');
+    } else {
+      setValidInput(false);
+    }
+  }
+
+  function isOnlyNumbers(passedInput) {
+    return /^\d+$/.test(passedInput);
+  }
+
+  function formatPhoneNumber(number) {
+    var match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    }
+    return null;
+  }
 
   const handleNext = () => {
     setNextButtonClicked((prevState) => !prevState);
@@ -40,7 +76,9 @@ export default function LoginModal({ login }) {
       <div className="login-modal-options-container">
         <div className="login-modal-login-container">
           <input
+            value={loginField}
             onChange={(e) => handleForm(e)}
+            type={'text'}
             className={
               smallerInput
                 ? 'login-modal-option-username-small'
@@ -57,6 +95,12 @@ export default function LoginModal({ login }) {
             }
             placeholder={t('password')}
           ></input>
+          <div className="login-modal-forgot-password-prompt">
+            <span>{t('forgot')}</span>
+            <span>{t('username')}</span>
+            <span>{t('or')}</span>
+            <span>{t('password')}</span>
+          </div>
           <div className={'login-modal-option-next-login'}>
             <span className="login-modal-option">{t('login')}</span>
           </div>
@@ -79,6 +123,7 @@ export default function LoginModal({ login }) {
       <div className="login-modal-options-container">
         <div className="login-modal-login-container">
           <input
+            value={loginField}
             onChange={(e) => handleForm(e)}
             className={
               smallerInput
@@ -89,9 +134,9 @@ export default function LoginModal({ login }) {
           ></input>
 
           <div
-            onClick={loginField !== null && handleNext}
+            onClick={validInput ? handleNext : null}
             className={
-              loginField !== null
+              validInput
                 ? 'login-modal-option-next-button-active'
                 : 'login-modal-option-next-button-inactive'
             }
