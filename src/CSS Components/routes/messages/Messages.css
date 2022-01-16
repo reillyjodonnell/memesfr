@@ -264,9 +264,11 @@
 }
 .message-content-profile-section {
   width: 100%;
-  position: absolute;
   display: flex;
   top: 0;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
 }
 .message-content-profile-section-padding {
   background-color: var(--bg-transparent);
@@ -315,6 +317,8 @@
   align-items: center;
   margin-top: auto;
   background-color: var(--bg-transparent);
+  border-bottom-left-radius: var(--message-container-radius);
+  border-bottom-right-radius: var(--message-container-radius);
 }
 .message-content-input-container {
   display: flex;
@@ -370,4 +374,159 @@
   justify-content: center;
   align-items: center;
   margin-right: 6px;
+}
+.message-content-main-message-content {
+  display: flex;
+  height: 80vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  text-align: center;
+  width: 100%;
+}
+.message-content-main-message-content-padding {
+  display: flex;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.message-content-message-bubble {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.message-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 2px 10px;
+}
+.message-text-container-max-width {
+  max-width: 255px;
+  display: flex;
+}
+
+.message-text {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--bg);
+  line-height: 24px;
+  padding: 14px 20px;
+  border-radius: 30px;
+  position: relative;
+  color: var(--text-color);
+  text-align: left;
+  width: 100%;
+  position: relative;
+}
+
+.reaction-icon-container {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 2px 12px;
+  margin-top: 6px;
+  background-color: var(--bg);
+  cursor: pointer;
+}
+.reaction-icon-container:hover {
+  transition: all var(--speed);
+  background-color: var(--light-highlight);
+}
+
+.reaction-icon-sent {
+  border: 1px solid var(--highlight);
+}
+.reaction-icon-received {
+}
+
+.message-sent {
+  flex-direction: row-reverse;
+}
+
+.message-sent-text {
+  color: #fff;
+  background: var(--primary-accent);
+  align-self: flex-end;
+}
+.message-reaction-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.message-reaction-container-sent {
+  margin-right: 6px;
+}
+.message-reaction-container-received {
+  margin-left: 6px;
+}
+.message-reaction-container-padding {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  padding: 3px;
+  opacity: 1;
+  position: relative;
+}
+.message-reaction-container-tooltip {
+  background: var(--tooltip-bg);
+  color: var(--bg);
+  border: 1px solid var(--line);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  /* --translate-y: calc(0% + var(--arrow-size)); */
+  display: flex;
+  /* flex-direction: column; */
+  will-change: transform;
+  transition: transform 0.1s;
+  /* --scale: 0; */
+  --arrow-size: 10px;
+  --tooltip-bg: var(--bg);
+  position: absolute;
+  /* transform: translateX(-50%) translateY(var(--translate-y, -30px)) translateZ(1px); */
+  /* left: 50%; */
+  /* bottom: 0; */
+  bottom: 2rem;
+  /* top: -2.5rem; */
+  /* transition: transform 0.1s ease-out; */
+  transform-origin: top center;
+  /* transform: translate3d(0,-10px,0);*/
+}
+.message-reaction-tooltip-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2px 4px;
+  font-size: 1.5rem;
+  border-radius: 5px;
+}
+.message-reaction-tooltip-icon:hover {
+  transition: all var(--speed);
+  background-color: var(--hover);
+}
+.message-reaction-container-padding:hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  /* border: 1px solid var(--line); */
+  background-color: var(--light-highlight);
+  border-radius: 50%;
+  opacity: 1;
+}
+.message-reaction-icon {
+  stroke: var(--shadow);
+  width: 30px;
+  height: 30px;
 }

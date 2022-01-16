@@ -6,9 +6,13 @@ import { ReactComponent as Edit } from '../../../Assets/Icons/Edit.svg';
 import Og from '../../../Assets/Test/og.jpg';
 import { ReactComponent as Info } from '../../../Assets/Icons/Info.svg';
 import { ReactComponent as Send } from '../../../Assets/Icons/Send.svg';
+import { ReactComponent as Smile } from '../../../Assets/Icons/Smile.svg';
+
 export default function Messages({ nav, setNav }) {
   const [showMessage, setShowMessage] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [message, setMessage] = useState([]);
+
   const { t, i18n } = useTranslation('common');
 
   document.title = `✉️ ${t('messages')} - Memesfr`;
@@ -19,6 +23,189 @@ export default function Messages({ nav, setNav }) {
       setNav({ count: 6 });
     }
   }, []);
+
+  useEffect(() => {
+    console.log(message);
+  }, [message]);
+
+  useEffect(() => {
+    //Set data to state
+    chatData.map((val, index) => {
+      const updatedObject = {
+        ...val,
+        isReactionOpen: false,
+      };
+      setMessage((prev) => [...prev, updatedObject]);
+    });
+  }, []);
+
+  const toggleToolTip = (passedIndex) => {
+    const copiedArray = [...message];
+
+    const selectedItem = copiedArray[passedIndex];
+
+    copiedArray[passedIndex] = {
+      ...selectedItem,
+      isReactionOpen: selectedItem.isReactionOpen ? false : true,
+    };
+
+    console.log('below is the copied');
+    console.log(copiedArray);
+
+    console.log('original');
+    console.log(message);
+
+    setMessage(copiedArray);
+  };
+
+  const chatData = [
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'received',
+      text: 'Wow thats sick!',
+      reactionType: 'sent',
+    },
+    {
+      type: 'received',
+      text: 'Heres another meme',
+      reactionType: 'received',
+      reactionIcon: '👍',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+    {
+      type: 'sent',
+      text: 'Hey dude check this meme out',
+      reactionType: 'received',
+      reactionIcon: '🔥',
+      reactionIconCount: 1,
+    },
+  ];
+
+  const ChatBubble = ({
+    type,
+    text,
+    image = 'https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb',
+    time,
+    reactionType,
+    reactionIcon,
+    reactionIconCount,
+    passedIndex,
+  }) => {
+    const messageContainerClassname =
+      type === 'sent'
+        ? 'message-sent message-content-message-bubble'
+        : 'message-content-message-bubble';
+    const messageTextClassname =
+      type === 'sent' ? ' message-sent-text' : 'm message-received-text';
+
+    const messageReactionContainerClassname =
+      reactionType === 'sent' ? 'reaction-icon-sent' : 'reaction-icon-received';
+
+    const messageReactionPaddingClassname =
+      type === 'sent'
+        ? 'message-reaction-container-sent'
+        : 'message-reaction-container-received';
+
+    console.log(passedIndex);
+
+    return (
+      <div className={messageContainerClassname}>
+        <img
+          alt="User's profile avatar"
+          className="message-image"
+          src={image}
+        />
+        <div className="message-text-container-max-width">
+          <div className={`message-text ${messageTextClassname}`}>
+            <span>{text}</span>
+            {reactionIcon && (
+              <div
+                className={`reaction-icon-container ${messageReactionContainerClassname}`}
+              >
+                <span>
+                  {reactionIcon} {reactionIconCount}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className={`message-reaction-container`}>
+          <div
+            data-tooltip={'🔥 ❤️ 😎 🙂'}
+            className={`message-reaction-container-padding ${messageReactionPaddingClassname}`}
+            onClick={() => toggleToolTip(passedIndex)}
+          >
+            {message[passedIndex].isReactionOpen && (
+              <div className="message-reaction-container-tooltip">
+                <span className="message-reaction-tooltip-icon">🔥</span>
+                <span className="message-reaction-tooltip-icon">😂</span>
+                <span className="message-reaction-tooltip-icon">❤️</span>
+                <span className="message-reaction-tooltip-icon">👍</span>
+                <span className="message-reaction-tooltip-icon">👎</span>
+              </div>
+            )}
+            <Smile className="message-reaction-icon" />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const MessagePreview = ({
     avatar,
@@ -113,6 +300,24 @@ export default function Messages({ nav, setNav }) {
                   <span>Username</span>
                 </div>
                 <Info className="message-content-help-icon" />
+              </div>
+            </div>
+            <div className="message-content-main-message-content">
+              <div className="message-content-main-message-content-padding">
+                {message &&
+                  message.map((item, index) => {
+                    return (
+                      <ChatBubble
+                        key={index}
+                        passedIndex={index}
+                        type={item.type}
+                        reactionIcon={item.reactionIcon}
+                        reactionType={item.reactionType}
+                        reactionIconCount={item.reactionIconCount}
+                        text={item.text}
+                      />
+                    );
+                  })}
               </div>
             </div>
             <div className="message-content-input-full-container">
