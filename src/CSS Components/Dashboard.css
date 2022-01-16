@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   /*Fixes strange bug where screen shifts a couple pixels*/
-  max-width: 1914px;
+  /* max-width: 1914px; */
 }
 .dashboard-content {
   display: flex;

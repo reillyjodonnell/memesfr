@@ -1,37 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Skeleton from '@material-ui/lab/Skeleton';
-import Card from '../../Card';
-import '../../../CSS Components/Dashboard.css';
-import CreatePost from '../../CreatePost';
-import { useAuth } from '../../../contexts/AuthContext';
-import { useMobile } from '../../../contexts/MobileContext';
-import PasswordModal from '../../PasswordModal';
-import '../../../CSS Components/routes/home/Feed.css';
-import FullscreenPlayer from './FullscreenPlayer';
-import SideCrownContainer from '../../Mobile/SideCrownContainer';
-import { ReactComponent as User } from '../../../Assets/SVGs/user.svg';
-import MobileHeader from '../../MobileHeader';
-import Swipable from './Swipable';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect, useRef } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Card from "../../Card";
+import "../../../CSS Components/Dashboard.css";
+import CreatePost from "../../CreatePost";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useMobile } from "../../../contexts/MobileContext";
+import PasswordModal from "../../PasswordModal";
+import "../../../CSS Components/routes/home/Feed.css";
+import FullscreenPlayer from "./FullscreenPlayer";
+import SideCrownContainer from "../../Mobile/SideCrownContainer";
+import { ReactComponent as User } from "../../../Assets/SVGs/user.svg";
+import MobileHeader from "../../MobileHeader";
+import Swipable from "./Swipable";
+import { useTranslation } from "react-i18next";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    backgroundColor: '#1098F7',
+    backgroundColor: "#1098F7",
   },
   toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
     ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -48,79 +48,79 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 36,
   },
   menuButtonHidden: {
-    display: 'none',
+    display: "none",
   },
   title: {
-    fontSize: '2rem',
-    cursor: 'pointer',
-    marginRight: 'auto',
-    overflow: 'visible',
+    fontSize: "2rem",
+    cursor: "pointer",
+    marginRight: "auto",
+    overflow: "visible",
   },
   drawerRoot: {
-    position: 'sticky',
+    position: "sticky",
     left: 0,
   },
   drawerPaper: {
-    top: '74px',
-    whiteSpace: 'nowrap',
+    top: "74px",
+    whiteSpace: "nowrap",
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
     },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100%',
-    overflowX: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
+    height: "100%",
+    overflowX: "hidden",
+    display: "flex",
+    flexDirection: "column",
   },
   container: {
     paddingBottom: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 240,
   },
   loginregister: {
-    marginLeft: 'auto',
-    width: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    cursor: 'pointer',
-    '@media (max-width: 650px)': {
-      display: 'none',
+    marginLeft: "auto",
+    width: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    cursor: "pointer",
+    "@media (max-width: 650px)": {
+      display: "none",
     },
   },
 
   image: {
-    marginRight: '1rem',
+    marginRight: "1rem",
   },
   skeleton: {
-    margin: '1rem',
+    margin: "1rem",
 
-    width: '35vw',
-    minWidth: '300px',
-    height: '35vh',
+    width: "35vw",
+    minWidth: "300px",
+    height: "35vh",
   },
 }));
 
@@ -140,13 +140,11 @@ export default function Feed(props) {
   const [usersLikedPosts, setUsersLikedPosts] = useState([]);
   const [usersHeartedPosts, setUsersHeartedPosts] = useState([]);
   const [isMuted, setIsMuted] = useState(true);
-  const [activeVideoURL, setActiveVideoURL] = useState('');
+  const [activeVideoURL, setActiveVideoURL] = useState("");
 
-  const [nav, setNav] = useState(0);
+  const { t, i18n } = useTranslation("common");
 
-  const { t, i18n } = useTranslation('common');
-
-  const { login } = props;
+  const { login, nav, setNav } = props;
 
   const myRef = useRef(null);
 
@@ -154,7 +152,7 @@ export default function Feed(props) {
     showPopular();
   }, []);
 
-  document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
+  document.title = `🏠 Memesfr - ${t("dankestMemes")}`;
 
   const {
     currentUser,
@@ -165,7 +163,7 @@ export default function Feed(props) {
   } = useAuth();
 
   const resetUserPassword = () => {
-    document.getElementById('root').style.filter = '';
+    document.getElementById("root").style.filter = "";
     resetPasswordFunction(!resetPassword);
   };
 
@@ -323,43 +321,43 @@ export default function Feed(props) {
   };
 
   const RecentlyPosted = () => {
-    let sayingOne = '';
-    let sayingTwo = '';
+    let sayingOne = "";
+    let sayingTwo = "";
     if (recentlyUploaded.length === 1) {
       sayingTwo = "Here's what you just posted 👇";
     }
     if (recentlyUploaded.length > 1) {
-      sayingOne = 'Keep it up memelord';
+      sayingOne = "Keep it up memelord";
     }
     if (nav === 0 && recentlyUploaded.length > 0) {
       return (
         <>
           <div
             style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 'auto',
-              margin: '1rem',
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "auto",
+              margin: "1rem",
             }}
           >
             <div
               style={{
-                textAlign: 'center',
-                display: 'block',
-                padding: '1rem',
-                color: 'white',
-                height: '100%',
-                width: '100%',
+                textAlign: "center",
+                display: "block",
+                padding: "1rem",
+                color: "white",
+                height: "100%",
+                width: "100%",
               }}
             >
-              <span style={{ whiteSpace: 'pre-wrap', fontSize: '1.2rem' }}>
+              <span style={{ whiteSpace: "pre-wrap", fontSize: "1.2rem" }}>
                 {sayingOne}
               </span>
               <br />
-              <span style={{ whiteSpace: 'nowrap', fontSize: '1.2rem' }}>
+              <span style={{ whiteSpace: "nowrap", fontSize: "1.2rem" }}>
                 {sayingTwo}
               </span>
             </div>

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Dashboard from './Dashboard';
-import { useAuth } from '../contexts/AuthContext';
-import Loading from './Loading';
+import React, { useState, useEffect } from "react";
+import Dashboard from "./Dashboard";
+import { useAuth } from "../contexts/AuthContext";
+import Loading from "./Loading";
 
 export default function Home({
   notificationCount,
   setPosts,
   login,
   loginModal,
+  nav,
+  setNav,
 }) {
   const [loading, setLoading] = useState(true);
   const { loadUser, currentUser } = useAuth();
@@ -45,6 +47,8 @@ export default function Home({
       ) : (
         <>
           <Dashboard
+            nav={nav}
+            setNav={setNav}
             login={login}
             loginModal={loginModal}
             notificationCount={notificationCount}
