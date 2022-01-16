@@ -4,15 +4,16 @@
   align-items: center;
   flex-direction: column;
   margin-bottom: 2rem;
-  width: 100%;
+  width: calc(100% - 371px);
   color: var(--text-color);
 }
 .dashboard {
   width: 100%;
   display: flex;
   justify-content: center;
-  /*Fixes strange bug where screen shifts a couple pixels*/
+  /*Fixes strange bug where screen shifts a couple pixels -  doesn't work on other views though*/
   /* max-width: 1914px; */
+  /* UPDATE THE SHIFTING CAME FROM THE SCROLLBAR DISAPPEARING*/
 }
 .dashboard-content {
   display: flex;
@@ -183,5 +184,10 @@
   }
   .card {
     width: 100%;
+  }
+}
+@media only screen and (min-height: 1000px) and (min-width: 1700px) {
+  .dashboard-content {
+    max-width: 1450px;
   }
 }
