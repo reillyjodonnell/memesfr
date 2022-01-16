@@ -39,5 +39,7 @@
   "accentColor": "Cor de destaque",
   "backgroundColor": "Cor de fundo",
   "darkMode": "Modo escuro",
-  "lightMode": "Modo de luz"
+  "lightMode": "Modo de luz",
+  "username": "E-mail",
+  "password": "Senha"
 }

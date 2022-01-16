@@ -41,5 +41,7 @@
   "accentColor": "Couleur d'accentuation",
   "backgroundColor": "Couleur de l'arrière plan",
   "darkMode": "Mode sombre",
-  "lightMode": "Mode lumière"
+  "lightMode": "Mode lumière",
+  "email": "E-mail",
+  "password": "Mot de passe"
 }

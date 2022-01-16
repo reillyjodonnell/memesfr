@@ -7,7 +7,7 @@ import { ReactComponent as BackArrow } from '../Assets/Icons/ChevronLeft.svg';
 export default function LoginModal({ login }) {
   const [loginField, setLoginField] = useState('');
   const [detectedLoginType, setDetectedLoginType] = useState('');
-  const [smallerInput, setSmallerInput] = useState(false);
+  const [smallerInput, setSmallerInput] = useState(true);
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(false);
   const [validInput, setValidInput] = useState(false);
@@ -15,10 +15,6 @@ export default function LoginModal({ login }) {
   const { t, i18n } = useTranslation('common');
 
   const { languagePreference } = useLanguage();
-
-  useEffect(() => {
-    console.log(loginField);
-  }, [loginField]);
 
   useEffect(() => {
     switch (languagePreference) {

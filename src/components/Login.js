@@ -200,7 +200,7 @@ export default function Login() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t('email')}
                   name="email"
                   autoComplete="email"
                   variant="outlined"
@@ -215,7 +215,7 @@ export default function Login() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t('password')}
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   autoComplete="current-password"
@@ -237,7 +237,7 @@ export default function Login() {
                 />
 
                 <div className="login-submit-button">
-                  <span>Sign In</span>
+                  <span>{t('login')}</span>
                 </div>
 
                 <div className="login-signup-prompt">

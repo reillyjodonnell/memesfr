@@ -40,5 +40,10 @@
   "accentColor": "Accent Color",
   "backgroundColor": "Background Color",
   "darkMode": "Dark Mode",
-  "lightMode": "Light Mode"
+  "lightMode": "Light Mode",
+  "email": "Email",
+  "password": "Password",
+  "upload": "Upload",
+  "messages": "Messages",
+  "inventory": "Inventory"
 }

@@ -10,13 +10,13 @@
 
   position: -webkit-sticky;
   position: sticky;
-  overflow-y: auto;
 }
 .sidebar-content {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
+  overflow-y: auto;
   /* border-right: 0.5px solid rgba(255, 255, 255, 0.212); */
 }
 .sidebar-create-post {
@@ -120,7 +120,6 @@
 }
 .sidebar-navigation {
   /* border-top: 1px solid rgba(207, 207, 207, 0.13); */
-  font-size: 0.5rem;
   /* padding: 0 1rem; */
   display: flex;
   flex-direction: column;
@@ -137,7 +136,7 @@
 }
 
 .navigation-group {
-  padding: 1rem;
+  padding: 0.75rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -263,6 +262,7 @@
 /*Daily Memelord*/
 .sidebar-container {
   padding: 1rem;
+  margin-left: 0.75rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -275,11 +275,11 @@
 }
 .memelord-container {
   margin-left: 8px;
-  padding: 1rem;
+  padding: 1rem 0.75rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: baseline;
   font-size: 1rem;
   cursor: pointer;
   color: var(--secondary-text-color);
@@ -287,13 +287,200 @@
   border-top: 1px solid var(--line);
   margin-top: 1rem;
 }
+.memelord-emoji-icon {
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+.memelord-title {
+  font-size: 1rem;
+}
+.memelord-dash {
+  margin: 0 4px;
+  font-size: 1rem;
+}
+.memelord-count {
+  font-size: 1rem;
+}
 .daily-memelord-rank {
   font-size: 1.75rem;
 }
 .daily-meme-avatar {
   margin-left: 1.5rem;
 }
+.navigation-group-memelord-text {
+  font-size: 1rem;
+  margin-left: 10px;
+}
 
+/*Testing*/
+.memelord-container-ranking-list {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.memelord-container-ranking-first {
+  margin-bottom: 40px;
+}
+.navigation-group-ranking {
+  padding: 1rem;
+}
+
+.memelord-container-leaderboard-crown {
+  display: flex;
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.memelord-container-ranking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.memelord-container-ranking-rank {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.memelord-container-ranking-crown {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+.memelord-container-ranking-crown-second {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+.memelord-container-user-avatar {
+  display: flex;
+  height: 82px;
+  border-radius: 20px;
+  width: 82px;
+  justify-self: center;
+  min-width: 82px;
+  min-height: 82px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-accent);
+  box-shadow: var(--light-highlight) 0px 15px 25px,
+    var(--light-highlight) 0px 10px 10px;
+}
+.memelord-container-user-avatar-primary {
+  display: flex;
+  height: 102px;
+  border-radius: 20px;
+  width: 82px;
+  justify-self: center;
+  min-width: 102px;
+  min-height: 102px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-accent);
+  box-shadow: var(--light-highlight) 0px 15px 25px,
+    var(--light-highlight) 0px 10px 10px;
+}
+.memelord-container-user-avatar-image {
+  height: 100%;
+  border-radius: 50%;
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  margin-bottom: 0.9rem;
+}
+.memelord-container-username {
+  display: flex;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  color: var(--secondary-text-color);
+}
+
+.memelord-container-crown-count {
+  display: flex;
+  font-size: 1.4rem;
+  color: var(--primary-accent);
+  font-weight: 500;
+}
+.memelord-container-ranking-first {
+  z-index: 2;
+}
+
+.memelord-second {
+  transform: translate(10px, 0px);
+  z-index: 0;
+}
+.memelord-third {
+  z-index: 0;
+
+  transform: translate(-10px, 0px);
+}
+
+/* Places 4 -7 */
+.navigation-group-memelord-user-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  font-weight: 500;
+  border-radius: 20px;
+  width: 100%;
+  width: -moz-fit-content;
+  margin-left: 0.5rem;
+}
+.navigation-group-memelord-user-container-padding {
+  display: flex;
+  margin: 0 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.navigation-group-user-info {
+  display: flex;
+  width: 100%;
+  background-color: var(--hover);
+  border-radius: 30px;
+  padding: 0 0.5rem;
+
+  justify-content: center;
+  align-items: center;
+}
+.navigation-group-secondary-icon {
+  display: flex;
+  height: 42px;
+  border-radius: 20px;
+  width: 42px;
+  justify-self: center;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  background-color: var(--primary-accent);
+  transform: translate(-7px, 0);
+}
+.navigation-group-crown-count {
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 1rem;
+  color: var(--primary-accent);
+}
+.navigation-group-leaderboard-button {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin: 1rem 0;
+}
+.navigation-group-leaderboard-button-text {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--shadow);
+  border-radius: 30px;
+
+  padding: 0.5rem;
+}
 /*Settings components*/
 .sidebar-navigation-settings-header {
   cursor: pointer;

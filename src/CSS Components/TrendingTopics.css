@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
+  margin: 0 1rem;
 }
 .trendingtopics-title-container {
   display: flex;
@@ -25,20 +25,34 @@
   flex-wrap: wrap;
 }
 .trendingtopics-text {
-  font-size: 1rem;
-  padding: 0.5rem;
-  margin: 0.3rem;
-  border: 1px solid var(--secondary-text-color);
+  font-size: 0.85rem;
+  padding: 0.35rem;
+  padding: 4px 10px;
+  /* margin: 0.3rem; */
+  margin: 0.25rem;
+  max-width: fit-content;
+  border: 1px solid var(--shadow);
   border-radius: 30px;
-  flex: 0 1 20%;
+  flex: 0 1 40%;
   color: var(--secondary-text-color);
-
   cursor: pointer;
   background-color: var(--bg);
+  line-height: 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .trendingtopics-text:hover {
   border: 1px solid var(--text-color);
   background-color: var(--hover);
   transition: var(--speed);
+}
+.trendingtopics-text-hashtag {
+  font-size: 1.1rem;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.trendingtopics-text-topic {
+  font-size: 0.9rem;
 }

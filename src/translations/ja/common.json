@@ -42,5 +42,7 @@
   "accentColor": "アクセントの色",
   "backgroundColor": "背景色",
   "darkMode": "ダークモード",
-  "lightMode": "ライトモード"
+  "lightMode": "ライトモード",
+  "email": "Eメール",
+  "password": "パスワード"
 }

@@ -23,6 +23,8 @@ export default function Sidebar(props) {
   const [menuHeight, setMenuHeight] = useState(null);
   const [doge, setDoge] = useState(false);
   const [hasNotification, setHasNotfication] = useState(true);
+  const [memelordCount, setMemelordCount] = useState(1);
+
   const { updateDoge } = useTheme();
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -72,6 +74,166 @@ export default function Sidebar(props) {
   function selectOption() {
     setActive((prevState) => !prevState);
   }
+
+  const PrevMemelordLeaderboard = () => {
+    return (
+      <>
+        <div className="memelord-container">
+          <span className="memelord-emoji-icon">👑</span>
+          <span className="memelord-title">{t('dailyMemelord')} </span>
+          <span className="memelord-dash">—</span>
+          <span className="memelord-count">{memelordCount}</span>
+        </div>
+        <div className="navigation-group-memelord-container">
+          <div className="navigation-group-memelord">
+            <Doge />
+            <span className="navigation-group-memelord-text">Reilly</span>
+            <span style={{ marginLeft: 'auto' }}>200 👑</span>
+          </div>
+          <CountdownTimer />
+        </div>
+      </>
+    );
+  };
+
+  const MemelordLeaderboardTest = () => {
+    return (
+      <>
+        <div className="memelord-container">
+          <span className="mememlord-container-leaderboard-title">
+            Leaderboard
+          </span>
+        </div>
+        <div className="memelord-container-ranking-list">
+          <div className="memelord-container-ranking-container memelord-second">
+            <span className="memelord-container-ranking-crown-second">🥈</span>
+            <div className="memelord-container-user-avatar">
+              <img
+                className="memelord-container-user-avatar-image"
+                src={currentUser ? currentUser.photoURL : null}
+              />
+            </div>
+            <div className="memelord-container-username">
+              <span>@Username</span>
+            </div>
+            <div className="memelord-container-crown-count">
+              <span>6389</span>
+            </div>
+          </div>
+          <div className="memelord-container-ranking-container memelord-container-ranking-first">
+            <span className="memelord-container-ranking-crown">👑</span>
+            <div className="memelord-container-user-avatar-primary">
+              <img
+                className="memelord-container-user-avatar-image"
+                src={currentUser ? currentUser.photoURL : null}
+              />
+            </div>
+            <div className="memelord-container-username">
+              <span>@Username</span>
+            </div>
+            <div className="memelord-container-crown-count">
+              <span>9273</span>
+            </div>
+          </div>
+          <div className="memelord-container-ranking-container memelord-third">
+            <span className="memelord-container-ranking-crown-second">🥉</span>
+            <div className="memelord-container-user-avatar">
+              <img
+                className="memelord-container-user-avatar-image"
+                src={currentUser ? currentUser.photoURL : null}
+              />
+            </div>
+            <div className="memelord-container-username">
+              <span>@Username</span>
+            </div>
+            <div className="memelord-container-crown-count">
+              <span>1474</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="navigation-group-memelord-container">
+          <div className="navigation-group-memelord-user-container">
+            <span className="navigation-group-ranking">4</span>
+            <div className="navigation-group-memelord-user-container-padding">
+              <div className="navigation-group-user-info">
+                <div className="navigation-group-secondary-icon">
+                  <Doge />
+                </div>
+                <span className="navigation-group-memelord-text">@reilly</span>
+                <span className="navigation-group-crown-count">200</span>
+              </div>
+            </div>
+          </div>
+          <div className="navigation-group-memelord-user-container">
+            <span className="navigation-group-ranking">5</span>
+
+            <div className="navigation-group-memelord-user-container-padding">
+              <div className="navigation-group-user-info">
+                <div className="navigation-group-secondary-icon">
+                  <Doge />
+                </div>
+                <span className="navigation-group-memelord-text">Reilly</span>
+                <span className="navigation-group-crown-count">200</span>
+              </div>
+            </div>
+          </div>
+          <div className="navigation-group-memelord-user-container">
+            <span className="navigation-group-ranking">6</span>
+
+            <div className="navigation-group-memelord-user-container-padding">
+              <div className="navigation-group-user-info">
+                <div className="navigation-group-secondary-icon">
+                  <Doge />
+                </div>
+                <span className="navigation-group-memelord-text">@Reilly</span>
+                <span className="navigation-group-crown-count">200</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const MemelordLeaderboard = () => {
+    return (
+      <>
+        <div className="memelord-container">
+          <span className="memelord-container-leaderboard-crown">👑</span>
+          <span className="memelord-container-leaderboard-title">
+            Leaderboard
+          </span>
+        </div>
+        <div className="navigation-group-memelord-user-container">
+          <span className="navigation-group-ranking">1</span>
+
+          <div className="navigation-group-memelord-user-container-padding">
+            <div className="navigation-group-user-info">
+              <div className="navigation-group-secondary-icon">
+                <Doge />
+              </div>
+              <span className="navigation-group-memelord-text">@Reilly</span>
+              <span className="navigation-group-crown-count">200</span>
+            </div>
+          </div>
+        </div>
+        <div className="navigation-group-memelord-user-container">
+          <span className="navigation-group-ranking">2</span>
+
+          <div className="navigation-group-memelord-user-container-padding">
+            <div className="navigation-group-user-info">
+              <div className="navigation-group-secondary-icon">
+                <Doge />
+              </div>
+              <span className="navigation-group-memelord-text">@Reilly</span>
+              <span className="navigation-group-crown-count">130</span>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className="sidebar-fixed">
@@ -206,16 +368,8 @@ export default function Sidebar(props) {
               />
               <span className="navigation-group-text">{t('profile')}</span>
             </div>
-            <div className="memelord-container">
-              <span>{t('dailyMemelord')} 👑</span>
-            </div>
-            <div className="navigation-group-memelord-container">
-              <div className="navigation-group-memelord">
-                <Doge />
-                <span className="navigation-group-text">Reilly</span>
-              </div>
-              <CountdownTimer />
-            </div>
+            {/* <MemelordLeaderboardTest /> */}
+            <MemelordLeaderboard />
 
             {/* <div className="rightsidebar-content">
               <div className="daily-counter">

@@ -7,6 +7,10 @@ export default function TrendingTopics() {
     { title: 'Dank' },
     { title: 'Cheetos' },
     { title: 'ElonMusk' },
+    { title: 'SoDankItHurts' },
+    { title: 'MemeLordship' },
+    { title: 'Ouch' },
+    { title: 'Doge' },
   ];
 
   return (
@@ -15,7 +19,8 @@ export default function TrendingTopics() {
         {trendingTopics.map((topic, index) => {
           return (
             <div key={index} className="trendingtopics-text">
-              <span>#{topic.title}</span>
+              <span className="trendingtopics-text-hashtag">#</span>
+              <span className="trendingtopics-text-topic">{topic.title}</span>
             </div>
           );
         })}

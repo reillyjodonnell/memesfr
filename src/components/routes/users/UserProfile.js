@@ -536,16 +536,15 @@ export default function UserProfile(props) {
               </span>
             </div>
           </div>
+
           {isUsersProfile ? (
             <div className={'user-follow-button-container'}>
               <div
                 onClick={toggleFollowUser}
                 className={`${
-                  followsUser
-                    ? 'user-follow-button-active'
+                  accentColor === 'green'
+                    ? 'user-follow-button-active-alt'
                     : 'user-follow-button'
-                } ${
-                  accentColor === 'green' && 'user-follow-button-active-alt'
                 } `}
               >
                 <span>Edit Profile </span>

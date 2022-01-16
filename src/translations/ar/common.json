@@ -41,5 +41,7 @@
   "accentColor": "لون التمييز",
   "backgroundColor": "لون الخلفية",
   "darkMode": "الوضع المظلم",
-  "lightMode": "وضع الضوء"
+  "lightMode": "وضع الضوء",
+  "email": "بريد الالكتروني",
+  "password": "كلمة المرور "
 }

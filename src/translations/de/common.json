@@ -41,5 +41,8 @@
   "accentColor": "Akzentfarbe",
   "backgroundColor": "Hintergrundfarbe",
   "darkMode": "Dunkler Modus",
-  "lightMode": "Lichtmodus"
+  "lightMode": "Lichtmodus",
+  "email": "Email",
+  "password": "Passwort",
+  "upload": ""
 }

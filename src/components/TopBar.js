@@ -161,7 +161,13 @@ export default function TopBar(props) {
 
   const ProfileModal = () => {
     return (
-      <div className="topbar-profile-modal" onMouseLeave={handleMouseOut}>
+      <div
+        id="nav"
+        className={
+          isHovering ? 'topbar-profile-modal' : 'topbar-profile-modal-dissapear'
+        }
+        onMouseLeave={handleMouseOut}
+      >
         <div
           className="topbar-profile-modal-item"
           // onClick={props.navigateToSettings}
@@ -235,69 +241,68 @@ export default function TopBar(props) {
   };
 
   return (
-    <>
-      <div className="topbar-content">
-        <div onClick={props.homeFilter} className="topbar-logo">
-          <Castle />
-          <span>Memesfr</span>
+    <div className="topbar-content">
+      <div onClick={props.homeFilter} className="topbar-logo">
+        <Castle />
+        <span>Memesfr</span>
+      </div>
+      <div className="topbar-icon-container">
+        {!currentUser && !loadingUser ? <LoggedOutSection /> : null}
+
+        <div
+          onClick={currentUser ? props.navigateToCreate : props.login}
+          className="topbar-upload-meme-button topbar-tooltip topbar-first-button"
+          data-tooltip={t('upload')}
+        >
+          <Plus />
         </div>
-        <div className="topbar-icon-container">
-          {!currentUser && !loadingUser ? <LoggedOutSection /> : null}
+        {!loadingUser || currentUser ? (
+          <>
+            <div
+              onClick={currentUser ? props.navigateToMessage : props.login}
+              className="topbar-upload-meme-button topbar-tooltip"
+              data-tooltip={t('messages')}
+            >
+              <Message />
+            </div>
+            <div
+              className="topbar-upload-meme-button topbar-tooltip"
+              onClickC={currentUser ? props.navigateToWallet : props.login}
+              data-tooltip={t('inventory')}
+            >
+              <FontAwesomeIcon icon={faBoxOpen} />
+            </div>
+          </>
+        ) : null}
 
-          <div
-            onClick={currentUser ? props.navigateToCreate : props.login}
-            className="topbar-upload-meme-button topbar-first-button"
-          >
-            <Plus />
-          </div>
-          {!loadingUser || currentUser ? (
-            <>
-              <div
-                onMouseOver={handleShowText}
-                className="topbar-upload-meme-button"
-                onClick={props.navigateToMessage}
-              >
-                <Message />
-              </div>
-              <div
-                onMouseOver={handleShowText}
-                className="topbar-upload-meme-button"
-                onClick={props.navigateToWallet}
-              >
-                <FontAwesomeIcon icon={faBoxOpen} />
-              </div>
-            </>
-          ) : null}
-
-          {/* <div
+        {/* <div
             onMouseOver={handleShowText}
             className="topbar-upload-meme-button"
             onClick={props.navigateToWallet}
           >
             <Wallet />
           </div> */}
-        </div>
-        <div
-          className="topbar-upload-meme-button"
-          onClick={currentUser && props.navigateToProfile}
-          onMouseEnter={handleMouseOver}
-        >
-          {/* {props.avatar && (
+      </div>
+      <div
+        className="topbar-upload-meme-button"
+        onClick={currentUser && props.navigateToProfile}
+        onMouseEnter={handleMouseOver}
+      >
+        {/* {props.avatar && (
             <img
               className="sidebar-avatar"
               alt="user avatar"
               src={props.avatar}
             />
           )} */}
-          <User className="topbar-avatar" />
-        </div>
-
-        {isHovering && !languageModal ? (
-          <ProfileModal />
-        ) : languageModal ? (
-          <LanguageModal />
-        ) : null}
+        <User className="topbar-avatar" />
       </div>
-    </>
+
+      {isHovering && !languageModal ? (
+        <ProfileModal />
+      ) : languageModal ? (
+        <LanguageModal />
+      ) : null}
+    </div>
   );
 }

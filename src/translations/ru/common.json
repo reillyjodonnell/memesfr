@@ -39,5 +39,7 @@
   "accentColor": "Акцентный цвет",
   "backgroundColor": "Фоновый цвет",
   "darkMode": "Темный режим",
-  "lightMode": "Легкий режим"
+  "lightMode": "Легкий режим",
+  "email": "Электронное письмо",
+  "password": "Пароль"
 }
