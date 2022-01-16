@@ -456,3 +456,9 @@
   text-align: center;
   white-space: nowrap;
 }
+@media only screen and (min-height: 1000px) and (min-width: 1700px) {
+  .topbar-content {
+    max-width: 1450px;
+    height: 75px;
+  }
+}
