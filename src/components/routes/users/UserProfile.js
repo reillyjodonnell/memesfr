@@ -198,6 +198,10 @@ export default function UserProfile(props) {
   let avatar;
 
   useEffect(() => {
+    window.alert('Rendering profile');
+  }, []);
+
+  useEffect(() => {
     if (username === profileName) {
       setIsUsersProfile(true);
     }

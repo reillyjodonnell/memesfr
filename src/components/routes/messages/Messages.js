@@ -12,6 +12,7 @@ export default function Messages({ nav, setNav }) {
   const [showMessage, setShowMessage] = useState(false);
   const [focused, setFocused] = useState(false);
   const [message, setMessage] = useState([]);
+  const [userInput, setUserInput] = useState('');
 
   const { t, i18n } = useTranslation('common');
 
@@ -19,14 +20,11 @@ export default function Messages({ nav, setNav }) {
 
   useEffect(() => {
     if (nav.count === null) {
-      console.log('setting nav to 6');
       setNav({ count: 6 });
     }
   }, []);
 
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
+  useEffect(() => {}, [message]);
 
   useEffect(() => {
     //Set data to state
@@ -39,6 +37,128 @@ export default function Messages({ nav, setNav }) {
     });
   }, []);
 
+  const handleReaction = (passedIndex, icon) => {
+    const copiedArray = [...message];
+
+    const selectedItem = copiedArray[passedIndex];
+
+    const reactionObject = copiedArray[passedIndex].reaction;
+
+    const length = selectedItem.reaction && selectedItem.reaction.length;
+
+    //Logic check to see if we are overwriting user's reaction
+
+    //Is it just one object in array?
+
+    const isSoleObject =
+      selectedItem.reaction && selectedItem.reaction.length === 1
+        ? true
+        : false;
+
+    const isAuthor =
+      selectedItem.reaction && selectedItem.reaction[0].reactionAuthorIsUser;
+
+    //If the nested array of objects for the reaction is not there make a new array with 1 object ez
+
+    const createdReaction = {
+      reactionIcon: icon,
+      reactionIconCount: 1,
+      reactionAuthorIsUser: true,
+      userHasReacted: true,
+    };
+
+    const overwriteReaction = () => {
+      copiedArray[passedIndex] = {
+        ...selectedItem,
+        isReactionOpen: false,
+        reaction: [createdReaction],
+      };
+    };
+
+    const incrementAndCloseReaction = () => {
+      reactionObject[0].reactionIconCount =
+        reactionObject[0].reactionIconCount + 1;
+      reactionObject[0].userHasReacted = true;
+      copiedArray[passedIndex] = {
+        ...selectedItem,
+        isReactionOpen: false,
+      };
+    };
+
+    const hasUserReacted = selectedItem.reaction;
+
+    if (!length) {
+      overwriteReaction();
+    } else {
+      if (isSoleObject) {
+        if (isAuthor) {
+          overwriteReaction();
+        } else {
+          const combinedArray = [...reactionObject, createdReaction];
+
+          //Check if we are just incrementing (same icon) or if we are creating new icon container to go alongside it
+          const isSameIcon =
+            selectedItem.reaction &&
+            selectedItem.reaction[0].reactionIcon === icon
+              ? true
+              : false;
+
+          if (isSameIcon) {
+            incrementAndCloseReaction();
+          } else if (selectedItem.reaction[0].userHasReacted) {
+            reactionObject[0].reactionIconCount =
+              reactionObject[0].reactionIconCount - 1;
+            copiedArray[passedIndex] = {
+              ...selectedItem,
+              reaction: combinedArray,
+              isReactionOpen: false,
+            };
+          } else {
+            copiedArray[passedIndex] = {
+              ...selectedItem,
+              isReactionOpen: false,
+              reaction: combinedArray,
+            };
+          }
+        }
+      } else {
+        //Find the index where reactionAuthorIsUser is true to overwrite
+        const userIndex = reactionObject
+          .map((e) => e.reactionAuthorIsUser)
+          .indexOf(true);
+
+        const notUserIndex = reactionObject
+          .map((e) => e.reactionAuthorIsUser)
+          .indexOf(false);
+
+        //We have two posts (1 where user has created, 1 where they have not)
+
+        //If the icon passed is the same one in the not user index let's delete our entry, and increment the count
+        if (icon === reactionObject[notUserIndex].reactionIcon) {
+          //Delete our entry
+          reactionObject.splice(userIndex, 1);
+          //Increment the count for the remaining entry
+          incrementAndCloseReaction();
+        } else {
+          reactionObject[userIndex] = createdReaction;
+
+          copiedArray[passedIndex] = {
+            ...selectedItem,
+            isReactionOpen: false,
+            reaction: reactionObject,
+          };
+        }
+
+        //
+      }
+    }
+    setMessage(copiedArray);
+  };
+
+  const handleToolTip = (key) => {
+    toggleToolTip(key);
+  };
+
   const toggleToolTip = (passedIndex) => {
     const copiedArray = [...message];
 
@@ -49,12 +169,6 @@ export default function Messages({ nav, setNav }) {
       isReactionOpen: selectedItem.isReactionOpen ? false : true,
     };
 
-    console.log('below is the copied');
-    console.log(copiedArray);
-
-    console.log('original');
-    console.log(message);
-
     setMessage(copiedArray);
   };
 
@@ -62,77 +176,92 @@ export default function Messages({ nav, setNav }) {
     {
       type: 'sent',
       text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      reaction: [
+        {
+          reactionIcon: '👍',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: false,
+        },
+      ],
     },
     {
       type: 'received',
       text: 'Wow thats sick!',
-      reactionType: 'sent',
     },
     {
       type: 'received',
       text: 'Heres another meme',
-      reactionType: 'received',
-      reactionIcon: '👍',
-      reactionIconCount: 1,
+      reaction: [
+        {
+          reactionIcon: '👍',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: false,
+        },
+      ],
     },
     {
       type: 'sent',
       text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+
+      reaction: [
+        {
+          reactionIcon: '🔥',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: false,
+        },
+      ],
     },
     {
       type: 'sent',
       text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      reaction: [
+        {
+          reactionIcon: '🔥',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: true,
+          userHasReacted: true,
+        },
+      ],
     },
     {
       type: 'sent',
       text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      reaction: [
+        {
+          reactionIcon: '🔥',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: true,
+          userHasReacted: true,
+        },
+      ],
+    },
+    {
+      type: 'received',
+      text: 'I wish there was GIF support ',
     },
     {
       type: 'sent',
-      text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      text: 'Hey dude! Heres another meme',
     },
     {
       type: 'sent',
-      text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      text: 'I need to upload newer memes. Im tired of looking at the same ones all day',
+    },
+    {
+      type: 'received',
+      text: 'I totally feel the same way',
+      reaction: [
+        {
+          reactionIcon: '😎',
+          reactionIconCount: 1,
+          reactionAuthorIsUser: true,
+          userHasReacted: true,
+        },
+      ],
     },
     {
       type: 'sent',
-      text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-      reactionType: 'received',
-      reactionIcon: '🔥',
-      reactionIconCount: 1,
+      text: 'Alright im gonna head up like spongebob',
     },
   ];
 
@@ -141,11 +270,11 @@ export default function Messages({ nav, setNav }) {
     text,
     image = 'https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb',
     time,
-    reactionType,
-    reactionIcon,
-    reactionIconCount,
+    reaction,
     passedIndex,
   }) => {
+    const { reactionAuthorIsUser, reactionIcon, reactionIconCount } =
+      reaction || {};
     const messageContainerClassname =
       type === 'sent'
         ? 'message-sent message-content-message-bubble'
@@ -154,15 +283,17 @@ export default function Messages({ nav, setNav }) {
       type === 'sent' ? ' message-sent-text' : 'm message-received-text';
 
     const messageReactionContainerClassname =
-      reactionType === 'sent' ? 'reaction-icon-sent' : 'reaction-icon-received';
+      reactionAuthorIsUser === 'sent'
+        ? 'reaction-icon-sent'
+        : 'reaction-icon-received';
 
     const messageReactionPaddingClassname =
       type === 'sent'
         ? 'message-reaction-container-sent'
         : 'message-reaction-container-received';
 
-    console.log(passedIndex);
-
+    const reactionClassname =
+      type === 'sent' ? 'reaction-sent-flex' : 'reaction-received-flex';
     return (
       <div className={messageContainerClassname}>
         <img
@@ -173,15 +304,23 @@ export default function Messages({ nav, setNav }) {
         <div className="message-text-container-max-width">
           <div className={`message-text ${messageTextClassname}`}>
             <span>{text}</span>
-            {reactionIcon && (
-              <div
-                className={`reaction-icon-container ${messageReactionContainerClassname}`}
-              >
-                <span>
-                  {reactionIcon} {reactionIconCount}
-                </span>
-              </div>
-            )}
+            <div
+              className={`reaction-icon-container-flex ${reactionClassname}`}
+            >
+              {reaction &&
+                reaction.map((item, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={`reaction-icon-container ${messageReactionContainerClassname}`}
+                    >
+                      <span>
+                        {item.reactionIcon} {item.reactionIconCount}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
 
@@ -189,18 +328,50 @@ export default function Messages({ nav, setNav }) {
           <div
             data-tooltip={'🔥 ❤️ 😎 🙂'}
             className={`message-reaction-container-padding ${messageReactionPaddingClassname}`}
-            onClick={() => toggleToolTip(passedIndex)}
           >
             {message[passedIndex].isReactionOpen && (
               <div className="message-reaction-container-tooltip">
-                <span className="message-reaction-tooltip-icon">🔥</span>
-                <span className="message-reaction-tooltip-icon">😂</span>
-                <span className="message-reaction-tooltip-icon">❤️</span>
-                <span className="message-reaction-tooltip-icon">👍</span>
-                <span className="message-reaction-tooltip-icon">👎</span>
+                <span
+                  onClick={() => handleReaction(passedIndex, '🔥')}
+                  value="🔥"
+                  className="message-reaction-tooltip-icon"
+                >
+                  🔥
+                </span>
+                <span
+                  onClick={() => handleReaction(passedIndex, '😂')}
+                  value="😂"
+                  className="message-reaction-tooltip-icon"
+                >
+                  😂
+                </span>
+                <span
+                  onClick={() => handleReaction(passedIndex, '❤️')}
+                  value="❤️"
+                  className="message-reaction-tooltip-icon"
+                >
+                  ❤️
+                </span>
+                <span
+                  onClick={() => handleReaction(passedIndex, '👍')}
+                  value="👍"
+                  className="message-reaction-tooltip-icon"
+                >
+                  👍
+                </span>
+                <span
+                  onClick={() => handleReaction(passedIndex, '👎')}
+                  value="👎"
+                  className="message-reaction-tooltip-icon"
+                >
+                  👎
+                </span>
               </div>
             )}
-            <Smile className="message-reaction-icon" />
+            <Smile
+              onClick={() => handleToolTip(passedIndex)}
+              className="message-reaction-icon"
+            />
           </div>
         </div>
       </div>
@@ -238,6 +409,26 @@ export default function Messages({ nav, setNav }) {
       </div>
     );
   };
+
+  const handleInput = (input) => {
+    setUserInput(input.target.value);
+  };
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      const chatObject = {
+        type: 'sent',
+        text: userInput,
+      };
+      console.log(chatObject);
+
+      setMessage((prev) => [...prev, chatObject]);
+      setUserInput('');
+    }
+  };
+
+  useEffect(() => {
+    console.log(chatData);
+  }, [chatData]);
 
   return (
     <div className="messages-main-content">
@@ -311,9 +502,7 @@ export default function Messages({ nav, setNav }) {
                         key={index}
                         passedIndex={index}
                         type={item.type}
-                        reactionIcon={item.reactionIcon}
-                        reactionType={item.reactionType}
-                        reactionIconCount={item.reactionIconCount}
+                        reaction={item.reaction}
                         text={item.text}
                       />
                     );
@@ -329,15 +518,15 @@ export default function Messages({ nav, setNav }) {
                       : 'message-content-input-container-padding'
                   }`}
                 >
-                  <div
+                  <input
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
                     spellCheck="true"
                     className="message-content-input"
-                    contentEditable="true"
-                    value="type something funny"
-                    role="textbox"
-                  ></div>
+                    onInput={(e) => handleInput(e)}
+                    value={userInput}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                  />
                 </div>
                 <div className="message-content-submit-button">
                   <Send />

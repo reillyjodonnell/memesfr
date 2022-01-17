@@ -151,7 +151,7 @@
   margin: 0 2rem;
   font-size: 1.25rem;
   border-radius: 20px;
-  animation: appearButton var(--speed);
+  /* animation: appearButton var(--speed); */
 }
 .user-follow-button-active {
   display: flex;
@@ -166,7 +166,7 @@
   font-size: 1.25rem;
   border-radius: 20px;
   background-color: var(--highlight);
-  animation: appearButton var(--speed);
+  /* animation: appearButton var(--speed); */
 }
 
 .user-follow-button-active-alt {

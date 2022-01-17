@@ -15,7 +15,7 @@ export default function PopupModal({
   }, []);
   const handleClose = () => {
     document.getElementById('dashboard').style.filter = 'blur(0px)';
-    document.getElementById('root').style.overflowY = 'auto';
+    document.getElementById('root').style.overflowY = '';
 
     toggleState();
   };

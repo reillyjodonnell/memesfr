@@ -4,8 +4,15 @@
   align-items: center;
   flex-direction: column;
   margin-bottom: 2rem;
+  margin-left: 2rem;
+  /* margin-top: 1rem; */
+  margin-right: 1rem;
   width: calc(100% - 371px);
+  max-width: 100%;
+  min-width: 0;
   color: var(--text-color);
+  box-sizing: border-box;
+  height: 100%;
 }
 .dashboard {
   width: 100%;

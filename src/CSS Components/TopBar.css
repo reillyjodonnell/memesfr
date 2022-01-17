@@ -14,7 +14,7 @@
   z-index: 100;
   background-color: var(--bg);
   height: 65px;
-  max-width: 1114px;
+  /* max-width: 1114px; */
 }
 .topbar-logo {
   display: flex;
@@ -62,7 +62,7 @@
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 500;
   letter-spacing: 0.02857em;
   /* text-transform: uppercase; */
@@ -111,7 +111,7 @@
 }
 .topbar-tooltip::after {
   --translate-y: calc(0% - var(--arrow-size));
-  content: "";
+  content: '';
   border: solid var(--arrow-size) transparent;
   border-bottom-color: var(--tooltip-bg);
   transform-origin: bottom center;
@@ -160,7 +160,7 @@
   border-radius: 50%;
   box-sizing: border-box;
   width: 100px;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   border-radius: 4px;
   letter-spacing: 0.02857em;
   text-transform: uppercase;

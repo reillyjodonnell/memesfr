@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Dashboard from "./Dashboard";
-import { useAuth } from "../contexts/AuthContext";
-import Loading from "./Loading";
+import React, { useState, useEffect } from 'react';
+import Dashboard from './Dashboard';
+import { useAuth } from '../contexts/AuthContext';
+import Loading from './Loading';
 
 export default function Home({
   notificationCount,

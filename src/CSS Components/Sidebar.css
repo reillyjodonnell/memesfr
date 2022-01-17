@@ -143,11 +143,12 @@
   align-items: center;
   font-size: 1rem;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--navigation);
   font-weight: 600;
   border-radius: 20px;
   min-width: 200px;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .navigation-group:hover {
@@ -541,9 +542,9 @@
   transition: all var(--speed) ease;
 } */
 
-@media only screen and (min-height: 900px) {
+/* @media only screen and (min-height: 900px) {
   .navigation-group-text {
     font-size: 1.25rem;
     font-weight: 500;
   }
-}
+} */
