@@ -8,6 +8,7 @@ export default function PopupModal({
   children,
   toggleState,
   title = 'Log in to Memesfr',
+  branding = true,
 }) {
   useEffect(() => {
     document.getElementById('dashboard').style.filter = 'blur(5px)';
@@ -30,10 +31,11 @@ export default function PopupModal({
             <Cancel />
           </div>
           <div className="popup-modal-content">
-            {/* <div className="popup-modal-branding">
-              <Castle />
-              <span className="popup-modal-memesfr-brandname">Memesfr</span>
-            </div> */}
+            {branding && (
+              <div className="popup-modal-branding">
+                <Castle />
+              </div>
+            )}
             <div className="popup-modal-title">
               <span>{title}</span>
             </div>

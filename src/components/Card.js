@@ -500,14 +500,20 @@ export default function Card(props) {
                 <span className="number-of-likes">{likes}</span>
               </div>
 
-              <div className="like-container" onClick={!currentUser && login}>
+              <div
+                className="like-container"
+                onClick={!currentUser ? login : null}
+              >
                 <FontAwesomeIcon
                   icon={faComment}
                   style={{ width: '1.5rem', height: '1.5rem' }}
                 />
                 <span className="number-of-likes">{comments}</span>
               </div>
-              <div className="like-container" onClick={!currentUser && login}>
+              <div
+                className="like-container"
+                onClick={!currentUser ? login : null}
+              >
                 <FontAwesomeIcon
                   icon={faShare}
                   style={{ width: '1.5rem', height: '1.5rem' }}
