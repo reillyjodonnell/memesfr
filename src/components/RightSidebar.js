@@ -1,8 +1,8 @@
 import React from 'react';
-import '../CSS Components/RightSidebar.css';
+import '../css-components/RightSidebar.css';
 import Countdown from './Countdown';
 import TrendingTopics from './TrendingTopics';
-import Doge from '../Assets/doge.svg';
+import Doge from '../assets/doge.svg';
 export default function RightSidebar() {
   return (
     // <div className="rightsidebar-fixed">

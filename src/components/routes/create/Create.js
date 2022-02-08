@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../../CSS Components/routes/create/Create.css';
+import '../../../css-components/routes/create/Create.css';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/AuthContext';
 import 'emoji-mart/css/emoji-mart.css';

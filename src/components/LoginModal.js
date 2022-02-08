@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PopupModal from './templates/PopupModal';
 import { useTranslation } from 'react-i18next';
-import '../CSS Components/LoginModal.css';
+import '../css-components/LoginModal.css';
 import { useLanguage } from '../contexts/LanguageContext';
-import { ReactComponent as BackArrow } from '../Assets/Icons/ChevronLeft.svg';
+import { ReactComponent as BackArrow } from '../assets/icons/ChevronLeft.svg';
 export default function LoginModal({ login }) {
   const [loginField, setLoginField] = useState('');
   const [detectedLoginType, setDetectedLoginType] = useState('');
@@ -100,10 +100,6 @@ export default function LoginModal({ login }) {
           <div className={'login-modal-option-next-login'}>
             <span className="login-modal-option">{t('login')}</span>
           </div>
-        </div>
-
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">{t('continueWithGoogle')}</span>
         </div>
 
         <div className="login-modal-signup-container">

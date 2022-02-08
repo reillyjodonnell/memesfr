@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import '../../../CSS Components/routes/messages/Messages.css';
+import '../../../css-components/routes/messages/Messages.css';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Doge } from '../../../Assets/doge.svg';
-import { ReactComponent as Edit } from '../../../Assets/Icons/Edit.svg';
-import Og from '../../../Assets/Test/og.jpg';
-import { ReactComponent as Info } from '../../../Assets/Icons/Info.svg';
-import { ReactComponent as Send } from '../../../Assets/Icons/Send.svg';
-import { ReactComponent as Smile } from '../../../Assets/Icons/Smile.svg';
+import { ReactComponent as Doge } from '../../../assets/doge.svg';
+import { ReactComponent as Edit } from '../../../assets/icons/Edit.svg';
+import Og from '../../../assets/test/og.jpg';
+import { ReactComponent as Info } from '../../../assets/icons/Info.svg';
+import { ReactComponent as Send } from '../../../assets/icons/Send.svg';
+import { ReactComponent as Smile } from '../../../assets/icons/Smile.svg';
 
 export default function Messages({ nav, setNav }) {
   const [showMessage, setShowMessage] = useState(false);
