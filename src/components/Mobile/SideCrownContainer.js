@@ -7,7 +7,6 @@ import {
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
 import '../../CSS Components/Mobile/SideCrownContainer.css';
-import { user } from 'firebase-functions/lib/providers/auth';
 import { ReactComponent as User } from '../../Assets/SVGs/user.svg';
 
 export default function SideCrownContainer() {
