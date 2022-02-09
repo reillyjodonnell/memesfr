@@ -2,13 +2,10 @@ import React from 'react';
 import '../css-components/MobileHeader.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as User } from '../assets/svg/user.svg';
-import DropDownMenu from './DropDownMenu';
-import NavbarItem from './NavbarItem';
 import { useAuth } from '../contexts/AuthContext';
 import { ReactComponent as Hamburger } from '../assets/icons/Hamburger.svg';
 
 export default function MobileHeader(props) {
-  const { currentUser } = useAuth();
   return (
     <div>
       <header className="navbar-container">

@@ -1,28 +1,13 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactDom from 'react-dom';
 import x from '../assets/svg/x.svg';
-import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../contexts/AuthContext';
 import Loading from './Loading';
 import '../css-components/Modal.css';
 import ImageThumb from './ImageThumb';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-  input: {
-    marginBottom: '.5rem',
-  },
-}));
-const accept = 'images';
 export default function Modal(props) {
-  const classes = useStyles();
   const [name, setName] = useState('Use The Memes, Luke');
-  const [viewPhoto, viewPhotoFunction] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [file, setFile] = useState('');
   const [fileType, setFileType] = useState('');
@@ -68,14 +53,6 @@ export default function Modal(props) {
     setFileError('');
     setFile('');
   }
-
-  const handleChange = (event) => {
-    event.preventDefault();
-    setName(event.target.value);
-    if (name !== '') {
-      setDisabled(false);
-    } else setDisabled(true);
-  };
 
   const handleUpload = (event) => {
     setFile(event.target.files[0]);

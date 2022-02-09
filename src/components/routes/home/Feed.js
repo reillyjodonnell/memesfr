@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Card from '../../Card';
 import '../../../css-components/Dashboard.css';
-import CreatePost from '../../CreatePost';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useMobile } from '../../../contexts/MobileContext';
-import PasswordModal from '../../PasswordModal';
 import '../../../css-components/routes/home/Feed.css';
-import FullscreenPlayer from './FullscreenPlayer';
-import SideCrownContainer from '../../mobile/SideCrownContainer';
-import { ReactComponent as User } from '../../../assets/svg/user.svg';
 import MobileHeader from '../../MobileHeader';
 import Swipable from './Swipable';
-import { useTranslation } from 'react-i18next';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -126,172 +117,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Feed(props) {
   const classes = useStyles();
-  const [resetPassword, resetPasswordFunction] = useState(false);
-  const [register, openRegister] = useState(false);
-  const [signIn, openSignIn] = useState(false);
-  const [home, displayHome] = useState(true);
-  const [popularPosts, setPopularPosts] = useState([{}]);
-  const [recentPosts, setRecentPosts] = useState([{}]);
-  const [randomPosts, setRandomPosts] = useState([{}]);
-  const [activeScreen, setActiveScreen] = useState([{}]);
-  const [loadingFilter, setLoadingFilter] = useState(false);
-  const [createPost, createPostFunction] = useState(false);
-  const [loadAnotherRandomMeme, setLoadAnotherRandomMeme] = useState(false);
-  const [usersLikedPosts, setUsersLikedPosts] = useState([]);
-  const [usersHeartedPosts, setUsersHeartedPosts] = useState([]);
+  const [posts, setPosts] = useState([{}]);
   const [isMuted, setIsMuted] = useState(true);
   const [activeVideoURL, setActiveVideoURL] = useState('');
+  const [usersLikedPosts, setUsersLikedPosts] = useState([]);
 
-  const { t, i18n } = useTranslation('common');
+  const { toggleLoginModal, nav } = props;
 
-  const { login, nav, setNav } = props;
-
-  const myRef = useRef(null);
+  const { currentUser, hasUserLikedPost } = useAuth();
 
   useEffect(() => {
-    showPopular();
-  }, []);
-
-  // useEffect(() => {
-  //   if (nav.count === 0 || nav.count === null) {
-  //     document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
-  //     setNav({ count: 0 });
-  //   }
-  // }, [nav]);
-
-  const {
-    currentUser,
-    hasUserLikedPost,
-    retrievePopularPosts,
-    retrieveRecentPosts,
-    retrieveRandomMeme,
-  } = useAuth();
-
-  const resetUserPassword = () => {
-    document.getElementById('root').style.filter = '';
-    resetPasswordFunction(!resetPassword);
-  };
+    async function match() {
+      if (currentUser) {
+        const results = await hasUserLikedPost();
+        let [{ likedPosts }, { heartedPosts }] = results;
+        setUsersLikedPosts(likedPosts);
+      }
+    }
+    match();
+  }, [currentUser]);
 
   useEffect(() => {
     if (props.postsData.length === undefined) {
-      setLoadingFilter(true);
+      return;
     } else {
-      setPopularPosts(props.postsData);
-      setLoadingFilter(false);
+      setPosts(props.postsData);
     }
   }, [props.postsData]);
-
-  function showPopular() {
-    setLoadingFilter(true);
-    setActiveScreen();
-    if (recentPosts) {
-      setRecentPosts();
-    }
-    if (randomPosts) {
-      setRandomPosts();
-    }
-    // setActiveScreen(props.postsData);
-  }
-
-  // async function loadPopular() {
-  //   const memeDataPromise = await retrievePopularPosts();
-  //   if (memeDataPromise !== []) {
-  //     const memeDataObject = Promise.all(memeDataPromise).then((memeData) => {
-  //       return memeData;
-  //     });
-  //     return memeDataObject;
-  //   } else return memeDataPromise;
-  // }
-  async function loadRecent() {
-    const memeDataPromise = await retrieveRecentPosts();
-    const memeDataObject = Promise.all(memeDataPromise).then((memeData) => {
-      return memeData;
-    });
-    return memeDataObject;
-  }
-
-  // function showRecent() {
-  //   setActiveScreen();
-  //   if (popularPosts) {
-  //     setPopularPosts();
-  //   }
-  //   if (randomPosts) {
-  //     setRandomPosts();
-  //   }
-  //   loadRecent().then((items) => {
-  //     setRecentPosts(items);
-  //     setActiveScreen(items);
-  //     setLoadingFilter(false);
-  //   });
-  // }
-  // async function loadRandom() {
-  //   const memeDataPromise = await retrieveRandomMeme();
-  //   return memeDataPromise;
-  // }
-
-  // function showRandom() {
-  //   setLoadingFilter(true);
-
-  //   setActiveScreen();
-  //   if (popularPosts) {
-  //     setPopularPosts();
-  //   }
-  //   if (recentPosts) {
-  //     setRecentPosts();
-  //   }
-
-  //   loadRandom().then((items) => {
-  //     setRandomPosts(items);
-  //     setActiveScreen([items]);
-  //     setLoadingFilter(false);
-  //   });
-  // }
-
-  function filterHome() {
-    if (nav !== 0) {
-      setLoadingFilter(true);
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 0 });
-      //navigate('/');
-    }
-  }
-  function filterTrending() {
-    if (nav !== 1) {
-      setLoadingFilter(true);
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 1 });
-    }
-  }
-
-  function filterPopular() {
-    if (nav !== 2) {
-      setLoadingFilter(true);
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-
-      setNav({ count: 2 });
-    }
-  }
-  function filterRecent() {
-    if (nav !== 3) {
-      setLoadingFilter(true);
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 3 });
-    }
-  }
-  function filterRandom() {
-    setLoadingFilter(true);
-    setNav({ count: 4 });
-    setLoadAnotherRandomMeme((prevState) => !prevState);
-  }
-
-  const updateRegister = () => {
-    displayHome(!home);
-    openRegister(!register);
-  };
-  const updateSignIn = () => {
-    displayHome(!home);
-    openSignIn(!signIn);
-  };
 
   const { isMobile } = useMobile();
 
@@ -374,6 +226,7 @@ export default function Feed(props) {
                 toggleMuted={toggleMute}
                 isMuted={isMuted}
                 item={item}
+                toggleLoginModal={toggleLoginModal}
               ></Card>
             );
           })}
@@ -403,11 +256,11 @@ export default function Feed(props) {
     </div>
   ) : (
     <div className="main-content">
-      {loadingFilter ? (
+      {props.postsLoading ? (
         <ShowSkeletons />
-      ) : !loadingFilter && popularPosts ? (
-        popularPosts.length !== undefined &&
-        popularPosts.map((item, index) => {
+      ) : !props.postsLoading && posts ? (
+        posts.length !== undefined &&
+        posts.map((item, index) => {
           let liked = false;
           let hearted = false;
           if (usersLikedPosts.includes(item.id)) {
@@ -415,7 +268,7 @@ export default function Feed(props) {
           }
           return (
             <Card
-              login={login}
+              login={toggleLoginModal}
               hearted={hearted}
               liked={liked}
               key={index}
@@ -423,6 +276,7 @@ export default function Feed(props) {
               isMuted={isMuted}
               likedPosts={usersLikedPosts}
               item={item}
+              toggleLoginModal={toggleLoginModal}
             ></Card>
           );
         })
@@ -430,7 +284,7 @@ export default function Feed(props) {
 
       <RecentlyPosted />
 
-      {!loadingFilter && nav !== 4 && (
+      {!props.postsLoading && nav !== 4 && (
         <div className="end-of-memes">
           <span>End of the memes 😢</span>
         </div>

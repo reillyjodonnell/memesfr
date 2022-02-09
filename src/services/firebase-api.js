@@ -77,6 +77,69 @@ export async function retrievePopularPosts() {
   return updatedObjects;
 }
 
+export async function retrieveRecentPosts() {
+  const recentRef = db.collection('recent').doc('recent_fifty');
+  const collections = await recentRef.get();
+  const items = collections.data();
+  const updatedObjects = items.posts.map((item) => {
+    //For each item look through the shards and tally them up
+    const shardRef = db.collection('counters').doc(item.id);
+    const totalLikesOnPost = shardRef
+      .collection('shards')
+      .get()
+      .then((snapshot) => {
+        let total_count = 0;
+        snapshot.forEach((doc) => {
+          total_count += doc.data().count;
+        });
+        return total_count;
+      });
+    const shardHeartRef = db.collection('heartCounters').doc(item.id);
+
+    //Here we look at the amount of hearts a post has
+    const totalHeartsOnPost = shardHeartRef
+      .collection('shards')
+      .get()
+      .then((snapshot) => {
+        let total_count = 0;
+        snapshot.forEach((doc) => {
+          total_count += doc.data().count;
+        });
+        return total_count;
+      });
+    totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
+      const amountOfLikes = resolvedPromiseForNumberOfLikes;
+      return amountOfLikes;
+    });
+    totalHeartsOnPost.then((resolvedPromiseForNumberOfHearts) => {
+      const amountOfHearts = resolvedPromiseForNumberOfHearts;
+      return amountOfHearts;
+    });
+    async function documentData() {
+      const usersLikes = await totalLikesOnPost;
+      const usersHearts = await totalHeartsOnPost;
+      const docData = {
+        userName: item.userName,
+        title: item.title,
+        author: item.author,
+        authorPic: item.authorPic,
+        likes: usersLikes,
+        hearts: usersHearts,
+        image: item.image,
+        fileType: item.fileType,
+        createdAt: item.createdAt,
+        id: item.id,
+      };
+      return docData;
+    }
+
+    return documentData();
+  });
+  return updatedObjects;
+
+  //updatedObjects is an array of promises. How do we turn each promise into an array with actual values?
+}
+
 export async function retrieveRandomMeme() {
   const memes = db.collection('memes');
   const key = memes.doc().id;
