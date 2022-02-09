@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import ReactDom from 'react-dom';
-import '../../CSS Components/templates/PopupModal.css';
-import { ReactComponent as Cancel } from '../../Assets/SVGs/x.svg';
-import { ReactComponent as Castle } from '../../Assets/SVGs/castle.svg';
+import '../../css-components/templates/PopupModal.css';
+import { ReactComponent as Cancel } from '../../assets/svg/x.svg';
+import { ReactComponent as Castle } from '../../assets/svg/castle.svg';
 
 export default function PopupModal({
   children,
@@ -17,7 +17,6 @@ export default function PopupModal({
   const handleClose = () => {
     document.getElementById('dashboard').style.filter = 'blur(0px)';
     document.getElementById('root').style.overflowY = '';
-
     toggleState();
   };
   return ReactDom.createPortal(

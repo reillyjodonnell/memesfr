@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { ReactComponent as Home } from '../Assets/Icons/Home.svg';
-import { ReactComponent as Notification } from '../Assets/Icons/Notifications.svg';
+import { ReactComponent as Home } from '../assets/icons/Home.svg';
+import { ReactComponent as Notification } from '../assets/icons/Notifications.svg';
 
-import { ReactComponent as Popular } from '../Assets/Icons/Popular.svg';
-import { ReactComponent as Recent } from '../Assets/Icons/Recent.svg';
-import { ReactComponent as Random } from '../Assets/Icons/Random.svg';
-import { ReactComponent as User } from '../Assets/SVGs/user.svg';
+import { ReactComponent as Popular } from '../assets/icons/Popular.svg';
+import { ReactComponent as Recent } from '../assets/icons/Recent.svg';
+import { ReactComponent as Random } from '../assets/icons/Random.svg';
+import { ReactComponent as User } from '../assets/svg/user.svg';
 import { useTheme } from '../contexts/ThemeContext';
 
-import { ReactComponent as Plus } from '../Assets/Icons/Plus.svg';
+import { ReactComponent as Plus } from '../assets/icons/Plus.svg';
 import { useAuth } from '../contexts/AuthContext';
 
-import '../CSS Components/MobileNav.css';
+import '../css-components/MobileNav.css';
 
 import {
   Message,

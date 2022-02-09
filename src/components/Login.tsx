@@ -1,22 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Button from '@material-ui/core/Button';
+import { useState, useEffect, useRef } from 'react';
 import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
-import '../CSS Components/Login.css';
-import { InputAdornment } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { ReactComponent as Castle } from '../assets/svg/castle.svg';
+import '../css-components/Login.css';
 import { makeStyles } from '@material-ui/core/styles';
-import Doge from '../Assets/doge.svg';
+import Doge from '../assets/doge.svg';
 import firebase from '../services/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -30,9 +20,6 @@ const theme = createTheme({
       input: {
         zIndex: 1,
         color: 'var(--text-color)',
-      },
-      label: {
-        color: 'var(--secondary-text-color)',
       },
     },
     MuiInputLabel: {
@@ -110,19 +97,16 @@ const useStyles = makeStyles((theme) => ({
   inputField: {},
 }));
 
-export default function Login() {
-  const [error, setError] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [showPassword, showPasswordFunction] = useState(false);
-  const [emailValue, setEmailValue] = useState('');
+export default function Login(): JSX.Element {
+  const [error, setError] = useState<String>('');
   const classes = useStyles();
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     let mount = true;
@@ -135,26 +119,28 @@ export default function Login() {
     return () => (mount = false);
   }, []);
 
-  async function handleSubmit(e) {
+  interface User {}
+
+  interface Error {}
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    let email = emailRef.current.value;
-    let password = passwordRef.current.value;
+    let email = emailRef?.current?.value;
+    let password = passwordRef?.current?.value;
 
     try {
       await login(email, password)
-        .then((user) => {
-          navigate('/');
+        .then((user: User) => {
+          if (user) {
+            navigate('/');
+          }
         })
-        .catch((err) => {
-          setError('Failed to log in');
+        .catch((err: Error) => {
+          if (err) {
+            setError('Failed to log in');
+          }
         });
     } catch {}
-  }
-  function redirectToSignup() {
-    navigate('/signup');
-  }
-  function enablePassword() {
-    showPasswordFunction(!showPassword);
   }
 
   return (
@@ -186,14 +172,10 @@ export default function Login() {
                     color: 'red',
                   }}
                 >
-                  Invalid email or password. Please double-check and try again.
+                  {t('invalidEmailOrPassword')}
                 </span>
               ) : null}
-              <form
-                onSubmit={(e) => handleSubmit(e)}
-                className={classes.form}
-                noValidate
-              >
+              <form onSubmit={handleSubmit} className={classes.form} noValidate>
                 <TextField
                   inputRef={emailRef}
                   margin="normal"
@@ -216,24 +198,22 @@ export default function Login() {
                   fullWidth
                   name="password"
                   label={t('password')}
-                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   autoComplete="current-password"
-                  InputProps={{
-                    className: classes.input,
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          edge="end"
-                          onClick={enablePassword}
-                          inputProps={{ className: classes.input }}
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   endAdornment: (
+                  //     <InputAdornment position="end">
+                  //       <IconButton
+                  //         aria-label="toggle password visibility"
+                  //         edge="end"
+                  //         onClick={enablePassword}
+                  //         inputProps={{ className: classes.input }}
+                  //       >
+                  //         {showPassword ? <Visibility /> : <VisibilityOff />}
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
 
                 <div className="login-submit-button">

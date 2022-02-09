@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import '../../../CSS Components/routes/home/Swipable.css';
-import SideCrownContainer from '../../Mobile/SideCrownContainer';
-import { ReactComponent as User } from '../../../Assets/SVGs/user.svg';
+import '../../../css-components/routes/home/Swipable.css';
+import SideCrownContainer from '../../mobile/SideCrownContainer';
+import { ReactComponent as User } from '../../../assets/svg/user.svg';
 export default function Swipable({ setActiveVideoURL }) {
   const [pressed, setPressed] = useState(false);
   const [startingPosition, setStartingPosition] = useState({ x: 0, y: 0 });

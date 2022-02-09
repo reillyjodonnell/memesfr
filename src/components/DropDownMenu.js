@@ -1,15 +1,15 @@
 import { React, useState, useRef } from 'react';
-import { ReactComponent as Settings } from '../Assets/SVGs/settings.svg';
-import { ReactComponent as Left } from '../Assets/SVGs/arrowLeft.svg';
-import '../CSS Components/DropDownMenu.css';
-import { ReactComponent as Doge } from '../Assets/doge.svg';
-import { ReactComponent as Ball } from '../Assets/SVGs/pokeBall.svg';
-import { ReactComponent as Discord } from '../Assets/SVGs/discordLogo.svg';
-import { ReactComponent as Login } from '../Assets/SVGs/login.svg';
-import { ReactComponent as Logout } from '../Assets/SVGs/logout.svg';
-import { ReactComponent as ProfilePic } from '../Assets/SVGs/photo.svg';
-import { ReactComponent as Password } from '../Assets/SVGs/lock.svg';
-import { ReactComponent as RightIcon } from '../Assets/SVGs/chevronRight.svg';
+import { ReactComponent as Settings } from '../assets/svg/settings.svg';
+import { ReactComponent as Left } from '../assets/svg/arrowLeft.svg';
+import '../css-components/DropDownMenu.css';
+import { ReactComponent as Doge } from '../assets/doge.svg';
+import { ReactComponent as Ball } from '../assets/svg/pokeBall.svg';
+import { ReactComponent as Discord } from '../assets/svg/discordLogo.svg';
+import { ReactComponent as Login } from '../assets/svg/login.svg';
+import { ReactComponent as Logout } from '../assets/svg/logout.svg';
+import { ReactComponent as ProfilePic } from '../assets/svg/photo.svg';
+import { ReactComponent as Password } from '../assets/svg/lock.svg';
+import { ReactComponent as RightIcon } from '../assets/svg/chevronRight.svg';
 import { CSSTransition } from 'react-transition-group';
 
 import { useAuth } from '../contexts/AuthContext';

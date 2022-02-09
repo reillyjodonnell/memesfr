@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import '../CSS Components/Card.css';
+import '../css-components/Card.css';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
-import trash from '../Assets/SVGs/trash.svg';
-import report from '../Assets/SVGs/report.svg';
-import { ReactComponent as HeartIcon } from '../Assets/SVGs/heart.svg';
-import { ReactComponent as LikeIcon } from '../Assets/SVGs/thumbUp.svg';
-import buffDoge from '../Assets/buff-doge.jpg';
-import { ReactComponent as CheckMark } from '../Assets/Icons/CheckMark.svg';
-
+import { Link } from 'react-router-dom';
+import trash from '../assets/svg/trash.svg';
+import report from '../assets/svg/report.svg';
+import buffDoge from '../assets/buff-doge.jpg';
+import { ReactComponent as CheckMark } from '../assets/icons/CheckMark.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faShare,
-  faComment,
-  faCrown,
-  faHeart,
-} from '@fortawesome/free-solid-svg-icons';
+import { faShare, faComment, faCrown } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-
 import { useMobile } from '../contexts/MobileContext';
-import Modal from './templates/FullScreenModal';
 import Titles from '../sample-data/titles.json';
 import VideoIconPlayback from './VideoIconPlayback';
+
 export default function Card(props) {
   const [heart, setHeart] = useState(false);
   const [thumbUp, setThumbUp] = useState(false);
@@ -33,7 +24,6 @@ export default function Card(props) {
   const [hasAlreadyLikedPost, setHasAlreadyLikedPost] = useState(false);
   const [hasAlreadyHeartedPost, setHasAlreadyHeartedPost] = useState(false);
   const [followsUser, setFollowsUser] = useState(false);
-  const [fullScreen, setFullScreen] = useState(false);
 
   const { isMobile } = useMobile();
 
@@ -43,7 +33,6 @@ export default function Card(props) {
 
   /* FOR DEV ONLY */
   const isVerified = true;
-  const hasBanner = true;
   const shares = Math.round(Math.random() * 10000);
   const comments = Math.round(Math.random() * 40000);
 
@@ -64,15 +53,11 @@ export default function Card(props) {
   } = useAuth();
 
   const toggleFollowUser = () => {
-    setFollowsUser((prevState) => !prevState);
-  };
-
-  const UserBanner = () => {
-    return (
-      <div className="user-banner">
-        <span>{bannerText}</span>
-      </div>
-    );
+    if (currentUser) {
+      setFollowsUser((prevState) => !prevState);
+    } else {
+      props.toggleLoginModal();
+    }
   };
 
   function captureUserInput() {
@@ -96,22 +81,6 @@ export default function Card(props) {
       setNeedSubmit(false);
     }
   }
-
-  const navigate = useNavigate();
-
-  useEffect(() => {}, [likes]);
-
-  // useEffect(() => {
-  //   let mounted = true;
-  //   if (mounted === true) {
-  //     if (currentUser) {
-  //       if (currentUser.uid === props.item.author) {
-  //         setPermissionToEdit(true);
-  //       } else setPermissionToEdit(false);
-  //     } else setPermissionToEdit(false);
-  //   }
-  //   return () => (mounted = false);
-  // }, [props.item.likes]);
 
   useEffect(() => {
     //Await for the props to be passed
@@ -143,9 +112,6 @@ export default function Card(props) {
     expandOptions(!options);
   };
 
-  function activatePrompt() {
-    navigate('/signup');
-  }
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -229,17 +195,6 @@ export default function Card(props) {
     );
   };
 
-  const openFullScreen = () => {
-    document.getElementById('root').style.filter = 'blur(5px)';
-
-    setFullScreen(true);
-  };
-
-  const closeFullScreen = () => {
-    document.getElementById('root').style.filter = '';
-    setFullScreen(false);
-  };
-
   function memeAuthor() {
     const memeAuthorUsername = props.item.userName;
     if (props.item.userName) {
@@ -254,148 +209,6 @@ export default function Card(props) {
       onMouseLeave={captureUserInput}
       onScrollCapture={isMobile ? captureUserInput : null}
     >
-      {fullScreen && (
-        <Modal toggleState={closeFullScreen}>
-          <div
-            className="card-area"
-            style={isMobile ? { width: '100%' } : null}
-            onMouseLeave={captureUserInput}
-            onScrollCapture={isMobile ? captureUserInput : null}
-          >
-            <div className="card">
-              <div className="upper">
-                <div className="upper-top-info">
-                  <DisplayAvatar />
-                  <div className="meme-identification">
-                    <div className="user-name-information">
-                      <span className="clickable">{memeAuthor()}</span>
-                      {isVerified && (
-                        <div className="verified-container">
-                          <CheckMark />
-                        </div>
-                      )}
-                      {hasBanner && <UserBanner />}
-                    </div>
-
-                    <span className="meme-title">{props.item.title}</span>
-
-                    <span className="hashtag-identifier"></span>
-                  </div>
-                  <div className="user-follow-button-container-card">
-                    <div
-                      onClick={toggleFollowUser}
-                      className={
-                        followsUser
-                          ? 'user-follow-button-card-active'
-                          : 'user-follow-button-card'
-                      }
-                    >
-                      <span>{followsUser ? t('following') : t('follow')} </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="image-container">
-                  {props.item.fileType === 'video' ? (
-                    <VideoIconPlayback
-                      isMuted={props.isMuted}
-                      toggleMute={props.toggleMute}
-                      openFullScreen={openFullScreen}
-                      image={props.item.image}
-                      poster={props.item.poster}
-                    />
-                  ) : (
-                    <img
-                      alt=""
-                      // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
-                      className="meme-image"
-                      src={props.item.image}
-                    ></img>
-                  )}
-                </div>
-                <div className="upper-top"></div>
-              </div>
-
-              <div className="lower">
-                {/* <div className="heart-container">
-
-              <HeartIcon
-                className={
-                  heart
-                    ? 'active-heart heart-icon'
-                    : 'heart-icon inactive-heart'
-                }
-                onClick={currentUser ? toggleHeart : activatePrompt}
-              />
-              <span
-                className={
-                  heart ? 'active-heart number-of-likes' : 'number-of-likes'
-                }
-              >
-                1
-              </span>
-            </div> */}
-
-                <div
-                  onClick={currentUser ? toggleThumbUp : login}
-                  className={
-                    thumbUp ? 'crown-container-active' : 'crown-container'
-                  }
-                >
-                  {/* <LikeIcon
-                style={thumbUp ? { fill: 'url(#thumb-grad)' } : null}
-                className={thumbUp ? 'active-thumbup' : 'inactive-thumbup'}
-                onClick={currentUser ? toggleThumbUp : activatePrompt}
-              />
-              <span
-                className={
-                  thumbUp ? 'active-thumbUp number-of-likes' : 'number-of-likes'
-                }
-              >
-                {likes}
-              </span> */}
-                  <span className="likes-icon">
-                    <FontAwesomeIcon
-                      icon={faCrown}
-                      style={{ width: '1.5rem', height: '1.5rem' }}
-                    />
-                  </span>
-                  <span className="number-of-likes">{likes}</span>
-                </div>
-                {/* <div className="like-container">
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        style={{ width: '1.5rem', height: '1.5rem' }}
-                      />
-                      <span className="number-of-likes">{comments}</span>
-                    </div> */}
-
-                <div
-                  className="like-container"
-                  onClick={currentUser ? () => console.log('Comments') : login}
-                >
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ width: '1.5rem', height: '1.5rem' }}
-                  />
-                  <span className="number-of-likes">{comments}</span>
-                </div>
-                <div
-                  className="like-container"
-                  onClick={currentUser ? () => console.log('share') : login}
-                >
-                  <FontAwesomeIcon
-                    icon={faShare}
-                    style={{ width: '1.5rem', height: '1.5rem' }}
-                  />
-                  <span className="number-of-likes">{shares}</span>
-                </div>
-              </div>
-              {options ? <OptionsExpanded /> : null}
-            </div>
-          </div>
-        </Modal>
-      )}
       <div className="card-container">
         <div className="card-container-padding">
           <DisplayAvatar />
@@ -437,7 +250,6 @@ export default function Card(props) {
                   <VideoIconPlayback
                     isMuted={props.isMuted}
                     toggleMute={props.toggleMute}
-                    openFullScreen={openFullScreen}
                     image={props.item.image}
                     poster={props.item.poster}
                   />
@@ -454,43 +266,12 @@ export default function Card(props) {
             </div>
 
             <div className="lower">
-              {/* <div className="heart-container">
-
-              <HeartIcon
-                className={
-                  heart
-                    ? 'active-heart heart-icon'
-                    : 'heart-icon inactive-heart'
-                }
-                onClick={currentUser ? toggleHeart : activatePrompt}
-              />
-              <span
-                className={
-                  heart ? 'active-heart number-of-likes' : 'number-of-likes'
-                }
-              >
-                1
-              </span>
-            </div> */}
-
               <div
                 onClick={currentUser ? toggleThumbUp : login}
                 className={
                   thumbUp ? 'crown-container-active' : 'crown-container'
                 }
               >
-                {/* <LikeIcon
-                style={thumbUp ? { fill: 'url(#thumb-grad)' } : null}
-                className={thumbUp ? 'active-thumbup' : 'inactive-thumbup'}
-                onClick={currentUser ? toggleThumbUp : activatePrompt}
-              />
-              <span
-                className={
-                  thumbUp ? 'active-thumbUp number-of-likes' : 'number-of-likes'
-                }
-              >
-                {likes}
-              </span> */}
                 <span className="likes-icon">
                   <FontAwesomeIcon
                     icon={faCrown}

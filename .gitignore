@@ -2,6 +2,8 @@
 
 /src/services/firebase.js
 
+.env
+
 # dependencies
 /node_modules
 /.pnp

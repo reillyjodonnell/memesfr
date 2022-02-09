@@ -6,9 +6,8 @@ import {
   faCrown,
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
-import '../../CSS Components/Mobile/SideCrownContainer.css';
-import { user } from 'firebase-functions/lib/providers/auth';
-import { ReactComponent as User } from '../../Assets/SVGs/user.svg';
+import '../../css-components/mobile/SideCrownContainer.css';
+import { ReactComponent as User } from '../../assets/svg/user.svg';
 
 export default function SideCrownContainer() {
   const [likes, changeLikes] = useState(69);

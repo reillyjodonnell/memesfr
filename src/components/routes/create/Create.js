@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import '../../../CSS Components/routes/create/Create.css';
+import '../../../css-components/routes/create/Create.css';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/AuthContext';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { useTheme } from '../../../contexts/ThemeContext';
 export default function Create() {
+  const { t, i18n } = useTranslation('common');
+
   const [letterCount, setLetterCount] = useState(0);
-  const [caption, setCaption] = useState('Write caption');
+  const [caption, setCaption] = useState(t('writeCaption'));
   const [acceptInput, setAcceptInput] = useState(true);
   const [validPost, setValidPost] = useState(false);
   const [displayLightBackground, setDisplayLightBackground] = useState(false);
   const [emojiContainerOpen, setEmojiContainerOpen] = useState(false);
-  const { t, i18n } = useTranslation('common');
   const { currentUser } = useAuth();
 
   const { activeBackground } = useTheme();
-
-  console.log(activeBackground);
 
   useEffect(() => {
     switch (activeBackground) {
@@ -26,7 +25,6 @@ export default function Create() {
         break;
       case 1:
         setDisplayLightBackground(true);
-        break;
         break;
       case 2:
         setDisplayLightBackground(false);
@@ -125,7 +123,7 @@ export default function Create() {
             <div className="create-post-caption-container">
               <div className="create-post-caption-container-titles">
                 <span className="create-post-caption-container-title-caption">
-                  Caption
+                  {t('caption')}
                 </span>
                 <span
                   style={!acceptInput ? { color: 'red' } : null}
@@ -168,7 +166,7 @@ export default function Create() {
               </div>
               <div className="create-post-caption-container-titles">
                 <span className="create-post-caption-container-title-caption">
-                  Cover
+                  {t('cover')}
                 </span>
               </div>
               <div className="create-post-cover-container">
@@ -180,7 +178,7 @@ export default function Create() {
               </div>
               <div className="create-post-actions">
                 <div className="create-post-action-button create-post-trash-button">
-                  Trash
+                  {t('trash')}
                 </div>
                 <div
                   className={`create-post-action-button ${
@@ -189,7 +187,7 @@ export default function Create() {
                       : 'create-post-submit-button-invalid'
                   }`}
                 >
-                  Submit
+                  {t('submit')}
                 </div>
               </div>
             </div>
