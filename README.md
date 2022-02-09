@@ -63,7 +63,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Memesfr Screen Shot][product-screenshot]](https://beta.memesfr.com)
 
 Thanks so much for checking this project out ❤️
 
@@ -206,4 +206,4 @@ This project couldn't have been possible without these awesome project!
 [license-url]: https://github.com/reillyjodonnell/memesfr-beta/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/reillyjodonnell
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: src/Assets/Memesfr-desktop.png
