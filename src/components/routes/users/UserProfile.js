@@ -19,6 +19,10 @@ import Doge from '../../../Assets/doge.svg';
 import '../../../CSS Components/UserProfile.css';
 import { Skeleton } from '@material-ui/lab';
 import { useTheme } from '../../../contexts/ThemeContext';
+import {
+  retrieveProfileData,
+  retrieveRandomMeme,
+} from '../../../services/firebase-api';
 
 const drawerWidth = 240;
 
@@ -163,12 +167,10 @@ export default function UserProfile(props) {
     retrievePopularPosts,
     retrieveRecentPosts,
     recentlyUploaded,
-    retrieveRandomMeme,
     sendAuthEmail,
     hasUserLikedPost,
     setCurrentUser,
     notConfirmedEmail,
-    retrieveProfileData,
   } = useAuth();
 
   const navigate = useNavigate();

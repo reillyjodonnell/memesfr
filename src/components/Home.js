@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import { useAuth } from '../contexts/AuthContext';
 import Loading from './Loading';
+import { retrievePopularPosts } from '../services/firebase-api';
 
 export default function Home({
   notificationCount,
@@ -13,8 +14,6 @@ export default function Home({
 }) {
   const [loading, setLoading] = useState(true);
   const { loadUser, currentUser } = useAuth();
-
-  const { retrievePopularPosts } = useAuth();
 
   useEffect(() => {
     async function retrievePosts() {
