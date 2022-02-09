@@ -68,13 +68,7 @@ test('Form should submit on submit click', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('Clicking on Signup should render signup component and unmount this component', () => {
-  render(<Login />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('Clicking x should close the component', () => {
+test('Clicking on Signup should render signup component', () => {
   render(<Login />);
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
