@@ -4,35 +4,45 @@ import { useTranslation } from 'react-i18next';
 import '../css-components/LoginModal.css';
 import { useLanguage } from '../contexts/LanguageContext';
 import { ReactComponent as BackArrow } from '../assets/icons/ChevronLeft.svg';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import Firebase from 'firebase/app';
 
-export default function LoginModal({ toggleLoginModal }) {
-  const [detectedLoginType, setDetectedLoginType] = useState('');
-  const [smallerInput, setSmallerInput] = useState(true);
-  const [nextButtonClicked, setNextButtonClicked] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(false);
-  const [validLoginInput, setValidLoginInput] = useState(false);
-  const [enableSubmitButton, setEnableSubmitButton] = useState(false);
+interface IProps {
+  toggleLoginModal: Function;
+}
 
-  const [passwordField, setPasswordField] = useState('');
-  const [loginField, setLoginField] = useState('');
+export default function LoginModal({ toggleLoginModal }: IProps) {
+  // const [detectedLoginType, setDetectedLoginType] = useState<String>('');
+  const [smallerInput, setSmallerInput] = useState<Boolean>(true);
+  const [nextButtonClicked, setNextButtonClicked] = useState<Boolean>(false);
+  // const [phoneNumber, setPhoneNumber] = useState<Boolean>(false);
+  const [validLoginInput, setValidLoginInput] = useState<Boolean>(false);
+  const [enableSubmitButton, setEnableSubmitButton] = useState<Boolean>(false);
 
-  const [error, setError] = useState('');
+  const [passwordField, setPasswordField] = useState<
+    string | number | readonly string[] | undefined
+  >('');
+  const [loginField, setLoginField] = useState<
+    string | number | readonly string[] | undefined
+  >('');
+
+  const [error, setError] = useState<String>('');
 
   const { login } = useAuth();
 
-  const submitForm = async (e) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (enableSubmitButton) {
       console.log(loginField, passwordField);
       try {
-        await login(loginField, passwordField).then((user) => {
-          window.location.reload();
+        await login(loginField, passwordField).then((user: Firebase.User) => {
+          if (user) {
+            window.location.reload();
+          }
         });
-      } catch (error) {
+      } catch (error: any) {
         setEnableSubmitButton(false);
-        switch (error.code) {
+        switch (error?.code) {
           case 'auth/invalid-email':
             setError('Invalid Email or Username');
             break;
@@ -54,7 +64,7 @@ export default function LoginModal({ toggleLoginModal }) {
       : setEnableSubmitButton(false);
   };
 
-  const handlePaste = (type, e) => {
+  const handlePaste = (type: string, e: React.ClipboardEvent) => {
     e.preventDefault();
     const value = e.clipboardData.getData('Text');
     console.log(value);
@@ -66,15 +76,15 @@ export default function LoginModal({ toggleLoginModal }) {
     handleInputChange();
   };
 
-  const handleInput = (type, e) => {
+  const handleInput = (type: string, e: React.FormEvent<HTMLInputElement>) => {
     if (type === 'login') {
-      setLoginField(e.target.value);
+      setLoginField((e.target as HTMLInputElement).value);
     } else {
-      setPasswordField(e.target.value);
+      setPasswordField((e.target as HTMLInputElement).value);
     }
   };
 
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const { languagePreference } = useLanguage();
 
@@ -89,17 +99,17 @@ export default function LoginModal({ toggleLoginModal }) {
     }
   }, [languagePreference]);
 
-  const handleForm = (e) => {
+  const handleForm = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    checkForInvalidInput(e.target.value);
-    setLoginField(e.target.value);
+    checkForInvalidInput((e.target as HTMLInputElement).value);
+    setLoginField((e.target as HTMLInputElement).value);
 
-    parseCategoryOfInput(e.target.value);
+    parseCategoryOfInput((e.target as HTMLInputElement).value);
   };
 
   const whiteSpaceIsPresent = /\s/;
 
-  const checkForInvalidInput = (input) => {
+  const checkForInvalidInput = (input: string) => {
     if (whiteSpaceIsPresent.test(input)) {
       setError('Invalid Input');
     } else {
@@ -109,32 +119,37 @@ export default function LoginModal({ toggleLoginModal }) {
 
   const areBothFieldsValid = () => {
     console.log(`Login is ${loginField} and pass is ${passwordField}`);
-    if (loginField?.length > 5 && passwordField?.length > 5) {
+    if (
+      typeof loginField === 'string' &&
+      typeof passwordField === 'string' &&
+      loginField.length > 5 &&
+      passwordField?.length > 5
+    ) {
       return true;
     } else {
       return false;
     }
   };
 
-  function parseCategoryOfInput(passedValue) {
+  function parseCategoryOfInput(passedValue: string) {
     if (formatPhoneNumber(passedValue) !== null && isOnlyNumbers(passedValue)) {
       const formattedNumber = formatPhoneNumber(passedValue);
-      setLoginField(formattedNumber);
+      typeof formattedNumber === 'string' && setLoginField(formattedNumber);
       setValidLoginInput(true);
-      setDetectedLoginType('phone');
+      // setDetectedLoginType('phone');
     } else if (passedValue.length > 4 && isOnlyNumbers(passedValue) === false) {
       setValidLoginInput(true);
-      setDetectedLoginType('username');
+      // setDetectedLoginType('username');
     } else {
       setValidLoginInput(false);
     }
   }
 
-  function isOnlyNumbers(passedInput) {
+  function isOnlyNumbers(passedInput: string) {
     return /^\d+$/.test(passedInput);
   }
 
-  function formatPhoneNumber(number) {
+  function formatPhoneNumber(number: String) {
     var match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
     if (match) {
       return '(' + match[1] + ') ' + match[2] + '-' + match[3];
@@ -164,7 +179,7 @@ export default function LoginModal({ toggleLoginModal }) {
           <form onSubmit={(e) => submitForm(e)}>
             <input
               id="login"
-              value={loginField}
+              value={typeof loginField === 'string' ? loginField : ''}
               onChange={(e) => handleInput('login', e)}
               onPaste={(e) => handlePaste('login', e)}
               type={'text'}
@@ -196,7 +211,7 @@ export default function LoginModal({ toggleLoginModal }) {
             <input
               data-testid="submit-button"
               type={'submit'}
-              value={t('login')}
+              value={t<string>('login')}
               className={
                 enableSubmitButton
                   ? 'login-modal-option-login-button-active'
@@ -236,7 +251,7 @@ export default function LoginModal({ toggleLoginModal }) {
           )}
 
           <div
-            onClick={validLoginInput ? handleNext : null}
+            onClick={validLoginInput ? handleNext : undefined}
             className={
               validLoginInput
                 ? 'login-modal-option-next-button-active'
