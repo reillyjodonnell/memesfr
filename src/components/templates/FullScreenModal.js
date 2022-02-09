@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import '../../CSS Components/templates/FullScreenModal.css';
-import { ReactComponent as Cancel } from '../../Assets/SVGs/x.svg';
+import '../../css-components/templates/FullScreenModal.css';
+import { ReactComponent as Cancel } from '../../assets/svg/x.svg';
 
 export default function FullScreenModal({ children, toggleState }) {
   return ReactDom.createPortal(

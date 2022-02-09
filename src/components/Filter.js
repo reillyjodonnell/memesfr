@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Select,
   MenuItem,
@@ -6,35 +6,35 @@ import {
   InputLabel,
   makeStyles,
   Menu,
-} from "@material-ui/core";
-import "../CSS Components/Filter.css";
+} from '@material-ui/core';
+import '../css-components/Filter.css';
 
-import Trending from "@material-ui/icons/TrendingUp";
-import Hot from "@material-ui/icons/Whatshot";
-import Random from "@material-ui/icons/Casino";
-import Recent from "@material-ui/icons/AccessTime";
+import Trending from '@material-ui/icons/TrendingUp';
+import Hot from '@material-ui/icons/Whatshot';
+import Random from '@material-ui/icons/Casino';
+import Recent from '@material-ui/icons/AccessTime';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "&MuiPaper-root": {
-      top: "14rem",
+    '&MuiPaper-root': {
+      top: '14rem',
     },
   },
   form: {
-    display: "flex",
+    display: 'flex',
     minWidth: '140px',
-    width: "40%",
-    maxWidth: '200px'
+    width: '40%',
+    maxWidth: '200px',
   },
 
   menuPaper: {
-    top: "10rem",
+    top: '10rem',
   },
 }));
 
 export default function Filter() {
   const classes = useStyles();
-  const [value, setValue] = useState("Trending");
+  const [value, setValue] = useState('Trending');
 
   const handleChange = (e) => setValue(e.target.value);
 
@@ -44,33 +44,33 @@ export default function Filter() {
         <Select
           onChange={handleChange}
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
           MenuProps={{}}
           value={value}
         >
           <MenuItem
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
             }}
-            value={"Popular"}
+            value={'Popular'}
           >
-            <Hot style={{ marginRight: "10px" }} />
+            <Hot style={{ marginRight: '10px' }} />
             Popular
           </MenuItem>
-          <MenuItem value={"Trending"}>
-            <Trending style={{ marginRight: "10px" }} />
+          <MenuItem value={'Trending'}>
+            <Trending style={{ marginRight: '10px' }} />
             Trending
           </MenuItem>
-          <MenuItem value={"Recent"}>
-            <Recent style={{ marginRight: "10px" }} />
+          <MenuItem value={'Recent'}>
+            <Recent style={{ marginRight: '10px' }} />
             Recent
           </MenuItem>
-          <MenuItem value={"Random"}>
-            <Random style={{ marginRight: "10px" }} />
+          <MenuItem value={'Random'}>
+            <Random style={{ marginRight: '10px' }} />
             Random meme
           </MenuItem>
         </Select>

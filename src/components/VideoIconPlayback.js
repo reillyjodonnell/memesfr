@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ReactComponent as MuteVolume } from '../Assets/Icons/MuteVolume.svg';
-import { ReactComponent as Volume } from '../Assets/Icons/Volume.svg';
-import { ReactComponent as Play } from '../Assets/Icons/Play.svg';
-import { ReactComponent as Pause } from '../Assets/Icons/Pause.svg';
+import { ReactComponent as MuteVolume } from '../assets/icons/MuteVolume.svg';
+import { ReactComponent as Volume } from '../assets/icons/Volume.svg';
+import { ReactComponent as Play } from '../assets/icons/Play.svg';
+import { ReactComponent as Pause } from '../assets/icons/Pause.svg';
 import { VolumeUp } from '@material-ui/icons';
 import {
   faPause,

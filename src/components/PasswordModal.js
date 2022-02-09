@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import x from '../Assets/SVGs/x.svg';
-import '../CSS Components/PasswordModal.css';
+import x from '../assets/svg/x.svg';
+import '../css-components/PasswordModal.css';
 
 export default function Modal(props) {
   if (props.resetPassword) {
