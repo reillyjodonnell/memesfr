@@ -12,8 +12,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="src/assets/Memesfr.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/reillyjodonnell/memesfr-beta">
+    <img src="src/Assets/Memesfr.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Memesfr</h3>
