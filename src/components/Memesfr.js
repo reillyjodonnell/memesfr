@@ -14,7 +14,6 @@ import Feed from './routes/home/Feed';
 import Settings from './routes/settings/Settings';
 import Help from './routes/help/Help';
 import Coins from './routes/coins/Coins';
-import { useAuth } from '../contexts/AuthContext';
 import Messages from './routes/messages/Messages';
 import Wallet from './routes/wallet/Wallet';
 import LanguageProvider from '../contexts/LanguageContext';
@@ -26,11 +25,12 @@ export default function Memesfr() {
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
   const [loginModal, setLoginModal] = useState(false);
+  const [postsLoading, setPostsLoading] = useState(false);
 
   const { t, i18n } = useTranslation('common');
 
-  const login = () => {
-    setLoginModal(!loginModal);
+  const toggleLoginModal = () => {
+    setLoginModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -50,12 +50,14 @@ export default function Memesfr() {
                     path="/"
                     element={
                       <Home
-                        login={login}
+                        toggleLoginModal={toggleLoginModal}
                         loginModal={loginModal}
                         setPosts={setPosts}
                         notificationCount={notificationCount}
                         nav={nav}
                         setNav={setNav}
+                        setPostsLoading={setPostsLoading}
+                        postsLoading={postsLoading}
                       />
                     }
                   >
@@ -63,11 +65,12 @@ export default function Memesfr() {
                       path="/"
                       element={
                         <Feed
-                          login={login}
+                          toggleLoginModal={toggleLoginModal}
                           loginModal={loginModal}
                           postsData={posts}
                           nav={nav}
                           setNav={setNav}
+                          postsLoading={postsLoading}
                         />
                       }
                     />

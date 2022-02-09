@@ -151,6 +151,7 @@
   width: -moz-fit-content;
   width: fit-content;
 }
+
 .navigation-group:hover {
   background-color: var(--hover);
   transition: all var(--speed);
@@ -273,6 +274,7 @@
   color: var(--secondary-text-color);
   font-weight: 500;
   border-top: 1px solid var(--line);
+  margin-top: 20px;
 }
 .memelord-container {
   margin-left: 8px;

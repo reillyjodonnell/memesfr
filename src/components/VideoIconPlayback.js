@@ -86,7 +86,6 @@ export default function VideoIconPlayback({
           style={{ objectFit: 'cover' }}
           loop
           muted={isMuted}
-          defaultMuted
           playsInline
           autoPlay={true}
           // onDoubleClick={currentUser ? toggleHeart : activatePrompt}

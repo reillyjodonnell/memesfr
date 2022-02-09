@@ -112,9 +112,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const [error, setError] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
   const [showPassword, showPasswordFunction] = useState(false);
-  const [emailValue, setEmailValue] = useState('');
   const classes = useStyles();
 
   const emailRef = useRef();
@@ -150,9 +148,6 @@ export default function Login() {
         });
     } catch {}
   }
-  function redirectToSignup() {
-    navigate('/signup');
-  }
   function enablePassword() {
     showPasswordFunction(!showPassword);
   }
@@ -186,7 +181,7 @@ export default function Login() {
                     color: 'red',
                   }}
                 >
-                  Invalid email or password. Please double-check and try again.
+                  {t('invalidEmailOrPassword')}
                 </span>
               ) : null}
               <form
