@@ -1,5 +1,7 @@
 <div id="top"></div>
 
+<!-- 
+  TODO: Add these
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -7,7 +9,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
+ -->
 
 <!-- PROJECT LOGO -->
 <br />
@@ -26,7 +28,7 @@
     ·
     <a href="https://github.com/reillyjodonnell/memesfr-beta/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/memesfr-beta/issues">Request Feature</a>
+    <a href="https://github.com/reillyjodonnell/memesfr-beta/issues">Request Feature</a>
   </p>
 </div>
 
