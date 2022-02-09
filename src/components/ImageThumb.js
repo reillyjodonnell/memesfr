@@ -1,5 +1,5 @@
 import React from 'react';
-import x from '../Assets/SVGs/x.svg';
+import x from '../assets/svg/x.svg';
 
 const ImageThumb = ({
   file,

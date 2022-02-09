@@ -1,6 +1,6 @@
 import React from 'react';
-import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
-import '../CSS Components/Loading.css';
+import { ReactComponent as Castle } from '../assets/svg/castle.svg';
+import '../css-components/Loading.css';
 
 export default function Loading() {
   return (

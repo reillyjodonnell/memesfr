@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
-import '../CSS Components/EditProfile.css';
+import { ReactComponent as Castle } from '../assets/svg/castle.svg';
+import '../css-components/EditProfile.css';
 import Button from '@material-ui/core/Button';
-import '../CSS Components/CreateProfile.css';
+import '../css-components/CreateProfile.css';
 import Link from '@material-ui/core/Link';
 
 import { useAuth } from '../contexts/AuthContext';

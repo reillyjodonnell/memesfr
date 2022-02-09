@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ReactComponent as Home } from '../Assets/Icons/Home.svg';
-import { ReactComponent as Popular } from '../Assets/Icons/Popular.svg';
-import { ReactComponent as Recent } from '../Assets/Icons/Recent.svg';
-import { ReactComponent as Doge } from '../Assets/doge.svg';
-import { ReactComponent as User } from '../Assets/SVGs/user.svg';
-import { ReactComponent as Notification } from '../Assets/Icons/Notifications.svg';
-// import {ReactComponent as Popular} from '../Assets/Icons/Popular.svg'
+import { ReactComponent as Home } from '../assets/icons/Home.svg';
+import { ReactComponent as Popular } from '../assets/icons/Popular.svg';
+import { ReactComponent as Recent } from '../assets/icons/Recent.svg';
+import { ReactComponent as Doge } from '../assets/doge.svg';
+import { ReactComponent as User } from '../assets/svg/user.svg';
+import { ReactComponent as Notification } from '../assets/icons/Notifications.svg';
+// import {ReactComponent as Popular} from '../assets/icons/Popular.svg'
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
-import '../CSS Components/Sidebar.css';
+import '../css-components/Sidebar.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import TrendingTopics from './TrendingTopics';
 import { useTranslation } from 'react-i18next';

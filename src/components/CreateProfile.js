@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import '../CSS Components/CreateProfile.css';
+import '../css-components/CreateProfile.css';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ReactComponent as Castle } from '../Assets/SVGs/castle.svg';
+import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

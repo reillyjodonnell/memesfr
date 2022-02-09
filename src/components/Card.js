@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../CSS Components/Card.css';
+import '../css-components/Card.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import trash from '../Assets/SVGs/trash.svg';
-import report from '../Assets/SVGs/report.svg';
-import { ReactComponent as HeartIcon } from '../Assets/SVGs/heart.svg';
-import { ReactComponent as LikeIcon } from '../Assets/SVGs/thumbUp.svg';
-import buffDoge from '../Assets/buff-doge.jpg';
-import { ReactComponent as CheckMark } from '../Assets/Icons/CheckMark.svg';
+import trash from '../assets/svg/trash.svg';
+import report from '../assets/svg/report.svg';
+import { ReactComponent as HeartIcon } from '../assets/svg/heart.svg';
+import { ReactComponent as LikeIcon } from '../assets/svg/thumbUp.svg';
+import buffDoge from '../assets/buff-doge.jpg';
+import { ReactComponent as CheckMark } from '../assets/icons/CheckMark.svg';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

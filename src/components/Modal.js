@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import ReactDom from 'react-dom';
-import x from '../Assets/SVGs/x.svg';
+import x from '../assets/svg/x.svg';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuth } from '../contexts/AuthContext';
 import Loading from './Loading';
-import '../CSS Components/Modal.css';
+import '../css-components/Modal.css';
 import ImageThumb from './ImageThumb';
 
 const useStyles = makeStyles((theme) => ({

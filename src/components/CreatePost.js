@@ -1,7 +1,7 @@
 import React from 'react';
-import { ReactComponent as Picture } from '../Assets/Icons/Image.svg';
-import { ReactComponent as Gif } from '../Assets/Icons/Gif.svg';
-import '../CSS Components/CreatePost.css';
+import { ReactComponent as Picture } from '../assets/icons/Image.svg';
+import { ReactComponent as Gif } from '../assets/icons/Gif.svg';
+import '../css-components/CreatePost.css';
 
 import Modal from './Modal';
 import { useAuth } from '../contexts/AuthContext';

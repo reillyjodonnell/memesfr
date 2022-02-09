@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../CSS Components/Countdown.css';
+import '../css-components/Countdown.css';
 export default function Countdown() {
   const [timerActive, setTimerActive] = useState(true);
   const [hoursTimer, setHoursTimer] = useState(1);
