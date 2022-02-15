@@ -16,8 +16,7 @@ export default function Home({
   setNav,
   setPostsLoading,
 }) {
-  const [loading, setLoading] = useState(true);
-  const { loadUser, currentUser } = useAuth();
+  const { loadingUser } = useAuth();
 
   async function popularPosts() {
     const postsPromises = await retrievePopularPosts();
@@ -56,19 +55,9 @@ export default function Home({
     }
   }, [nav]);
 
-  useEffect(() => {
-    let mount = true;
-    if (mount === true) {
-      if (loadUser === false || currentUser === undefined) {
-        setLoading(false);
-      }
-    }
-
-    return () => (mount = false);
-  }, [loadUser]);
   return (
     <>
-      {loading ? (
+      {loadingUser ? (
         <Loading />
       ) : (
         <>

@@ -438,15 +438,12 @@ export default function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    console.log('running useeffect in context');
     setLoadingUser(true);
 
     let mount = true;
     if (mount === true) {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        console.log('Looking for user');
         if (user) {
-          console.log(user);
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
             setLoadingUser(false);

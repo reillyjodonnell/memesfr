@@ -268,6 +268,7 @@ export default function Feed(props) {
           }
           return (
             <Card
+              loading={props.postsLoading}
               login={toggleLoginModal}
               hearted={hearted}
               liked={liked}
