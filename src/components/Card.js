@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useMobile } from '../contexts/MobileContext';
 import Titles from '../sample-data/titles.json';
 import VideoIconPlayback from './VideoIconPlayback';
+import { followUser } from '../services/firebase-api';
 
 export default function Card(props) {
   const [heart, setHeart] = useState(false);
@@ -27,7 +28,7 @@ export default function Card(props) {
 
   const { isMobile } = useMobile();
 
-  const { login } = props;
+  const { login, following } = props;
 
   const { t, i18n } = useTranslation('common');
 
@@ -52,9 +53,16 @@ export default function Card(props) {
     removeHeartPost,
   } = useAuth();
 
+  useEffect(() => {
+    if (following) {
+      setFollowsUser(true);
+    }
+  }, [following]);
+
   const toggleFollowUser = () => {
     if (currentUser) {
       setFollowsUser((prevState) => !prevState);
+      followUser(currentUser.uid, props.item.author);
     } else {
       props.toggleLoginModal();
     }

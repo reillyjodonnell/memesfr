@@ -272,3 +272,29 @@ export async function retrieveRandomMeme() {
     .catch((error) => {});
   return memeObject;
 }
+
+export const followUser = async (currentUserId, followingUserId) => {
+  // Write to the current user's following document
+  const userRef = await db.collection('users').doc(currentUserId);
+  await userRef.update({
+    following: firebase.firestore.FieldValue.arrayUnion(followingUserId),
+  });
+  //Write to the target user's followers list
+  const followingUserRef = await db.collection('users').doc(followingUserId);
+  await followingUserRef.update({
+    followers: firebase.firestore.FieldValue.arrayUnion(currentUserId),
+  });
+};
+
+export const retrieveFollowing = async (currentUserId) => {
+  const referenceToPost = await db.collection('users').doc(currentUserId);
+  const doc = await referenceToPost.get();
+  const data = await doc.data();
+  console.log(data);
+  if (data?.hasOwnProperty('following')) {
+    const following = doc.data().following;
+    return following;
+  } else {
+    return null;
+  }
+};
