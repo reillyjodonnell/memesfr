@@ -589,6 +589,10 @@
 }
 
 /* USER FOLLOW BUTTON ON CARD */
+.user-follow-button-template {
+  cursor: pointer;
+}
+
 .user-follow-button-container-card {
   display: flex;
   align-items: center;
@@ -603,6 +607,7 @@
   transition: all var(--speed);
 }
 .user-follow-button-card {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -618,6 +623,7 @@
 }
 
 .user-follow-button-card-active {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -633,8 +639,13 @@
   filter: opacity(0.4);
 }
 .user-follow-button-card-active:hover {
-  filter: brightness(0.5);
-  transition: all var(--speed);
+  background-color: rgba(255, 0, 0, 0.274);
+  border: 1px solid red;
+  border-radius: 8px;
+
+  color: red;
+  filter: opacity(1);
+  /* transition: all var(--speed); */
 }
 
 /*

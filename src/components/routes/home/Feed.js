@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Card from '../../Card';
+import Card from '../../card/Card';
 import '../../../css-components/Dashboard.css';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useMobile } from '../../../contexts/MobileContext';
 import '../../../css-components/routes/home/Feed.css';
 import MobileHeader from '../../MobileHeader';
 import Swipable from './Swipable';
+import { retrieveFollowing } from '../../../services/firebase-api';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -121,10 +122,20 @@ export default function Feed(props) {
   const [isMuted, setIsMuted] = useState(true);
   const [activeVideoURL, setActiveVideoURL] = useState('');
   const [usersLikedPosts, setUsersLikedPosts] = useState([]);
+  const [followingUsers, setFollowingUsers] = useState([]);
 
   const { toggleLoginModal, nav } = props;
 
   const { currentUser, hasUserLikedPost } = useAuth();
+
+  useEffect(() => {
+    const getFollowingUsers = async () => {
+      const id = currentUser?.uid;
+      const following = await retrieveFollowing(id);
+      setFollowingUsers(following);
+    };
+    getFollowingUsers();
+  }, [currentUser]);
 
   useEffect(() => {
     async function match() {
@@ -263,11 +274,16 @@ export default function Feed(props) {
         posts.map((item, index) => {
           let liked = false;
           let hearted = false;
+          let following = false;
           if (usersLikedPosts.includes(item.id)) {
             liked = true;
           }
+          if (followingUsers.includes(item.author)) {
+            following = true;
+          }
           return (
             <Card
+              following={following}
               login={toggleLoginModal}
               hearted={hearted}
               liked={liked}
