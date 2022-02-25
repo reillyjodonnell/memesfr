@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../../css-components/routes/messages/Messages.css';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Doge } from '../../../assets/doge.svg';
+import { ReactComponent as Doge } from '../../../assets/buff-doge.jpg';
 import { ReactComponent as Edit } from '../../../assets/icons/Edit.svg';
 import Og from '../../../assets/test/og.jpg';
 import { ReactComponent as Info } from '../../../assets/icons/Info.svg';

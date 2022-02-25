@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import '../css-components/Card.css';
-import { useAuth } from '../contexts/AuthContext';
+import '../../css-components/Card.css';
+import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import trash from '../assets/svg/trash.svg';
-import report from '../assets/svg/report.svg';
-import buffDoge from '../assets/buff-doge.jpg';
-import { ReactComponent as CheckMark } from '../assets/icons/CheckMark.svg';
+import trash from '../../assets/svg/trash.svg';
+import report from '../../assets/svg/report.svg';
+import buffDoge from '../../assets/buff-doge.jpg';
+import { ReactComponent as CheckMark } from '../../assets/icons/CheckMark.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faComment, faCrown } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import { useMobile } from '../contexts/MobileContext';
-import Titles from '../sample-data/titles.json';
-import VideoIconPlayback from './VideoIconPlayback';
-import { followUser } from '../services/firebase-api';
+import { useMobile } from '../../contexts/MobileContext';
+import Titles from '../../sample-data/titles.json';
+import { followUser, unfollowUser } from '../../services/firebase-api';
+import FollowButton from './FollowButton';
+import FollowingButton from './FollowingButton';
 
 export default function Card(props) {
+  const { t, i18n } = useTranslation('common');
+
   const [heart, setHeart] = useState(false);
   const [thumbUp, setThumbUp] = useState(false);
   const [thumbDown, setThumbDown] = useState(false);
@@ -25,12 +28,11 @@ export default function Card(props) {
   const [hasAlreadyLikedPost, setHasAlreadyLikedPost] = useState(false);
   const [hasAlreadyHeartedPost, setHasAlreadyHeartedPost] = useState(false);
   const [followsUser, setFollowsUser] = useState(false);
+  const [followingPrompt, setFollowingPrompt] = useState(t('following'));
 
   const { isMobile } = useMobile();
 
   const { login, following } = props;
-
-  const { t, i18n } = useTranslation('common');
 
   /* FOR DEV ONLY */
   const isVerified = true;
@@ -61,8 +63,17 @@ export default function Card(props) {
 
   const toggleFollowUser = () => {
     if (currentUser) {
-      setFollowsUser((prevState) => !prevState);
+      setFollowsUser(true);
       followUser(currentUser.uid, props.item.author);
+    } else {
+      props.toggleLoginModal();
+    }
+  };
+
+  const toggleUnfollowUser = () => {
+    if (currentUser) {
+      setFollowsUser(false);
+      unfollowUser(currentUser.uid, props.item.author);
     } else {
       props.toggleLoginModal();
     }
@@ -239,23 +250,16 @@ export default function Card(props) {
 
                   <span className="hashtag-identifier"></span>
                 </div>
-                <div className="user-follow-button-container-card">
-                  <div
-                    onClick={toggleFollowUser}
-                    className={
-                      followsUser
-                        ? 'user-follow-button-card-active'
-                        : 'user-follow-button-card'
-                    }
-                  >
-                    <span>{followsUser ? t('following') : t('follow')} </span>
-                  </div>
-                </div>
+                {followsUser ? (
+                  <FollowingButton toggleUnfollowUser={toggleUnfollowUser} />
+                ) : (
+                  <FollowButton toggleFollowUser={toggleFollowUser} />
+                )}
               </div>
 
               <div className="image-container">
                 {props.item.fileType === 'video' ? (
-                  <VideoIconPlayback
+                  <video
                     isMuted={props.isMuted}
                     toggleMute={props.toggleMute}
                     image={props.item.image}

@@ -286,6 +286,20 @@ export const followUser = async (currentUserId, followingUserId) => {
   });
 };
 
+export const unfollowUser = async (currentUserId, followingUserId) => {
+  // Write to the current user's following document
+  const userRef = await db.collection('users').doc(currentUserId);
+  // Removes the followingUserId from the current user's following list
+  await userRef.update({
+    following: firebase.firestore.FieldValue.arrayRemove(followingUserId),
+  });
+  // Removes the current user from the followinguser's follower list
+  const followingUserRef = await db.collection('users').doc(followingUserId);
+  await followingUserRef.update({
+    followers: firebase.firestore.FieldValue.arrayRemove(currentUserId),
+  });
+};
+
 export const retrieveFollowing = async (currentUserId) => {
   const referenceToPost = await db.collection('users').doc(currentUserId);
   const doc = await referenceToPost.get();

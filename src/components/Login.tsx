@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import '../css-components/Login.css';
 import { makeStyles } from '@material-ui/core/styles';
-import Doge from '../assets/doge.svg';
+import Doge from '../assets/buff-doge.jpg';
 import firebase from '../services/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

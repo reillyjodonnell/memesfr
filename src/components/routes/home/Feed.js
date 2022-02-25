@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Card from '../../Card';
+import Card from '../../card/Card';
 import '../../../css-components/Dashboard.css';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useMobile } from '../../../contexts/MobileContext';

@@ -17,7 +17,7 @@
 .user-profile-cover-photo {
   height: 300px;
   width: 100%;
-  background: no-repeat center/80% url('../assets/doge.svg');
+  background: no-repeat center/80% url('../assets/buff-doge.jpg');
   border-radius: 20px;
   background-color: var(--hover);
 }

@@ -355,7 +355,7 @@ import { InputAdornment } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { makeStyles } from '@material-ui/core/styles';
-import Doge from '../assets/doge.svg';
+import Doge from '../assets/buff-doge.jpg';
 import firebase from '../services/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

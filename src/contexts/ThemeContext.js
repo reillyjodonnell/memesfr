@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Doge from '../assets/doge.svg';
+import Doge from '../assets/buff-doge.jpg';
 
 const ThemeContext = React.createContext();
 
