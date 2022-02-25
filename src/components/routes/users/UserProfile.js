@@ -7,7 +7,7 @@ import '../../../css-components/UserProfile.css';
 import { Skeleton } from '@material-ui/lab';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { retrieveProfileData } from '../../../services/firebase-api';
-
+import Smile from '../../../assets/smile.png';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +125,10 @@ export default function UserProfile(props) {
   const [followsUser, setFollowsUser] = useState(true);
   const [crownCount, setCrownCount] = useState(0);
   const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [title, setTitle] = useState('');
+
   const [memesCreated, setMemesCreated] = useState(0);
   const [isUsersProfile, setIsUsersProfile] = useState(false);
 
@@ -138,11 +142,15 @@ export default function UserProfile(props) {
       return result;
     }
     data().then((result) => {
-      const { createdPosts, crowns, followers } = result;
+      const { createdPosts, crowns, followers, following, avatar, userTitle } =
+        result;
 
       setCrownCount(crowns || 0);
       setFollowers(followers?.length || 0);
       setMemesCreated(createdPosts?.length || 0);
+      setFollowing(following?.length || 0);
+      setProfilePicture(avatar);
+      setTitle(userTitle);
     });
   }, []);
 
@@ -154,7 +162,6 @@ export default function UserProfile(props) {
 
   let username;
   let profileName;
-  let avatar;
 
   useEffect(() => {
     if (username === profileName) {
@@ -165,7 +172,6 @@ export default function UserProfile(props) {
   if (currentUser) {
     username = currentUser.displayName;
     profileName = params.userId;
-    avatar = currentUser.photoURL;
   }
 
   document.title = `Memesfr - ${username}`;
@@ -174,8 +180,6 @@ export default function UserProfile(props) {
     setFollowsUser((prevState) => !prevState);
   };
 
-  const hasTitle = true;
-
   const UserProfile = () => {
     return (
       <div className="user-profile-container">
@@ -183,14 +187,23 @@ export default function UserProfile(props) {
           <div className="user-profile-cover-photo"></div>
           <div>
             <div className="user-avatar-container">
-              <img className="user-avatar" src={currentUser.photoURL} />
+              {profilePicture === null || !profilePicture ? (
+                <div
+                  className="user-avatar"
+                  style={{ backgroundColor: 'var(--hover)' }}
+                >
+                  <img src={Smile} className="user-avatar" />
+                </div>
+              ) : (
+                <img className="user-avatar" src={profilePicture} />
+              )}
             </div>
           </div>
 
           <span className="user-username">{profileName}</span>
-          {hasTitle && (
+          {title && (
             <div className="title-container">
-              <span>{'Meme Lord'}</span>
+              <span>{title}</span>
             </div>
           )}
           <div className="user-profile-stats">
@@ -199,6 +212,10 @@ export default function UserProfile(props) {
               <span className="user-stat-title">followers</span>
             </div>
             <div className="user-stat-group">
+              <span className="user-follower-count">{following}</span>
+              <span className="user-stat-title">following</span>
+            </div>
+            {/* <div className="user-stat-group">
               <span className="user-crowns">{crownCount} </span>
 
               <span
@@ -211,7 +228,7 @@ export default function UserProfile(props) {
               >
                 crowns
               </span>
-            </div>
+            </div> */}
             <div className="user-stat-group">
               <span className="user-bday">{memesCreated} </span>
 
