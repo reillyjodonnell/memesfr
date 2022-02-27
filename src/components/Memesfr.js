@@ -19,12 +19,17 @@ import Wallet from './routes/wallet/Wallet';
 import LanguageProvider from '../contexts/LanguageContext';
 import Create from './routes/create/Create';
 import { useTranslation } from 'react-i18next';
+import Loading from './Loading';
 
 export default function Memesfr() {
   const [nav, setNav] = useState({ count: 0 });
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
+  const [following, setFollowing] = useState([]);
   const [loginModal, setLoginModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadingData, setLoadingData] = useState(false);
+
   const [postsLoading, setPostsLoading] = useState(false);
 
   const { t, i18n } = useTranslation('common');
@@ -35,21 +40,28 @@ export default function Memesfr() {
 
   useEffect(() => {
     document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
-  }, []);
+  }, [t]);
 
+  useEffect(() => {
+    console.log(nav);
+  }, [nav]);
   return (
     <>
       <BrowserRouter>
         <MobileProvider>
           <LanguageProvider>
             <ThemeProvider>
-              <AuthProvider>
+              <AuthProvider setLoading={setLoading}>
                 <Routes>
                   <Route
                     exact
                     path="/"
                     element={
                       <Home
+                        loading={loading}
+                        loadingData={loadingData}
+                        setLoading={setLoading}
+                        setFollowing={setFollowing}
                         toggleLoginModal={toggleLoginModal}
                         loginModal={loginModal}
                         setPosts={setPosts}
@@ -65,6 +77,7 @@ export default function Memesfr() {
                       path="/"
                       element={
                         <Feed
+                          following={following}
                           toggleLoginModal={toggleLoginModal}
                           loginModal={loginModal}
                           postsData={posts}
@@ -74,7 +87,18 @@ export default function Memesfr() {
                         />
                       }
                     />
-                    <Route path=":userId" element={<UserProfile />}></Route>
+                    <Route
+                      path=":userId"
+                      element={
+                        <UserProfile
+                          loading={loading}
+                          // postsLoading={loading}
+                          setLoadingData={setLoadingData}
+                          following={following}
+                          setNav={setNav}
+                        />
+                      }
+                    ></Route>
                     <Route
                       path="/notifications"
                       element={

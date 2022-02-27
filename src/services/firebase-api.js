@@ -9,9 +9,11 @@ export async function retrieveProfileData(userID) {
   const result = await userData.get();
   const userId = result.data();
   const profileData = await db.collection('users').doc(userId.uid);
+  const id = userId.uid;
   const profileResult = await profileData.get();
   const profileStats = profileResult.data();
-  return profileStats;
+  const profileStatsWithId = { ...profileStats, id };
+  return profileStatsWithId;
 }
 
 export async function retrievePopularPosts() {

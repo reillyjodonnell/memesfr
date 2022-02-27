@@ -472,7 +472,7 @@
   /* box-shadow: var(--highlight) 0px 4px 12px; */
   box-shadow: var(--light-highlight) 0px 15px 25px,
     var(--light-highlight) 0px 10px 10px;
-  color: var(--bg);
+  /* color: var(--bg); */
   margin-right: 20px;
 }
 
@@ -495,7 +495,7 @@
 
 .crown-container-active svg {
   padding: 0 0.25rem;
-  color: var(--bg);
+  color: white;
 }
 
 .crown-container:hover {

@@ -167,7 +167,7 @@ export default function Dashboard(props) {
               navigateToLogin={navigateToLogin}
               createPost={createMemePost}
               login={toggleLoginModal}
-              active={nav.count}
+              active={nav?.count}
               username={username}
               avatar={avatar}
               resetPassword={resetUserPassword}
@@ -193,7 +193,7 @@ export default function Dashboard(props) {
                 createPost={createMemePost}
                 login={toggleLoginModal}
                 notificationCount={props.notificationCount}
-                active={nav.count}
+                active={nav?.count}
                 username={username}
                 avatar={avatar}
                 resetPassword={resetUserPassword}

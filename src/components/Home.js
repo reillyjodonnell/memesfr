@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import { useAuth } from '../contexts/AuthContext';
-import Loading from './Loading';
 import {
   retrievePopularPosts,
   retrieveRecentPosts,
+  retrieveFollowing,
 } from '../services/firebase-api';
+import Loading from './Loading';
 
 export default function Home({
   notificationCount,
@@ -15,9 +16,24 @@ export default function Home({
   nav,
   setNav,
   setPostsLoading,
+  setFollowing,
+  postsLoading,
+  setLoading,
+  loading,
+  loadingData,
 }) {
-  const [loading, setLoading] = useState(true);
   const { loadUser, currentUser } = useAuth();
+  const currentUserId = currentUser?.uid;
+
+  useEffect(() => {
+    const accountsUserIsFollowing = async () => {
+      const followingData = await retrieveFollowing(currentUserId);
+      return followingData;
+    };
+    accountsUserIsFollowing().then((data) => {
+      setFollowing(data);
+    });
+  }, [currentUserId, setFollowing]);
 
   async function popularPosts() {
     const postsPromises = await retrievePopularPosts();
@@ -35,7 +51,7 @@ export default function Home({
     return retrieveData;
   }
   useEffect(() => {
-    switch (nav.count) {
+    switch (nav?.count) {
       case 0:
         setPostsLoading(true);
         popularPosts().then((data) => {
@@ -54,32 +70,20 @@ export default function Home({
       default:
         break;
     }
-  }, [nav]);
+  }, [nav, setPosts, setPostsLoading]);
 
-  useEffect(() => {
-    let mount = true;
-    if (mount === true) {
-      if (loadUser === false || currentUser === undefined) {
-        setLoading(false);
-      }
-    }
-
-    return () => (mount = false);
-  }, [loadUser]);
   return (
     <>
-      {loading ? (
-        <Loading />
+      {loading === false && loadingData === false ? (
+        <Dashboard
+          nav={nav}
+          setNav={setNav}
+          toggleLoginModal={toggleLoginModal}
+          loginModal={loginModal}
+          notificationCount={notificationCount}
+        />
       ) : (
-        <>
-          <Dashboard
-            nav={nav}
-            setNav={setNav}
-            toggleLoginModal={toggleLoginModal}
-            loginModal={loginModal}
-            notificationCount={notificationCount}
-          />
-        </>
+        <Loading />
       )}
     </>
   );
