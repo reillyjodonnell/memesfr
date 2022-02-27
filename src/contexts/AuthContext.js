@@ -10,7 +10,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthProvider({ children }) {
+export default function AuthProvider({ children, setLoading }) {
   const [currentUser, setCurrentUser] = useState();
   const [loadUser, setLoadUser] = useState(true);
   const [userExists, setUserExists] = useState(true);
@@ -438,18 +438,16 @@ export default function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    console.log('running useeffect in context');
     setLoadingUser(true);
-
+    setLoading(true);
     let mount = true;
     if (mount === true) {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        console.log('Looking for user');
         if (user) {
-          console.log(user);
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
             setLoadingUser(false);
+            setLoading(false);
           }
           if (user.displayName && !user.emailVerified) {
             setNotConfirmedEmail(true);
@@ -465,6 +463,7 @@ export default function AuthProvider({ children }) {
           console.log('No user found');
           setLoadUser(false);
           setLoadingUser(false);
+          setLoading(false);
         }
       });
       return unsubscribe;

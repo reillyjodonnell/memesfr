@@ -3,9 +3,11 @@ import { useState } from 'react';
 
 type ComponentProps = {
   toggleUnfollowUser: React.MouseEventHandler<HTMLDivElement>;
+  className: string;
 };
 export default function FollowingButton({
   toggleUnfollowUser,
+  className = 'user-follow-button-card-active',
 }: ComponentProps) {
   const { t } = useTranslation('common');
   const [message, setMessage] = useState<string>(t('following'));
@@ -15,7 +17,7 @@ export default function FollowingButton({
       onMouseEnter={() => setMessage(t('unfollow'))}
       onMouseLeave={() => setMessage(t('following'))}
       onClick={toggleUnfollowUser}
-      className="user-follow-button-card-active"
+      className={className}
     >
       <span>{message}</span>
     </div>
