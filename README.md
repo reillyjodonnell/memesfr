@@ -15,7 +15,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/reillyjodonnell/memesfr-beta">
-    <img src="src/Assets/Memesfr.png" alt="Logo" width="80" height="80">
+    <img src="./src/assets/Memesfr.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Memesfr</h3>
@@ -208,4 +208,4 @@ This project couldn't have been possible without these awesome project!
 [license-url]: https://github.com/reillyjodonnell/memesfr-beta/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/reillyjodonnell
-[product-screenshot]: src/Assets/Memesfr-desktop.png
+[product-screenshot]: ./src/assets/Memesfr-desktop.png
