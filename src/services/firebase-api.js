@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { auth, db, storage } from '../services/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import firebase from 'firebase/app';
-import CreateProfile from '../components/CreateProfile';
+import CreateProfile from '../components/create-profile';
 
 export async function retrieveProfileData(userID) {
   const userData = await db.collection('usernames').doc(userID);

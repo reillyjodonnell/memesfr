@@ -1,0 +1,15 @@
+body {
+  background-color: var(--bg) !important;
+}
+
+.App {
+  text-align: center;
+  font-family: 'Roboto';
+}
+
+img {
+  cursor: pointer;
+}
+svg {
+  cursor: pointer;
+}

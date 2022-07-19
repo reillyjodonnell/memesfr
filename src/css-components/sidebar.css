@@ -1,0 +1,552 @@
+.sidebar-fixed {
+  height: 90vh;
+  display: flex;
+  /* background-color: var(--bg); */
+  overflow: hidden;
+  top: 66px;
+  color: #fbfaf8;
+  min-width: 372px;
+  max-width: 372px;
+
+  position: -webkit-sticky;
+  position: sticky;
+}
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 100%;
+  overflow-y: auto;
+  /* border-right: 0.5px solid rgba(255, 255, 255, 0.212); */
+}
+.sidebar-create-post {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  width: 80%;
+  border-radius: 20px;
+  margin: 0 2rem;
+  font-weight: 550;
+}
+.sidebar-create-post svg {
+  padding-left: 10px;
+  stroke: black;
+  width: 30px;
+}
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0.9rem;
+  font-weight: 600;
+  font-size: 2rem;
+}
+.sidebar-logo span {
+  margin-left: 2px;
+  stroke: #4ea5d9;
+  stroke: #00a7e1 !important;
+  stroke: #ea3788;
+}
+.sidebar-logo svg {
+  width: 50px;
+  height: 50px;
+}
+.sidebar-user-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sidebar-avatar-container {
+  display: flex;
+  height: 92px;
+  border-radius: 20px;
+  width: 92px;
+  justify-self: center;
+  align-items: center;
+}
+.sidebar-avatar {
+  height: 100%;
+  border-radius: 50%;
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border: 2px solid transparent;
+}
+.sidebar-username {
+  font-weight: 600;
+  margin: 1rem 0 0 0;
+}
+
+/* Upload Button */
+.upload-meme-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background-color: #1e2026;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  padding: 4px;
+  font-size: 0.875rem;
+  min-width: 64px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 15px;
+}
+.upload-meme-button:hover {
+  transition: all var(--speed);
+  filter: brightness(1.5);
+  border: white 1px solid;
+}
+.sidebar-navigation {
+  /* border-top: 1px solid rgba(207, 207, 207, 0.13); */
+  /* padding: 0 1rem; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: auto;
+  margin: 0.25rem;
+}
+
+.sidebar-navigation-icon-active {
+}
+.navigation-group-logout {
+  border-top: 1px solid rgba(209, 209, 209, 0.13);
+  padding-top: 2rem;
+}
+
+.navigation-group {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--navigation);
+  font-weight: 600;
+  border-radius: 20px;
+  min-width: 200px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.navigation-group:hover {
+  background-color: var(--hover);
+  transition: all var(--speed);
+}
+.navigation-group-memelord-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.navigation-group-memelord {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  font-weight: 500;
+  border-radius: 20px;
+  min-width: 200px;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+.navigation-group-memelord:hover {
+  background-color: var(--hover);
+  transition: all var(--speed);
+}
+
+.navigation-group-active {
+  color: var(--primary-accent);
+  font-weight: 700;
+}
+.navigation-group svg,
+.logout-container svg {
+  width: 34px !important;
+  height: 34px;
+}
+.navigation-group-text {
+  margin-left: 0.75rem;
+}
+.navigation-group-items {
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* .navigation-group-items svg {
+  stroke: var(--text-color);
+} */
+
+.sidebar-login {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  border-top: 1px solid rgba(141, 141, 141, 0.288);
+}
+.sidebar-login svg {
+  margin-left: 1px;
+}
+.navigation-settings-icon svg {
+  background-color: rgba(255, 255, 255, 0.384);
+  border-radius: 50%;
+  padding: 2px;
+  stroke: white;
+}
+.logout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/*Notification bell & Alert*/
+.notification-container {
+  display: flex;
+  position: relative;
+}
+
+.notification-alert {
+  font-size: 0.75rem;
+  z-index: 200000;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  right: 0;
+  top: 0px;
+  display: flex;
+  background-color: var(--primary-accent);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  line-height: 10px;
+  white-space: nowrap;
+  box-sizing: content-box;
+  text-align: center;
+}
+.notification-alert-number {
+  color: white;
+  line-height: 10px;
+  display: inline-block;
+  text-align: start;
+}
+/*Daily Memelord*/
+.sidebar-container {
+  padding: 1rem;
+  margin-left: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--secondary-text-color);
+  font-weight: 500;
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+}
+.memelord-container {
+  margin-left: 8px;
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--secondary-text-color);
+  font-weight: 500;
+  border-top: 1px solid var(--line);
+  margin-top: 1rem;
+}
+.memelord-emoji-icon {
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+.memelord-title {
+  font-size: 1rem;
+}
+.memelord-dash {
+  margin: 0 4px;
+  font-size: 1rem;
+}
+.memelord-count {
+  font-size: 1rem;
+}
+.daily-memelord-rank {
+  font-size: 1.75rem;
+}
+.daily-meme-avatar {
+  margin-left: 1.5rem;
+}
+.navigation-group-memelord-text {
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+/*Testing*/
+.memelord-container-ranking-list {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.memelord-container-ranking-first {
+  margin-bottom: 40px;
+}
+.navigation-group-ranking {
+  padding: 1rem;
+}
+
+.memelord-container-leaderboard-crown {
+  display: flex;
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.memelord-container-ranking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.memelord-container-ranking-rank {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.memelord-container-ranking-crown {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+.memelord-container-ranking-crown-second {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+.memelord-container-user-avatar {
+  display: flex;
+  height: 82px;
+  border-radius: 20px;
+  width: 82px;
+  justify-self: center;
+  min-width: 82px;
+  min-height: 82px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-accent);
+  box-shadow: var(--light-highlight) 0px 15px 25px,
+    var(--light-highlight) 0px 10px 10px;
+}
+.memelord-container-user-avatar-primary {
+  display: flex;
+  height: 102px;
+  border-radius: 20px;
+  width: 82px;
+  justify-self: center;
+  min-width: 102px;
+  min-height: 102px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-accent);
+  box-shadow: var(--light-highlight) 0px 15px 25px,
+    var(--light-highlight) 0px 10px 10px;
+}
+.memelord-container-user-avatar-image {
+  height: 100%;
+  border-radius: 50%;
+  width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  margin-bottom: 0.9rem;
+}
+.memelord-container-username {
+  display: flex;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  color: var(--secondary-text-color);
+}
+
+.memelord-container-crown-count {
+  display: flex;
+  font-size: 1.4rem;
+  color: var(--primary-accent);
+  font-weight: 500;
+}
+.memelord-container-ranking-first {
+  z-index: 2;
+}
+
+.memelord-second {
+  transform: translate(10px, 0px);
+  z-index: 0;
+}
+.memelord-third {
+  z-index: 0;
+
+  transform: translate(-10px, 0px);
+}
+
+/* Places 4 -7 */
+.navigation-group-memelord-user-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  font-weight: 500;
+  border-radius: 20px;
+  width: 100%;
+  width: -moz-fit-content;
+  margin-left: 0.5rem;
+  margin-bottom: 20px;
+}
+.navigation-group-memelord-user-container-padding {
+  display: flex;
+  margin: 0 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.navigation-group-user-info {
+  display: flex;
+  width: 100%;
+  background-color: var(--hover);
+  border-radius: 30px;
+  padding: 10px;
+
+  justify-content: center;
+  align-items: center;
+}
+.navigation-group-secondary-icon {
+  display: flex;
+  height: 42px;
+  border-radius: 20px;
+  width: 42px;
+  justify-self: center;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  background-color: var(--primary-accent);
+  transform: translate(-7px, 0);
+}
+.navigation-group-crown-count {
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 1rem;
+  color: var(--primary-accent);
+}
+.navigation-group-leaderboard-button {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin: 1rem 0;
+}
+.navigation-group-leaderboard-button-text {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--shadow);
+  border-radius: 30px;
+
+  padding: 0.5rem;
+}
+/*Settings components*/
+.sidebar-navigation-settings-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.sidebar-navigation-settings-header span {
+  font-size: 1.6rem;
+  margin-left: 2rem;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*CSS Transition*/
+/* .navigation-primary-enter {
+  position: absolute;
+  transform: translateX(-110%);
+  transition: all var(--speed) ease;
+}
+.navigation-primary-enter-active {
+  position: absolute;
+  transform: translateX(0%);
+  transition: all var(--speed) ease;
+}
+.navigation-primary-exit {
+  position: absolute;
+}
+.navigation-primary-exit-active {
+  transform: translateX(-160%);
+  transition: all var(--speed) ease;
+}
+
+.navigation-secondary-enter {
+  position: absolute;
+  transform: translateX(110%);
+  transition: all var(--speed) ease;
+}
+.navigation-secondary-enter-active {
+  position: absolute;
+  transform: translateX(0%);
+  transition: all var(--speed) ease;
+}
+.navigation-secondary-exit {
+}
+.navigation-secondary-exit-active {
+  position: absolute;
+  transform: translateX(140%);
+  transition: all var(--speed) ease;
+} */
+
+/* @media only screen and (min-height: 900px) {
+  .navigation-group-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+} */
