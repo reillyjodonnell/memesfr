@@ -119,7 +119,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Feed(props) {
   const classes = useStyles();
   const [posts, setPosts] = useState([{}]);
-  const [isMuted, setIsMuted] = useState(true);
   const [activeVideoURL, setActiveVideoURL] = useState('');
   const [usersLikedPosts, setUsersLikedPosts] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
@@ -184,10 +183,6 @@ export default function Feed(props) {
     );
   };
 
-  const toggleMute = () => {
-    setIsMuted((prev) => !prev);
-  };
-
   const RecentlyPosted = () => {
     let sayingOne = '';
     let sayingTwo = '';
@@ -234,8 +229,6 @@ export default function Feed(props) {
             return (
               <Card
                 key={item.id}
-                toggleMuted={toggleMute}
-                isMuted={isMuted}
                 item={item}
                 toggleLoginModal={toggleLoginModal}
               ></Card>
@@ -272,6 +265,7 @@ export default function Feed(props) {
       ) : !props.postsLoading && posts ? (
         posts.length !== undefined &&
         posts.map((item, index) => {
+          console.log(item);
           let liked = false;
           let hearted = false;
           let following = false;
@@ -288,8 +282,6 @@ export default function Feed(props) {
               hearted={hearted}
               liked={liked}
               key={index}
-              toggleMute={toggleMute}
-              isMuted={isMuted}
               likedPosts={usersLikedPosts}
               item={item}
               toggleLoginModal={toggleLoginModal}
