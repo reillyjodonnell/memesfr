@@ -14,6 +14,7 @@ import Titles from '../../sample-data/titles.json';
 import { followUser, unfollowUser } from '../../services/firebase-api';
 import FollowButton from './follow-button';
 import FollowingButton from './following-button';
+import { fileType } from '../../constants/common';
 
 export default function Card(props) {
   const { t, i18n } = useTranslation('common');
@@ -32,7 +33,7 @@ export default function Card(props) {
 
   const { isMobile } = useMobile();
 
-  const { login, following } = props;
+  const { login, following, item } = props;
 
   /* FOR DEV ONLY */
   const isVerified = true;
@@ -187,8 +188,8 @@ export default function Card(props) {
     );
   }
   const DisplayAvatar = () => {
-    const avatar = props.item.authorPic;
-    const username = props.item.userName;
+    const avatar = item?.authorPic;
+    const username = item?.userName;
 
     return (
       <Link to={`/${username}`}>
@@ -215,8 +216,8 @@ export default function Card(props) {
   };
 
   function memeAuthor() {
-    const memeAuthorUsername = props.item.userName;
-    if (props.item.userName) {
+    const memeAuthorUsername = item?.userName;
+    if (item?.userName) {
       return memeAuthorUsername;
     } else return 'anonymous';
   }
@@ -258,16 +259,18 @@ export default function Card(props) {
               </div>
 
               <div className="image-container">
-                {props.item.fileType === 'video' ? (
+                {item?.fileType === fileType.VIDEO ? (
                   <video
-                    isMuted={props.isMuted}
-                    toggleMute={props.toggleMute}
-                    image={props.item.image}
-                    poster={props.item.poster}
+                    autoPlay
+                    muted
+                    src={item?.image}
+                    poster={item?.poster}
+                    controls
                   />
                 ) : (
                   <img
                     alt=""
+                    loading="eager"
                     // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
                     className="meme-image"
                     src={props.item.image}
@@ -290,7 +293,7 @@ export default function Card(props) {
                     style={{ width: '1.5rem', height: '1.5rem' }}
                   />
                 </span>
-                <span className="number-of-likes">{likes}</span>
+                <span className="number-of-crowns">{likes}</span>
               </div>
 
               <div

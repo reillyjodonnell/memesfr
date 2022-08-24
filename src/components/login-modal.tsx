@@ -33,7 +33,6 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (enableSubmitButton) {
-      console.log(loginField, passwordField);
       try {
         await login(loginField, passwordField).then((user: Firebase.User) => {
           if (user) {
@@ -67,7 +66,6 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
   const handlePaste = (type: string, e: React.ClipboardEvent) => {
     e.preventDefault();
     const value = e.clipboardData.getData('Text');
-    console.log(value);
     if (type === 'login') {
       setLoginField(value);
     } else {
@@ -118,7 +116,6 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
   };
 
   const areBothFieldsValid = () => {
-    console.log(`Login is ${loginField} and pass is ${passwordField}`);
     if (
       typeof loginField === 'string' &&
       typeof passwordField === 'string' &&
