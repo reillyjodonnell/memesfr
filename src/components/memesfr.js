@@ -42,9 +42,6 @@ export default function Memesfr() {
     document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
   }, [t]);
 
-  useEffect(() => {
-    console.log(nav);
-  }, [nav]);
   return (
     <>
       <BrowserRouter>

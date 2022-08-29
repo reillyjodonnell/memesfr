@@ -5,9 +5,14 @@ import { useAuth } from '../../../contexts/auth-context';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { useTheme } from '../../../contexts/theme-context';
+import { ReactComponent as UploadFile } from '../../../assets/icons/upload.svg';
+import ImageThumb from '../../image-thumb';
 export default function Create() {
   const { t, i18n } = useTranslation('common');
 
+  const [file, setFile] = useState('');
+  const [fileType, setFileType] = useState('');
+  const [fileError, setFileError] = useState(false);
   const [letterCount, setLetterCount] = useState(0);
   const [caption, setCaption] = useState(t('writeCaption'));
   const [acceptInput, setAcceptInput] = useState(true);
@@ -40,6 +45,10 @@ export default function Create() {
 
   document.title = `✏️ ${t('create')} - Memesfr`;
 
+  const handleUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
+
   const handleCaptionInput = (e) => {
     setCaption(e.currentTarget.textContent);
 
@@ -69,6 +78,10 @@ export default function Create() {
     setLetterCount((prevCount) => prevCount + 1);
   };
 
+  function removeFile() {
+    setFileType('');
+    setFile('');
+  }
   const inlcudeEmojis = [
     'search',
     'custom',
@@ -107,9 +120,39 @@ export default function Create() {
           <span className="create-post-subtitle">{t('uploadDankMeme')}</span>
         </div>
       </div>
+      {fileError ? (
+        <span style={{ padding: '1rem', color: 'red' }}>{fileError}</span>
+      ) : null}
       <div className="create-post-main-content">
-        <div className="create-post-upload-area">
-          <input type="file" />
+        <div
+          className={`${
+            file
+              ? 'create-post-upload-area-no-hover'
+              : 'create-post-upload-area'
+          }`}
+        >
+          {!file ? (
+            <>
+              <input
+                onChange={handleUpload}
+                className="hidden-file"
+                type="file"
+              />
+              <div className="upload-file-prompt">
+                <UploadFile />
+                <span>Click or Drag and Drop dank meme here</span>
+              </div>
+            </>
+          ) : (
+            <ImageThumb
+              setFileType={setFileType}
+              setFile={setFile}
+              removeFile={removeFile}
+              setFileError={setFileError}
+              className="meme-image-preview"
+              file={file}
+            ></ImageThumb>
+          )}
         </div>
 
         <div className="create-post-user-area">

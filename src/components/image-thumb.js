@@ -1,6 +1,6 @@
 import React from 'react';
-import x from '../assets/svg/x.svg';
-
+import { ReactComponent as X } from '../assets/svg/x.svg';
+import '../css-components/modal.css';
 const ImageThumb = ({
   file,
   setFileError,
@@ -17,7 +17,7 @@ const ImageThumb = ({
     'video/mp4',
   ];
   const validFormat = filesFormats.includes(file.type);
-  if (file.type == 'video/mp4') {
+  if (file.type === 'video/mp4') {
     setFileType('video');
     return (
       <div className="meme-image-preview">
@@ -30,7 +30,7 @@ const ImageThumb = ({
           controls="true"
           style={{ objectFit: 'contain' }}
         ></video>
-        <img onClick={removeFile} className="cancel-meme" src={x} />
+        <X className="cancel-meme" onClick={removeFile} />
       </div>
     );
   }
@@ -45,7 +45,7 @@ const ImageThumb = ({
           className="meme-image-preview"
           alt={file.name}
         ></img>
-        <img onClick={removeFile} className="cancel-meme" src={x} />
+        <X className="cancel-meme" onClick={removeFile} />
       </div>
     );
   } else {
