@@ -254,6 +254,7 @@
   white-space: nowrap;
   box-sizing: content-box;
   text-align: center;
+  padding: 1px;
 }
 .notification-alert-number {
   color: white;
@@ -550,3 +551,30 @@
     font-weight: 500;
   }
 } */
+@media only screen and (max-width: 1100px) {
+  .sidebar-fixed {
+    max-width: 80px;
+    min-width: 80px;
+  }
+  .navigation-group-text {
+    display: none;
+  }
+  .sidebar-navigation {
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .sidebar-content {
+    border-right: 0.5px solid var(--line);
+    padding: 0;
+  }
+  .navigation-group {
+    min-width: auto;
+  }
+  .rightsidebar-secondary-section {
+    display: none;
+  }
+  .sidebar-container {
+    display: none;
+  }
+}
