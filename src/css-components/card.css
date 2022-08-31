@@ -102,8 +102,10 @@
   display: flex;
   max-width: 100%;
   max-height: 100%;
+
   border-radius: 10px;
   cursor: pointer;
+  aspect-ratio: 1/1;
 }
 .upper-top-info {
   display: flex;
@@ -469,14 +471,11 @@
   border: 1px solid var(--primary-accent);
   border-radius: 15px;
   color: white;
-  /* padding: 0 1rem; */
   padding: 0.25rem 0.25rem;
   cursor: pointer;
   background-color: var(--primary-accent);
-  /* box-shadow: var(--highlight) 0px 4px 12px; */
-  box-shadow: var(--light-highlight) 0px 15px 25px,
-    var(--light-highlight) 0px 10px 10px;
-  /* color: var(--bg); */
+  box-shadow: var(--light-highlight) 0 4px 17px,
+    var(--light-highlight) 0 7px 28px;
   margin-right: 20px;
 }
 
@@ -645,7 +644,7 @@
   color: var(--text-color);
   font-weight: 600;
   border: 1px solid var(--primary-accent);
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
   font-size: 1rem;
   border-radius: 8px;
   /* background-color: var(--highlight); */

@@ -15,6 +15,7 @@ import { followUser, unfollowUser } from '../../services/firebase-api';
 import FollowButton from './follow-button';
 import FollowingButton from './following-button';
 import { fileType } from '../../constants/common';
+import { CSSTransition } from 'react-transition-group';
 
 export default function Card(props) {
   const { t, i18n } = useTranslation('common');
@@ -270,13 +271,16 @@ export default function Card(props) {
                 ) : (
                   <img
                     alt=""
-                    loading="eager"
+                    loading="lazy"
                     // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
                     className="meme-image"
+                    width={500}
+                    height={500}
                     src={props.item.image}
                   ></img>
                 )}
               </div>
+
               <div className="upper-top"></div>
             </div>
 
