@@ -8,30 +8,53 @@
   width: 100%;
 }
 .login-modal-option {
-  cursor: default;
   display: flex;
   padding: 0.75rem;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   font-weight: 600;
 }
 
+.login-modal-option-parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px 2rem;
+}
+
 .login-modal-option-container {
+  padding: 12px 0;
+  width: 100%;
   cursor: pointer;
+  border-radius: var(--rounded);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 10px 4rem;
   border: 1px solid var(--line);
+  margin-bottom: 1rem;
+}
+.login-modal-option-container:hover {
+  border: 1px solid var(--shadow);
+  background-color: var(--line);
+  transition: all var(--speed);
+}
+.login-modal-option-social-icon {
+  margin-right: 6px;
+  width: 20px;
+  height: 20px;
+}
+.login-modal-option-social-prompt {
+  font-weight: 600;
 }
 .login-modal-option-login-button-inactive {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: 40px;
+  border-radius: var(--rounded);
   background-color: var(--line);
   cursor: not-allowed;
   /* color: white; */
@@ -53,7 +76,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: 40px;
+  border-radius: var(--rounded);
   cursor: pointer;
   color: var(--text-color);
   margin: 0.5rem 0;
@@ -135,12 +158,12 @@
 }
 
 .login-modal-option-username {
+  border-radius: var(--rounded);
   box-sizing: border-box;
   padding: 0.75rem;
   display: flex;
-  border: 1px solid var(--line);
+  border: 2px solid var(--line);
   width: 100%;
-  /* color: var(--secondary-text-color); */
   color: var(--text-color);
   font-size: 1rem;
   margin: 0.5rem 0;
@@ -154,6 +177,7 @@
   border: 2px solid var(--primary-accent);
 }
 .login-modal-option-username-small {
+  border-radius: var(--rounded);
   box-sizing: border-box;
   padding: 0.75rem;
   display: flex;
@@ -225,20 +249,22 @@
   color: var(--text-color);
   transition: all var(--speed);
 }
-.login-modal-option-next-button-inactive {
+.login-modal-option-next-button {
   cursor: default;
-
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: 40px;
+  border-radius: var(--rounded);
   background-color: var(--line);
-  cursor: not-allowed;
-  /* color: white; */
   color: var(--text-color);
   margin: 0.5rem 0;
   width: 100%;
+  border: 1px solid var(--line);
+}
+
+.login-modal-option-next-button-inactive {
+  cursor: not-allowed;
   border: 1px solid var(--line);
 }
 .login-modal-option-next-button-inactive span {
@@ -246,27 +272,17 @@
 }
 .login-modal-option-next-button-active {
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 40px;
-  /* background-color: var(--primary-accent); */
-  cursor: pointer;
-  /* color: white; */
-  color: var(--text-color);
-  margin: 0.5rem 0;
+  background-color: var(--primary-accent);
+  color: white;
 
-  width: 100%;
-  border: 1px solid var(--line);
+  transition: all var(--speed);
 }
 .login-modal-option-next-button-active span {
   cursor: pointer;
 }
 .login-modal-option-next-button-active:hover {
   transition: all var(--speed);
-  color: white;
-  background-color: var(--primary-accent);
+  filter: brightness(0.8);
 }
 
 .login-modal-back-button {

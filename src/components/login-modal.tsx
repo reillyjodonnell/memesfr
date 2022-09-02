@@ -6,6 +6,9 @@ import { useLanguage } from '../contexts/language-context';
 import { ReactComponent as BackArrow } from '../assets/icons/chevron-left.svg';
 import { useAuth } from '../contexts/auth-context';
 import Firebase from 'firebase/app';
+import Fbook from '../assets/brands/facebook.png';
+import Google from '../assets/brands/google.png';
+import Twitter from '../assets/brands/twitter.png';
 
 interface IProps {
   toggleLoginModal: Function;
@@ -249,36 +252,38 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
 
           <div
             onClick={validLoginInput ? handleNext : undefined}
-            className={
-              validLoginInput
-                ? 'login-modal-option-next-button-active'
-                : 'login-modal-option-next-button-inactive'
-            }
+            className={`login-modal-option-next-button
+              ${
+                validLoginInput
+                  ? 'login-modal-option-next-button-active'
+                  : 'login-modal-option-next-button-inactive'
+              }`}
           >
             <span className="login-modal-option">{t('next')}</span>
           </div>
         </div>
         <span className="login-modal-option">{t('or')}</span>
+        <div className="login-modal-option-parent">
+          <div className="login-modal-option-container">
+            <img className="login-modal-option-social-icon" src={Fbook} />
+            <span className="login-modal-option-social-prompt">
+              {t('continueWithFacebook')}
+            </span>
+          </div>
+          <div className="login-modal-option-container">
+            <img className="login-modal-option-social-icon" src={Google} />
+            <span className="login-modal-option-social-prompt">
+              {t('continueWithGoogle')}
+            </span>
+          </div>
+          <div className="login-modal-option-container">
+            <img className="login-modal-option-social-icon" src={Twitter} />
+            <span className="login-modal-option-social-prompt">
+              {t('continueWithTwitter')}
+            </span>
+          </div>
+        </div>
 
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">{t('continueWithGoogle')}</span>
-        </div>
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">
-            {t('continueWithFacebook')}
-          </span>
-        </div>
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">{t('continueWithTwitter')}</span>
-        </div>
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">{t('continueWithApple')}</span>
-        </div>
-        <div className="login-modal-option-container">
-          <span className="login-modal-option">
-            {t('continueWithInstagram')}
-          </span>
-        </div>
         <div className="login-modal-signup-container">
           <span className="login-modal-signup-prompt">
             {t('dontHaveAccount')}
