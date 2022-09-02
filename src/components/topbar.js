@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../css-components/topbar.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as Plus } from '../assets/icons/plus.svg';
@@ -47,7 +47,6 @@ export default function TopBar(props) {
               ? 'topbar-profile-modal-item-active'
               : 'topbar-profile-modal-item'
           }
-          // onClick={props.navigateToSettings}
           onClick={() => navigateAndClose(setLanguageToEnglish)}
         >
           <span className="topbar-profile-modal-item-text">English</span>
@@ -137,16 +136,11 @@ export default function TopBar(props) {
   };
 
   const handleMouseOver = () => {
-    // console.log('Hovering over');
     if (isHovering) {
       setIsHovering(false);
     } else {
       setIsHovering(true);
     }
-  };
-
-  const handleShowText = () => {
-    setShowIconText((prev) => !prev);
   };
 
   const navigateAndClose = (navigate) => {
@@ -168,19 +162,20 @@ export default function TopBar(props) {
         }
         onMouseLeave={handleMouseOut}
       >
+        {currentUser ? (
+          <div
+            className="topbar-profile-modal-item"
+            onClick={() => navigateAndClose(props.navigateToSettings)}
+          >
+            <Settings className="topbar-profile-modal-icon" />
+            <span className="topbar-profile-modal-item-text">
+              {t('settings')}
+            </span>
+          </div>
+        ) : null}
         <div
           className="topbar-profile-modal-item"
-          // onClick={props.navigateToSettings}
-          onClick={() => navigateAndClose(props.navigateToSettings)}
-        >
-          <Settings className="topbar-profile-modal-icon" />
-          <span className="topbar-profile-modal-item-text">
-            {t('settings')}
-          </span>
-        </div>
-        <div
-          className="topbar-profile-modal-item"
-          onClick={props.navigateToCoins}
+          onClick={currentUser ? props.navigateToCoins : props.login}
         >
           <Coins className="topbar-profile-modal-icon" />
           <span className="topbar-profile-modal-item-text">{t('coins')}</span>
@@ -215,7 +210,7 @@ export default function TopBar(props) {
           ) : (
             <div
               className="topbar-profile-modal-item-logout"
-              onClick={props.navigateToLogin}
+              onClick={props.login}
             >
               <Login className="topbar-profile-modal-icon" />
               <span className="topbar-profile-modal-item-text">
@@ -226,10 +221,6 @@ export default function TopBar(props) {
         </div>
       </div>
     );
-  };
-
-  const LoggedInSection = () => {
-    return <></>;
   };
 
   const LoggedOutSection = () => {
@@ -276,27 +267,12 @@ export default function TopBar(props) {
             </div>
           </>
         ) : null}
-
-        {/* <div
-            onMouseOver={handleShowText}
-            className="topbar-upload-meme-button"
-            onClick={props.navigateToWallet}
-          >
-            <Wallet />
-          </div> */}
       </div>
       <div
         className="topbar-upload-meme-button"
         onClick={currentUser && props.navigateToProfile}
         onMouseEnter={handleMouseOver}
       >
-        {/* {props.avatar && (
-            <img
-              className="sidebar-avatar"
-              alt="user avatar"
-              src={props.avatar}
-            />
-          )} */}
         <User className="topbar-avatar" />
       </div>
 
