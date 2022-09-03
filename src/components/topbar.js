@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../contexts/auth-context';
 import { Message, Settings } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 
 export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
@@ -225,28 +226,31 @@ export default function TopBar(props) {
 
   const LoggedOutSection = () => {
     return (
-      <div onClick={props.login} className="topbar-login-container">
+      <button onClick={props.login} className="topbar-login-container">
         <span className="topbar-login-text">{t('login')}</span>
-      </div>
+      </button>
     );
   };
 
   return (
     <div className="topbar-content">
-      <div onClick={props.homeFilter} className="topbar-logo">
-        <Castle />
-        <span>Memesfr</span>
-      </div>
+      <Link className="text-decoration-none" to={'/'}>
+        <div onClick={props.homeFilter} className="topbar-logo">
+          <Castle />
+          <span className="px-5px">Memesfr</span>
+        </div>
+      </Link>
+
       <div className="topbar-icon-container">
         {!currentUser && !loadingUser ? <LoggedOutSection /> : null}
 
-        <div
+        <button
           onClick={currentUser ? props.navigateToCreate : props.login}
           className="topbar-upload-meme-button topbar-tooltip topbar-first-button"
           data-tooltip={t('upload')}
         >
           <Plus />
-        </div>
+        </button>
         {!loadingUser || currentUser ? (
           <>
             <div

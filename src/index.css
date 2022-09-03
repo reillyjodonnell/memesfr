@@ -142,3 +142,11 @@ code {
     monospace;
 }
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+/* Utility Classes */
+.text-decoration-none {
+  text-decoration: none;
+}
+.px-5px {
+  padding: 0 5px;
+}
