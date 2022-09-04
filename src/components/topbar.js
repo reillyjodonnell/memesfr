@@ -8,13 +8,14 @@ import { ReactComponent as Coins } from '../assets/icons/coins.svg';
 import { ReactComponent as Language } from '../assets/icons/language.svg';
 import { ReactComponent as Help } from '../assets/icons/help.svg';
 import { ReactComponent as User } from '../assets/svg/user.svg';
+import { ReactComponent as Message } from '../assets/icons/message.svg';
+import { ReactComponent as Wallet } from '../assets/icons/wallet.svg';
 
 import { useLanguage } from '../contexts/language-context';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../contexts/auth-context';
-import { Message, Settings } from '@material-ui/icons';
+import { Settings } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
 export default function TopBar(props) {
@@ -260,14 +261,14 @@ export default function TopBar(props) {
               }`}
               data-tooltip={t('messages')}
             >
-              <Message />
+              <Message className="stroke-text-color" />
             </div>
             <div
               className="topbar-upload-meme-button topbar-tooltip"
               onClick={currentUser ? props.navigateToWallet : props.login}
               data-tooltip={t('inventory')}
             >
-              <FontAwesomeIcon icon={faBoxOpen} />
+              <Wallet className="stroke-text-color" />
             </div>
           </>
         ) : null}

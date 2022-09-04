@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import PopupModal from './templates/popup-modal';
+import React, { useState, useEffect, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
-import '../css-components/login-modal.css';
-import { useLanguage } from '../contexts/language-context';
-import { ReactComponent as BackArrow } from '../assets/icons/chevron-left.svg';
-import { useAuth } from '../contexts/auth-context';
+import '../../css-components/login-modal.css';
+import { useLanguage } from '../../contexts/language-context';
+import { ReactComponent as BackArrow } from '../../assets/icons/chevron-left.svg';
+import { useAuth } from '../../contexts/auth-context';
 import Firebase from 'firebase/app';
-import Fbook from '../assets/brands/facebook.png';
-import Google from '../assets/brands/google.png';
-import Twitter from '../assets/brands/twitter.png';
-
-interface IProps {
-  toggleLoginModal: Function;
-}
-
-export default function LoginModal({ toggleLoginModal }: IProps) {
+import Fbook from '../../assets/brands/facebook.png';
+import Google from '../../assets/brands/google.png';
+import Twitter from '../../assets/brands/twitter.png';
+import { formatPhoneNumber, isOnlyNumbers } from '../../helper';
+type LoginProps = {
+  toggleLogin: MouseEventHandler<HTMLDivElement>;
+};
+export default function Login({ toggleLogin }: LoginProps) {
   // const [detectedLoginType, setDetectedLoginType] = useState<String>('');
   const [smallerInput, setSmallerInput] = useState<Boolean>(true);
   const [nextButtonClicked, setNextButtonClicked] = useState<Boolean>(false);
@@ -145,18 +143,6 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
     }
   }
 
-  function isOnlyNumbers(passedInput: string) {
-    return /^\d+$/.test(passedInput);
-  }
-
-  function formatPhoneNumber(number: String) {
-    var match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-    }
-    return null;
-  }
-
   const handleNext = () => {
     setNextButtonClicked((prevState) => !prevState);
     if (nextButtonClicked === true) {
@@ -170,7 +156,7 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
   };
 
   return nextButtonClicked ? (
-    <PopupModal title={t('login')} toggleState={toggleLoginModal}>
+    <>
       <div onClick={handleBack} className="login-modal-back-button">
         <BackArrow />
       </div>
@@ -212,85 +198,85 @@ export default function LoginModal({ toggleLoginModal }: IProps) {
               data-testid="submit-button"
               type={'submit'}
               value={t<string>('login')}
-              className={
-                enableSubmitButton
-                  ? 'login-modal-option-login-button-active'
-                  : 'login-modal-option-login-button-inactive'
-              }
+              className={`my-4
+                ${
+                  enableSubmitButton
+                    ? 'login-modal-option-login-button-active'
+                    : 'login-modal-option-login-button-inactive'
+                }
+              `}
             />
           </form>
         </div>
 
-        <div className="login-modal-signup-container">
+        <div onClick={toggleLogin} className="login-modal-signup-container">
           <span className="login-modal-signup-prompt">
             {t('dontHaveAccount')}
           </span>
           <span className="login-modal-signup-action">{t('signup')}</span>
         </div>
       </div>
-    </PopupModal>
+    </>
   ) : (
-    <PopupModal title={t('login')} toggleState={toggleLoginModal}>
-      <div className="login-modal-options-container">
-        <div className="login-modal-login-container">
-          <input
-            value={loginField}
-            onChange={(e) => handleForm(e)}
-            className={
-              smallerInput
-                ? 'login-modal-option-username-small'
-                : 'login-modal-option-username'
-            }
-            placeholder={t('loginOptions')}
-          ></input>
+    <div className="login-modal-options-container">
+      <div className="login-modal-login-container">
+        <input
+          value={loginField}
+          onChange={(e) => handleForm(e)}
+          className={
+            smallerInput
+              ? 'login-modal-option-username-small'
+              : 'login-modal-option-username'
+          }
+          placeholder={t('loginOptions')}
+        ></input>
 
-          {error && (
-            <div className="login-modal-error">
-              <span>{error}</span>
-            </div>
-          )}
+        {error && (
+          <div className="login-modal-error">
+            <span>{error}</span>
+          </div>
+        )}
 
-          <div
-            onClick={validLoginInput ? handleNext : undefined}
-            className={`login-modal-option-next-button
+        <div
+          onClick={validLoginInput ? handleNext : undefined}
+          className={`login-modal-option-next-button
               ${
                 validLoginInput
                   ? 'login-modal-option-next-button-active'
                   : 'login-modal-option-next-button-inactive'
               }`}
-          >
-            <span className="login-modal-option">{t('next')}</span>
-          </div>
-        </div>
-        <span className="login-modal-option">{t('or')}</span>
-        <div className="login-modal-option-parent">
-          <div className="login-modal-option-container">
-            <img className="login-modal-option-social-icon" src={Fbook} />
-            <span className="login-modal-option-social-prompt">
-              {t('continueWithFacebook')}
-            </span>
-          </div>
-          <div className="login-modal-option-container">
-            <img className="login-modal-option-social-icon" src={Google} />
-            <span className="login-modal-option-social-prompt">
-              {t('continueWithGoogle')}
-            </span>
-          </div>
-          <div className="login-modal-option-container">
-            <img className="login-modal-option-social-icon" src={Twitter} />
-            <span className="login-modal-option-social-prompt">
-              {t('continueWithTwitter')}
-            </span>
-          </div>
-        </div>
-
-        <div className="login-modal-signup-container">
-          <span className="login-modal-signup-prompt">
-            {t('dontHaveAccount')}
-          </span>
-          <span className="login-modal-signup-action">{t('signup')}</span>
+        >
+          <span className="login-modal-option">{t('next')}</span>
         </div>
       </div>
-    </PopupModal>
+      <span className="login-modal-option">{t('or')}</span>
+      <div className="login-modal-option-parent">
+        <div className="auth-option-container mb-1">
+          <img className="login-modal-option-social-icon" src={Fbook} />
+          <span className="login-modal-option-social-prompt">
+            {t('continueWithFacebook')}
+          </span>
+        </div>
+        <div className="auth-option-container mb-1">
+          <img className="login-modal-option-social-icon" src={Google} />
+          <span className="login-modal-option-social-prompt">
+            {t('continueWithGoogle')}
+          </span>
+        </div>
+        <div className="auth-option-container mb-1">
+          <img className="login-modal-option-social-icon" src={Twitter} />
+          <span className="login-modal-option-social-prompt">
+            {t('continueWithTwitter')}
+          </span>
+        </div>
+      </div>
+
+      <div onClick={toggleLogin} className="login-modal-signup-container">
+        <span className="login-modal-signup-prompt">
+          {t('dontHaveAccount')}
+        </span>
+        <span className="login-modal-signup-action">{t('signup')}</span>
+      </div>
+    </div>
   );
 }

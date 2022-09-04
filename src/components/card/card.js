@@ -291,12 +291,7 @@ export default function Card(props) {
                   thumbUp ? 'crown-container-active' : 'crown-container'
                 }
               >
-                <span className="likes-icon">
-                  <FontAwesomeIcon
-                    icon={faCrown}
-                    style={{ width: '1.5rem', height: '1.5rem' }}
-                  />
-                </span>
+                <FontAwesomeIcon icon={faCrown} className="w-6 h-6 card-icon" />
                 <span className="number-of-crowns">{likes}</span>
               </div>
 
@@ -305,8 +300,8 @@ export default function Card(props) {
                 onClick={!currentUser ? login : null}
               >
                 <FontAwesomeIcon
+                  className="w-6 h-6 card-icon"
                   icon={faComment}
-                  style={{ width: '1.5rem', height: '1.5rem' }}
                 />
                 <span className="number-of-likes">{comments}</span>
               </div>
@@ -314,10 +309,7 @@ export default function Card(props) {
                 className="like-container"
                 onClick={!currentUser ? login : null}
               >
-                <FontAwesomeIcon
-                  icon={faShare}
-                  style={{ width: '1.5rem', height: '1.5rem' }}
-                />
+                <FontAwesomeIcon className="w-6 h-6 card-icon" icon={faShare} />
                 <span className="number-of-likes">{shares}</span>
               </div>
             </div>

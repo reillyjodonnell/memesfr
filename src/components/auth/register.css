@@ -1,0 +1,17 @@
+.use-phone-or-email {
+  padding: 12px 0;
+  width: 100%;
+  cursor: pointer;
+  border-radius: var(--rounded);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--line);
+}
+
+.auth-option-container:hover {
+  border: 1px solid var(--shadow);
+  background-color: var(--line);
+  transition: all var(--speed);
+}

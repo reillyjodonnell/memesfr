@@ -9,7 +9,7 @@ import { Outlet } from 'react-router-dom';
 import Topbar from './topbar';
 import PopupModal from './templates/popup-modal';
 import { useTranslation } from 'react-i18next';
-import LoginModal from './login-modal';
+import UserAuth from './auth/auth-container';
 
 export default function Dashboard(props) {
   const [createPost, createPostFunction] = useState(false);
@@ -130,7 +130,7 @@ export default function Dashboard(props) {
             toggleState={createMemePost}
           ></PopupModal>
         )}
-        {loginModal && <LoginModal toggleLoginModal={toggleLoginModal} />}
+        {loginModal ? <UserAuth toggleLoginModal={toggleLoginModal} /> : null}
         {isMobile ? (
           <>
             <Outlet />

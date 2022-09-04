@@ -275,7 +275,7 @@ export async function retrieveRandomMeme() {
   return memeObject;
 }
 
-export const followUser = async (currentUserId, followingUserId) => {
+export async function followUser(currentUserId, followingUserId) {
   // Write to the current user's following document
   const userRef = await db.collection('users').doc(currentUserId);
   await userRef.update({
@@ -286,9 +286,9 @@ export const followUser = async (currentUserId, followingUserId) => {
   await followingUserRef.update({
     followers: firebase.firestore.FieldValue.arrayUnion(currentUserId),
   });
-};
+}
 
-export const unfollowUser = async (currentUserId, followingUserId) => {
+export async function unfollowUser(currentUserId, followingUserId) {
   // Write to the current user's following document
   const userRef = await db.collection('users').doc(currentUserId);
   // Removes the followingUserId from the current user's following list
@@ -300,9 +300,9 @@ export const unfollowUser = async (currentUserId, followingUserId) => {
   await followingUserRef.update({
     followers: firebase.firestore.FieldValue.arrayRemove(currentUserId),
   });
-};
+}
 
-export const retrieveFollowing = async (currentUserId) => {
+export async function retrieveFollowing(currentUserId) {
   const referenceToPost = await db.collection('users').doc(currentUserId);
   const doc = await referenceToPost.get();
   const data = await doc.data();
@@ -313,4 +313,14 @@ export const retrieveFollowing = async (currentUserId) => {
   } else {
     return null;
   }
-};
+}
+
+export async function checkUsernameAvailability(username) {
+  const formattedUsername = username.toLowerCase();
+  //Prevent throwing error
+  const search = await db.collection('usernames').doc(formattedUsername).get();
+  const exists = search.exists;
+  if (exists) {
+    return false;
+  } else return true;
+}
