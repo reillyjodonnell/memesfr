@@ -8,7 +8,10 @@ import { useMobile } from '../../../contexts/mobile-context';
 import '../../../css-components/routes/home/feed.css';
 import MobileHeader from '../../mobile-header';
 import Swipable from './swipable';
-import { retrieveFollowing } from '../../../services/firebase-api';
+import {
+  hasUserLikedPost,
+  retrieveFollowing,
+} from '../../../services/firebase-api';
 const useStyles = makeStyles((theme) => ({
   skeleton: {
     margin: '2rem 1rem',
@@ -27,7 +30,7 @@ export default function Feed(props) {
 
   const { toggleLoginModal, nav } = props;
 
-  const { currentUser, hasUserLikedPost } = useAuth();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const getFollowingUsers = async () => {
@@ -41,7 +44,7 @@ export default function Feed(props) {
   useEffect(() => {
     async function match() {
       if (currentUser) {
-        const results = await hasUserLikedPost();
+        const results = await hasUserLikedPost({ currentUser });
         let [{ likedPosts }, { heartedPosts }] = results;
         setUsersLikedPosts(likedPosts);
       }
@@ -58,8 +61,6 @@ export default function Feed(props) {
   }, [props.postsData]);
 
   const { isMobile } = useMobile();
-
-  const { recentlyUploaded } = useAuth();
 
   const ShowSkeletons = () => {
     return (
@@ -85,62 +86,62 @@ export default function Feed(props) {
     );
   };
 
-  const RecentlyPosted = () => {
-    let sayingOne = '';
-    let sayingTwo = '';
-    if (recentlyUploaded.length === 1) {
-      sayingTwo = "Here's what you just posted 👇";
-    }
-    if (recentlyUploaded.length > 1) {
-      sayingOne = 'Keep it up memelord';
-    }
-    if (nav === 0 && recentlyUploaded.length > 0) {
-      return (
-        <>
-          <div
-            style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 'auto',
-              margin: '1rem',
-            }}
-          >
-            <div
-              style={{
-                textAlign: 'center',
-                display: 'block',
-                padding: '1rem',
-                color: 'white',
-                height: '100%',
-                width: '100%',
-              }}
-            >
-              <span style={{ whiteSpace: 'pre-wrap', fontSize: '1.2rem' }}>
-                {sayingOne}
-              </span>
-              <br />
-              <span style={{ whiteSpace: 'nowrap', fontSize: '1.2rem' }}>
-                {sayingTwo}
-              </span>
-            </div>
-          </div>
-          {recentlyUploaded.map((item) => {
-            return (
-              <Card
-                key={item.id}
-                item={item}
-                toggleLoginModal={toggleLoginModal}
-              ></Card>
-            );
-          })}
-        </>
-      );
-    }
-    return null;
-  };
+  // const RecentlyPosted = () => {
+  //   let sayingOne = '';
+  //   let sayingTwo = '';
+  //   if (recentlyUploaded.length === 1) {
+  //     sayingTwo = "Here's what you just posted 👇";
+  //   }
+  //   if (recentlyUploaded.length > 1) {
+  //     sayingOne = 'Keep it up memelord';
+  //   }
+  //   if (nav === 0 && recentlyUploaded.length > 0) {
+  //     return (
+  //       <>
+  //         <div
+  //           style={{
+  //             height: '100%',
+  //             display: 'flex',
+  //             flexDirection: 'column',
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //             width: 'auto',
+  //             margin: '1rem',
+  //           }}
+  //         >
+  //           <div
+  //             style={{
+  //               textAlign: 'center',
+  //               display: 'block',
+  //               padding: '1rem',
+  //               color: 'white',
+  //               height: '100%',
+  //               width: '100%',
+  //             }}
+  //           >
+  //             <span style={{ whiteSpace: 'pre-wrap', fontSize: '1.2rem' }}>
+  //               {sayingOne}
+  //             </span>
+  //             <br />
+  //             <span style={{ whiteSpace: 'nowrap', fontSize: '1.2rem' }}>
+  //               {sayingTwo}
+  //             </span>
+  //           </div>
+  //         </div>
+  //         {recentlyUploaded.map((item) => {
+  //           return (
+  //             <Card
+  //               key={item.id}
+  //               item={item}
+  //               toggleLoginModal={toggleLoginModal}
+  //             ></Card>
+  //           );
+  //         })}
+  //       </>
+  //     );
+  //   }
+  //   return null;
+  // };
 
   return isMobile ? (
     <div className="home-content-mobile">
@@ -167,7 +168,6 @@ export default function Feed(props) {
       ) : !props.postsLoading && posts ? (
         posts.length !== undefined &&
         posts.map((item, index) => {
-          console.log(item);
           let liked = false;
           let hearted = false;
           let following = false;
@@ -192,7 +192,7 @@ export default function Feed(props) {
         })
       ) : null}
 
-      <RecentlyPosted />
+      {/* <RecentlyPosted /> */}
 
       {!props.postsLoading && nav !== 4 && (
         <div className="end-of-memes">

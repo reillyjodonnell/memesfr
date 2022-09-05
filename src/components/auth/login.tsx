@@ -9,10 +9,19 @@ import Fbook from '../../assets/brands/facebook.png';
 import Google from '../../assets/brands/google.png';
 import Twitter from '../../assets/brands/twitter.png';
 import { formatPhoneNumber, isOnlyNumbers } from '../../helper';
+import {
+  continueWithFacebook,
+  continueWithGoogle,
+  continueWithTwitter,
+  formatErrorMessage,
+} from './auth-helpers';
+import ErrorMessage from '../templates/error-message';
+import { useNavigate } from 'react-router-dom';
 type LoginProps = {
   toggleLogin: MouseEventHandler<HTMLDivElement>;
+  closeModal: Function;
 };
-export default function Login({ toggleLogin }: LoginProps) {
+export default function Login({ toggleLogin, closeModal }: LoginProps) {
   // const [detectedLoginType, setDetectedLoginType] = useState<String>('');
   const [smallerInput, setSmallerInput] = useState<Boolean>(true);
   const [nextButtonClicked, setNextButtonClicked] = useState<Boolean>(false);
@@ -28,6 +37,27 @@ export default function Login({ toggleLogin }: LoginProps) {
   >('');
 
   const [error, setError] = useState<String>('');
+
+  const [authErrorMessage, setAuthErrorMessage] = useState('');
+
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  const [token, setToken] = useState('');
+
+  // useEffect(() => {
+  //   new Firebase.auth.RecaptchaVerifier('request-otp', { size: 'invisible' })
+  //     .verify()
+  //     .then(setToken);
+  // }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      closeModal();
+      // go to homepage
+      navigate('/');
+    }
+  }, [currentUser, closeModal]);
 
   const { login } = useAuth();
 
@@ -155,6 +185,11 @@ export default function Login({ toggleLogin }: LoginProps) {
     setLoginField('');
   };
 
+  function formattedErrorMessage(): string {
+    const message = formatErrorMessage(authErrorMessage);
+    return t(message);
+  }
+
   return nextButtonClicked ? (
     <>
       <div onClick={handleBack} className="login-modal-back-button">
@@ -219,6 +254,9 @@ export default function Login({ toggleLogin }: LoginProps) {
     </>
   ) : (
     <div className="login-modal-options-container">
+      {authErrorMessage ? (
+        <ErrorMessage message={formattedErrorMessage()} />
+      ) : null}
       <div className="login-modal-login-container">
         <input
           value={loginField}
@@ -251,19 +289,40 @@ export default function Login({ toggleLogin }: LoginProps) {
       </div>
       <span className="login-modal-option">{t('or')}</span>
       <div className="login-modal-option-parent">
-        <div className="auth-option-container mb-1">
+        <div
+          onClick={() =>
+            continueWithFacebook({
+              displayErrorMessage: setAuthErrorMessage,
+            })
+          }
+          className="auth-option-container mb-1"
+        >
           <img className="login-modal-option-social-icon" src={Fbook} />
           <span className="login-modal-option-social-prompt">
             {t('continueWithFacebook')}
           </span>
         </div>
-        <div className="auth-option-container mb-1">
+        <div
+          onClick={() =>
+            continueWithGoogle({
+              displayErrorMessage: setAuthErrorMessage,
+            })
+          }
+          className="auth-option-container mb-1"
+        >
           <img className="login-modal-option-social-icon" src={Google} />
           <span className="login-modal-option-social-prompt">
             {t('continueWithGoogle')}
           </span>
         </div>
-        <div className="auth-option-container mb-1">
+        <div
+          onClick={() =>
+            continueWithTwitter({
+              displayErrorMessage: setAuthErrorMessage,
+            })
+          }
+          className="auth-option-container mb-1"
+        >
           <img className="login-modal-option-social-icon" src={Twitter} />
           <span className="login-modal-option-social-prompt">
             {t('continueWithTwitter')}

@@ -11,3 +11,6 @@ export function isOnlyNumbers(passedInput: string) {
 export function isValidEmail(email: string) {
   return /\S+@\S+\.\S+/.test(email);
 }
+export function isValidPassword(password: string) {
+  return /^(?=.*?[A-Za-z])(?=.*?[0-9]).{7,}$/.test(password);
+}

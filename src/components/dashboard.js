@@ -81,7 +81,9 @@ export default function Dashboard(props) {
 
   const navigateToProfile = () => {
     setNav({ count: 4 });
-    navigate(`/${currentUser.displayName}`);
+    navigate(`/${currentUser.username}`, {
+      state: { profileUserId: currentUser?.uid },
+    });
   };
   const navigateToNotifications = () => {
     setNav({ count: 1 });

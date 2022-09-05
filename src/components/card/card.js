@@ -10,12 +10,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faComment, faCrown } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useMobile } from '../../contexts/mobile-context';
-import Titles from '../../sample-data/titles.json';
 import { followUser, unfollowUser } from '../../services/firebase-api';
 import FollowButton from './follow-button';
 import FollowingButton from './following-button';
 import { fileType } from '../../constants/common';
-import { CSSTransition } from 'react-transition-group';
+import { ReactComponent as Pencil } from '../../assets/svg/pencil.svg';
 
 export default function Card(props) {
   const { t, i18n } = useTranslation('common');
@@ -30,7 +29,6 @@ export default function Card(props) {
   const [hasAlreadyLikedPost, setHasAlreadyLikedPost] = useState(false);
   const [hasAlreadyHeartedPost, setHasAlreadyHeartedPost] = useState(false);
   const [followsUser, setFollowsUser] = useState(false);
-  const [followingPrompt, setFollowingPrompt] = useState(t('following'));
 
   const { isMobile } = useMobile();
 
@@ -40,13 +38,6 @@ export default function Card(props) {
   const isVerified = true;
   const shares = Math.round(Math.random() * 10000);
   const comments = Math.round(Math.random() * 40000);
-
-  //Get random title
-  const size = Object.keys(Titles).length;
-  const randomNumber = Math.floor(Math.random() * (size - 1) + 1);
-  const bannerText = Titles[randomNumber].title;
-  // let bannerText = '';
-  /* END DEV ONLY */
 
   const {
     likePost,
@@ -122,12 +113,6 @@ export default function Card(props) {
       changeLikes((likes) => likes + 1);
     }
   };
-  const toggleHeart = () => {
-    setNeedSubmit(true);
-    if (!heart) {
-      setHeart(true);
-    } else setHeart(false);
-  };
 
   const closeOptions = () => {
     expandOptions(!options);
@@ -193,7 +178,7 @@ export default function Card(props) {
     const username = item?.userName;
 
     return (
-      <Link to={`/${username}`}>
+      <Link to={`/${username}`} state={{ profileUserId: props.item.author }}>
         <div className="avatar-picture">
           {avatar ? (
             <img
@@ -254,6 +239,8 @@ export default function Card(props) {
                 </div>
                 {followsUser ? (
                   <FollowingButton toggleUnfollowUser={toggleUnfollowUser} />
+                ) : currentUser.uid === props.item.author ? (
+                  <Pencil />
                 ) : (
                   <FollowButton toggleFollowUser={toggleFollowUser} />
                 )}

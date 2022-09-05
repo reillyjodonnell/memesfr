@@ -59,18 +59,12 @@ export default function Swipable({ setActiveVideoURL }) {
   }, [movingYPosition]);
 
   useEffect(() => {
-    console.log(yDifference);
-    console.log(height / 2);
     if (!touching) {
       if (yDifference >= +(height - 20 / 2)) {
         //   console.log(yDifference);
         //   console.log(height / 2);
-        console.log('now moving to next underneat');
         ref.current.style.transform = 'translate3d(0px,763px, 0px)';
       } else if (yDifference <= -(height - 20 / 2)) {
-        console.log(yDifference);
-        console.log(height / 2);
-        console.log('Swiping up to next above');
         ref.current.style.transform = 'translate3d(0px,-763px, 0px)';
       } else {
         // ref.current.style.transform('translate3d(0px,0px, 0px)');

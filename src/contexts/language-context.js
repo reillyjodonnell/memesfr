@@ -14,13 +14,10 @@ export default function LanguageProvider({ children }) {
 
   // function getLang() {
   //   if (navigator.languages != undefined) {
-  //     console.log(navigator);
   //     return navigator.languages[0];
   //   }
   //   return navigator.language;
   // }
-
-  // console.log(getLang());
 
   const [t, i18n] = useTranslation();
 

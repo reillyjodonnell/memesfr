@@ -21,6 +21,7 @@ export default function Home({
   setLoading,
   loading,
   loadingData,
+  loadingUser,
 }) {
   const { loadUser, currentUser } = useAuth();
   const currentUserId = currentUser?.uid;

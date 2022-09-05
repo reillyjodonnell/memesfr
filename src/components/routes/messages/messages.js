@@ -419,16 +419,10 @@ export default function Messages({ nav, setNav }) {
         type: 'sent',
         text: userInput,
       };
-      console.log(chatObject);
-
       setMessage((prev) => [...prev, chatObject]);
       setUserInput('');
     }
   };
-
-  useEffect(() => {
-    console.log(chatData);
-  }, [chatData]);
 
   return (
     <div className="messages-main-content">

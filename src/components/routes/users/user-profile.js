@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../../css-components/dashboard.css';
 import { useAuth } from '../../../contexts/auth-context';
@@ -12,6 +12,8 @@ import FollowingButton from '../../card/following-button';
 import FollowButton from '../../card/follow-button';
 import { t } from 'i18next';
 import LoadingSpinner from '../../loading-spinner';
+import { useLocation } from 'react-router-dom';
+import Card from '../../card/card';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -139,94 +141,125 @@ export default function UserProfile({
     }, 0);
   }, []);
 
+  const location = useLocation();
+  const { profileUserId } = location?.state ?? {};
+  console.log(location?.state);
+  const isSameUser = location?.state?.isSameUser ?? false;
+
   let params = useParams();
   const { userId } = params;
   const classes = useStyles();
   const [activeFilter, setActiveFilter] = useState(0);
-  const [followsUser, setFollowsUser] = useState(props.follow || false);
   const [crownCount, setCrownCount] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [profilePicture, setProfilePicture] = useState(null);
   const [title, setTitle] = useState('');
   const [numberOfFollowing, setNumberOfFollowing] = useState(0);
 
-  const [memesCreated, setMemesCreated] = useState(0);
-  const [isUsersProfile, setIsUsersProfile] = useState(false);
-  const [profileId, setProfileId] = useState('');
+  const [usersMemes, setUsersMemes] = useState([]);
+  const [followsUserAccount, setFollowsAccount] = useState(true);
 
+  const [memesCreated, setMemesCreated] = useState(0);
   const [retrievingData, setRetrievingData] = useState(true);
+  const [loadingMemes, setLoadingMemes] = useState(true);
 
   const { accentColor } = useTheme();
-
-  const { currentUser } = useAuth();
-
-  useEffect(() => {}, [props.following]);
+  const { currentUser, likedPosts, accountsUserFollows } = useAuth();
 
   useEffect(() => {
-    //This causes an infinite loop
-
-    async function data() {
-      const result = await profileData(userId);
-      return result;
-    }
-    data().then((result) => {
-      const {
-        createdPosts,
-        crowns,
-        followers,
-        following,
-        avatar,
-        userTitle,
-        id,
-      } = result;
-
-      setCrownCount(crowns || 0);
-      setFollowers(followers?.length || 0);
-      setMemesCreated(createdPosts?.length || 0);
-      setNumberOfFollowing(following?.length || 0);
-      setProfilePicture(avatar);
-      setTitle(userTitle);
-      setProfileId(id);
-      setRetrievingData(false);
-    });
-    return data;
-  }, [userId]);
+    if (!isSameUser && accountsUserFollows.includes(profileUserId)) {
+      setFollowsAccount(true);
+    } else setFollowsAccount(false);
+  }, [accountsUserFollows, isSameUser, profileUserId]);
 
   useEffect(() => {
-    if (following?.includes(profileId)) {
-      setFollowsUser(true);
+    //load the last 5 of the users posts
+    async function loadProfilePosts() {
+      console.log('executing');
+      try {
+        const result = await retrieveProfileData(profileUserId);
+        const {
+          createdPosts,
+          crowns,
+          followers,
+          following,
+          avatar,
+          userTitle,
+          id,
+          memeArray,
+        } = result;
+
+        setUsersMemes([...memeArray]);
+        setCrownCount(crowns || 0);
+        setFollowers(followers?.length || 0);
+        setMemesCreated(createdPosts?.length || 0);
+        setNumberOfFollowing(following?.length || 0);
+        avatar
+          ? setProfilePicture(avatar)
+          : setProfilePicture(memeArray[0]?.authorPic);
+        setTitle(userTitle);
+        setRetrievingData(false);
+        setLoadingMemes(false);
+      } catch (err) {
+        console.err(err);
+      }
     }
-  }, [followsUser, following, userId, profileId]);
+    if (profileUserId) {
+      loadProfilePosts();
+    }
+  }, [profileUserId]);
 
-  //Retrieve the data from the user profile using the UID
-  async function profileData(userId) {
-    const data = await retrieveProfileData(userId);
-    return data;
-  }
+  // useEffect(() => {
+  //   //This causes an infinite loop
 
-  let username;
-  let profileName;
+  //   // async function data() {
+  //   //   const result = await profileData(userId);
+  //   //   return result;
+  //   // }
+  //   data().then((result) => {
+  //     const {
+  //       createdPosts,
+  //       crowns,
+  //       followers,
+  //       following,
+  //       avatar,
+  //       userTitle,
+  //       id,
+  //     } = result;
+
+  //     setCrownCount(crowns || 0);
+  //     setFollowers(followers?.length || 0);
+  //     setMemesCreated(createdPosts?.length || 0);
+  //     setNumberOfFollowing(following?.length || 0);
+  //     setProfilePicture(avatar);
+  //     setTitle(userTitle);
+  //     setProfileId(id);
+  //     setRetrievingData(false);
+  //   });
+  //   return data;
+  // }, [userId]);
+
+  // useEffect(() => {
+  //   if (following?.includes(profileId)) {
+  //     setFollowsUser(true);
+  //   }
+  // }, [followsUser, following, userId, profileId]);
 
   useEffect(() => {
-    if (username === userId) {
-      setIsUsersProfile(true);
-    } else {
-      setIsUsersProfile(false);
+    let username;
+    let profileName;
+    if (currentUser) {
+      username = currentUser.displayName;
+      profileName = params.userId;
     }
-  }, [username, profileName, userId]);
+    document.title = `Memesfr - ${profileName}`;
+  }, [params.userId]);
 
-  if (currentUser) {
-    username = currentUser.displayName;
-    profileName = params.userId;
-  }
+  // const toggleFollowUser = () => {
+  //   setFollowsUser((prevState) => !prevState);
+  // };
 
-  document.title = `Memesfr - ${profileName}`;
-
-  const toggleFollowUser = () => {
-    setFollowsUser((prevState) => !prevState);
-  };
-
-  const UserProfile = () => {
+  const ProfileDisplay = () => {
     return (
       <div className="user-profile-container">
         {retrievingData ? (
@@ -251,7 +284,7 @@ export default function UserProfile({
               </div>
             </div>
 
-            <span className="user-username">{profileName}</span>
+            <span className="user-username">{params?.userId}</span>
             {title && (
               <div className="title-container">
                 <span>{title}</span>
@@ -296,10 +329,10 @@ export default function UserProfile({
               </div>
             </div>
 
-            {isUsersProfile ? (
+            {isSameUser ? (
               <div className={'user-follow-button-container'}>
                 <div
-                  onClick={toggleFollowUser}
+                  // onClick={toggleFollowUser}
                   className={`${
                     accentColor === 'green'
                       ? 'user-follow-button-active-alt'
@@ -313,7 +346,7 @@ export default function UserProfile({
               <div className="user-follow-message-container">
                 <div className="user-follow-message-padding">
                   <div className="user-follow-button-container">
-                    {followsUser || props.followsUser ? (
+                    {followsUserAccount ? (
                       <FollowingButton className="user-follow-button-active" />
                     ) : (
                       <FollowButton className="user-follow-button" />
@@ -330,12 +363,12 @@ export default function UserProfile({
                     <span>{followsUser ? 'Following' : 'Follow'} </span>
                   </div> */}
                   </div>
-                  {followsUser && (
+                  {followsUserAccount && (
                     <div className="user-follow-button-container">
                       <div
-                        onClick={toggleFollowUser}
+                        // onClick={toggleFollowUser}
                         className={
-                          followsUser
+                          followsUserAccount
                             ? 'user-follow-button-active'
                             : 'user-follow-button'
                         }
@@ -424,8 +457,31 @@ export default function UserProfile({
 
   return (
     <div className="main-content">
-      {currentUser !== undefined ? <UserProfile userId={userId} /> : null}
-      <ShowSkeletons />
+      {currentUser !== undefined ? <ProfileDisplay userId={userId} /> : null}
+      {loadingMemes ? (
+        <ShowSkeletons />
+      ) : (
+        usersMemes?.map((item, index) => {
+          const id = item?.id;
+          let liked = false;
+          if (likedPosts?.includes(item.id)) {
+            liked = true;
+          }
+
+          return (
+            <Card
+              following={followsUserAccount}
+              // login={toggleLoginModal}
+              hearted={liked}
+              liked={liked}
+              key={id}
+              // likedPosts={usersLikedPosts}
+              item={item}
+              // toggleLoginModal={toggleLoginModal}
+            />
+          );
+        })
+      )}
     </div>
   );
 }

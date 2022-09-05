@@ -19,9 +19,15 @@ export default function UserAuth({ toggleLoginModal }: IProps) {
       title={login ? t('login') : t('register')}
     >
       {login ? (
-        <Login toggleLogin={() => setLogin((prev) => !prev)} />
+        <Login
+          closeModal={toggleLoginModal}
+          toggleLogin={() => setLogin((prev) => !prev)}
+        />
       ) : (
-        <Register toggleLogin={() => setLogin((prev) => !prev)} />
+        <Register
+          closeModal={toggleLoginModal}
+          toggleLogin={() => setLogin((prev) => !prev)}
+        />
       )}
     </PopupModal>
   );

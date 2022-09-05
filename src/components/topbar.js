@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import '../css-components/topbar.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as Plus } from '../assets/icons/plus.svg';
@@ -22,6 +22,7 @@ export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
   const [languageModal, setLanguageModal] = useState(false);
   const [showIconText, setShowIconText] = useState(false);
+  const [timeoutRef, setTimeoutRef] = useState(null);
 
   const { t, i18n } = useTranslation('common');
 
@@ -145,6 +146,20 @@ export default function TopBar(props) {
     }
   };
 
+  useEffect(() => {}, [isHovering]);
+
+  const mouseEnter = () => {
+    setIsHovering(true);
+    timeoutRef !== null && clearTimeout(timeoutRef);
+  };
+
+  const mouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setIsHovering(false);
+    }, 1000);
+    setTimeoutRef(timeout);
+  };
+
   const navigateAndClose = (navigate) => {
     navigate();
     handleMouseOut();
@@ -155,14 +170,13 @@ export default function TopBar(props) {
     setLanguageModal(false);
   };
 
-  const ProfileModal = () => {
+  const ProfileModal = ({ mouseLeave, mouseEnter }) => {
     return (
       <div
         id="nav"
-        className={
-          isHovering ? 'topbar-profile-modal' : 'topbar-profile-modal-dissapear'
-        }
-        onMouseLeave={handleMouseOut}
+        className={'topbar-profile-modal'}
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeave}
       >
         {currentUser ? (
           <div
@@ -276,13 +290,15 @@ export default function TopBar(props) {
       <div
         className="topbar-upload-meme-button"
         onClick={currentUser && props.navigateToProfile}
-        onMouseEnter={handleMouseOver}
+        // onMouseEnter={handleMouseOver}
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeave}
       >
         <User className="topbar-avatar" />
       </div>
 
       {isHovering && !languageModal ? (
-        <ProfileModal />
+        <ProfileModal mouseLeave={mouseLeave} mouseEnter={mouseEnter} />
       ) : languageModal ? (
         <LanguageModal />
       ) : null}

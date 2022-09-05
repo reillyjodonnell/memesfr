@@ -111,9 +111,7 @@ export default function Login(): JSX.Element {
   useEffect(() => {
     let mount = true;
     if (mount === true) {
-      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-        console.log(user);
-      });
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {});
       return unsubscribe;
     }
     return () => (mount = false);

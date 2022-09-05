@@ -7,7 +7,7 @@ import { ReactComponent as Notification } from '../assets/icons/notifications.sv
 import { useAuth } from '../contexts/auth-context';
 import { useTheme } from '../contexts/theme-context';
 import '../css-components/sidebar.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TrendingTopics from './trending-topics';
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,8 @@ export default function Sidebar(props) {
   const { updateDoge } = useTheme();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const username = currentUser?.username;
+  const profileUserId = currentUser?.uid;
 
   const { t, i18n } = useTranslation('common');
 
@@ -124,23 +126,27 @@ export default function Sidebar(props) {
 
               <span className="navigation-group-text">{t('recent')}</span>
             </div>
-            <div
-              onClick={currentUser ? props.navigateToProfile : props.login}
-              className={
-                props.active === 4
-                  ? 'navigation-group navigation-group-active'
-                  : 'navigation-group'
-              }
+            <Link
+              to={`/${username}`}
+              state={{ profileUserId, isSameUser: true }}
             >
-              <User
-                style={
+              <div
+                className={
                   props.active === 4
-                    ? { stroke: 'var(--primary-accent)' }
-                    : null
+                    ? 'navigation-group navigation-group-active'
+                    : 'navigation-group'
                 }
-              />
-              <span className="navigation-group-text">{t('profile')}</span>
-            </div>
+              >
+                <User
+                  style={
+                    props.active === 4
+                      ? { stroke: 'var(--primary-accent)' }
+                      : null
+                  }
+                />
+                <span className="navigation-group-text">{t('profile')}</span>
+              </div>
+            </Link>
 
             <div className="sidebar-container">
               <span>{t('trending')}</span>

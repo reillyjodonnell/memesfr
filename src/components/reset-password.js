@@ -82,7 +82,6 @@ export default function ResetPassword() {
     resetPassword(email)
       .then(() => {
         setSuccess(true);
-        // console.log('Successfully sent your email');
       })
       .catch((error) => {
         setError(true);

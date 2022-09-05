@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import ReactDom from 'react-dom';
 import '../../css-components/templates/popup-modal.css';
 import { ReactComponent as Cancel } from '../../assets/svg/x.svg';
@@ -10,13 +10,21 @@ export default function PopupModal({
   title = 'Log in to Memesfr',
   branding = true,
 }) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.getElementById('dashboard').style.filter = 'blur(5px)';
     document.getElementById('root').style.overflowY = 'hidden';
+
+    return () => {
+      removeblur();
+    };
   }, []);
-  const handleClose = () => {
+
+  function removeblur() {
     document.getElementById('dashboard').style.filter = 'blur(0px)';
     document.getElementById('root').style.overflowY = '';
+  }
+
+  const handleClose = () => {
     toggleState();
   };
   return ReactDom.createPortal(

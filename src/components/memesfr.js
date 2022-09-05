@@ -19,15 +19,13 @@ import Wallet from './routes/wallet/wallet';
 import LanguageProvider from '../contexts/language-context';
 import Create from './routes/create/create';
 import { useTranslation } from 'react-i18next';
-import Loading from './loading';
 
-export default function Memesfr() {
+export default function Memesfr({ loadingUser, setLoadingUser }) {
   const [nav, setNav] = useState({ count: 0 });
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
   const [following, setFollowing] = useState([]);
   const [loginModal, setLoginModal] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [loadingData, setLoadingData] = useState(false);
 
   const [postsLoading, setPostsLoading] = useState(false);
@@ -48,85 +46,84 @@ export default function Memesfr() {
         <MobileProvider>
           <LanguageProvider>
             <ThemeProvider>
-              <AuthProvider setLoading={setLoading}>
-                <Routes>
+              <Routes>
+                <Route
+                  exact
+                  path="/"
+                  element={
+                    <Home
+                      loading={loadingUser}
+                      loadingUser={loadingUser}
+                      setLoading={setLoadingUser}
+                      loadingData={loadingData}
+                      setFollowing={setFollowing}
+                      toggleLoginModal={toggleLoginModal}
+                      loginModal={loginModal}
+                      setPosts={setPosts}
+                      notificationCount={notificationCount}
+                      nav={nav}
+                      setNav={setNav}
+                      setPostsLoading={setPostsLoading}
+                      postsLoading={postsLoading}
+                    />
+                  }
+                >
                   <Route
-                    exact
                     path="/"
                     element={
-                      <Home
-                        loading={loading}
-                        loadingData={loadingData}
-                        setLoading={setLoading}
-                        setFollowing={setFollowing}
+                      <Feed
+                        following={following}
                         toggleLoginModal={toggleLoginModal}
                         loginModal={loginModal}
-                        setPosts={setPosts}
-                        notificationCount={notificationCount}
+                        postsData={posts}
                         nav={nav}
                         setNav={setNav}
-                        setPostsLoading={setPostsLoading}
                         postsLoading={postsLoading}
                       />
                     }
-                  >
-                    <Route
-                      path="/"
-                      element={
-                        <Feed
-                          following={following}
-                          toggleLoginModal={toggleLoginModal}
-                          loginModal={loginModal}
-                          postsData={posts}
-                          nav={nav}
-                          setNav={setNav}
-                          postsLoading={postsLoading}
-                        />
-                      }
-                    />
-                    <Route
-                      path=":userId"
-                      element={
-                        <UserProfile
-                          loading={loading}
-                          // postsLoading={loading}
-                          setLoadingData={setLoadingData}
-                          following={following}
-                          setNav={setNav}
-                        />
-                      }
-                    ></Route>
-                    <Route
-                      path="/notifications"
-                      element={
-                        <Notifications
-                          nav={nav}
-                          setNav={setNav}
-                          notificationCount={notificationCount}
-                        />
-                      }
-                    />
+                  />
+                  <Route
+                    path=":userId"
+                    element={
+                      <UserProfile
+                        // loading={loading}
+                        // postsLoading={loading}
+                        setLoadingData={setLoadingData}
+                        following={following}
+                        setNav={setNav}
+                      />
+                    }
+                  ></Route>
+                  <Route
+                    path="/notifications"
+                    element={
+                      <Notifications
+                        nav={nav}
+                        setNav={setNav}
+                        notificationCount={notificationCount}
+                      />
+                    }
+                  />
 
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/coins" element={<Coins />} />
-                    <Route path="/help" element={<Help />} />
-                    <Route
-                      path="/messages"
-                      element={<Messages nav={nav} setNav={setNav} />}
-                    />
-                    <Route
-                      path="/wallet"
-                      element={<Wallet nav={nav} setNav={setNav} />}
-                    />
-                    <Route path="/create" element={<Create />} />
-                  </Route>
-                  <Route path="/signup" element={<Register />} />
-                  <Route path="/setup" element={<CreateProfile />} />
-                  <Route path="/login" element={<Login />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/coins" element={<Coins />} />
                   <Route path="/help" element={<Help />} />
-                  <Route path="/edit" element={<Edit />} />
-                </Routes>
-              </AuthProvider>
+                  <Route
+                    path="/messages"
+                    element={<Messages nav={nav} setNav={setNav} />}
+                  />
+                  <Route
+                    path="/wallet"
+                    element={<Wallet nav={nav} setNav={setNav} />}
+                  />
+                  <Route path="/create" element={<Create />} />
+                </Route>
+                <Route path="/signup" element={<Register />} />
+                <Route path="/setup" element={<CreateProfile />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/edit" element={<Edit />} />
+              </Routes>
             </ThemeProvider>
           </LanguageProvider>
         </MobileProvider>
