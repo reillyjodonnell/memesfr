@@ -2,13 +2,15 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    borderRadius: {
-      DEFAULT: 'var(--rounded)',
-    },
     extend: {
+      borderRadius: {
+        round: 'var(--rounded)',
+      },
       colors: {
         'primary-accent': 'var(--primary-accent)',
         'text-color': 'var(--text-color)',
+        secondary: 'var(--secondary-text-color)',
+
         bg: 'var(--bg)',
         line: 'var(--line)',
         hover: 'var(--hover)',

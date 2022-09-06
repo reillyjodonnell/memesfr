@@ -10,12 +10,12 @@ import '../css-components/sidebar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import TrendingTopics from './trending-topics';
 import { useTranslation } from 'react-i18next';
+import ConditionalNavigate from './templates/conditional-navigate';
 
 export default function Sidebar(props) {
   const [doge, setDoge] = useState(false);
   const [hasNotification, setHasNotfication] = useState(true);
 
-  const { updateDoge } = useTheme();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
@@ -68,29 +68,35 @@ export default function Sidebar(props) {
                 <span className="navigation-group-text">{t('home')}</span>
               </div>
             </div>
-            <div
-              onClick={props.navigateToNotifications}
-              className={
-                props.active === 1
-                  ? 'navigation-group navigation-group-active'
-                  : 'navigation-group'
-              }
+            <ConditionalNavigate
+              booleanCheck={currentUser}
+              navigateTo={`/notifications`}
+              falseAction={() => props.login()}
             >
-              <div className="notification-container">
-                <Notification
-                  style={
-                    props.active === 1
-                      ? { stroke: 'var(--primary-accent)' }
-                      : null
-                  }
-                ></Notification>
-                {hasNotification && <NotificationAlert />}
-              </div>
+              <div
+                className={
+                  props.active === 1
+                    ? 'navigation-group navigation-group-active'
+                    : 'navigation-group'
+                }
+              >
+                <div className="notification-container">
+                  <Notification
+                    style={
+                      props.active === 1
+                        ? { stroke: 'var(--primary-accent)' }
+                        : null
+                    }
+                  ></Notification>
+                  {hasNotification && <NotificationAlert />}
+                </div>
 
-              <span className="navigation-group-text">
-                {t('notifications')}
-              </span>
-            </div>
+                <span className="navigation-group-text">
+                  {t('notifications')}
+                </span>
+              </div>
+            </ConditionalNavigate>
+
             <div
               onClick={props.popularFilter}
               className={
@@ -126,27 +132,32 @@ export default function Sidebar(props) {
 
               <span className="navigation-group-text">{t('recent')}</span>
             </div>
-            <Link
-              to={`/${username}`}
-              state={{ profileUserId, isSameUser: true }}
-            >
-              <div
-                className={
-                  props.active === 4
-                    ? 'navigation-group navigation-group-active'
-                    : 'navigation-group'
-                }
+
+            {
+              <ConditionalNavigate
+                booleanCheck={currentUser}
+                navigateTo={`/${username}`}
+                state={{ profileUserId, isSameUser: true }}
+                falseAction={() => props.login()}
               >
-                <User
-                  style={
+                <div
+                  className={
                     props.active === 4
-                      ? { stroke: 'var(--primary-accent)' }
-                      : null
+                      ? 'navigation-group navigation-group-active'
+                      : 'navigation-group'
                   }
-                />
-                <span className="navigation-group-text">{t('profile')}</span>
-              </div>
-            </Link>
+                >
+                  <User
+                    style={
+                      props.active === 4
+                        ? { stroke: 'var(--primary-accent)' }
+                        : null
+                    }
+                  />
+                  <span className="navigation-group-text">{t('profile')}</span>
+                </div>
+              </ConditionalNavigate>
+            }
 
             <div className="sidebar-container">
               <span>{t('trending')}</span>

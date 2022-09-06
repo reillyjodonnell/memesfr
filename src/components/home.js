@@ -17,13 +17,10 @@ export default function Home({
   setNav,
   setPostsLoading,
   setFollowing,
-  postsLoading,
-  setLoading,
   loading,
   loadingData,
-  loadingUser,
 }) {
-  const { loadUser, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const currentUserId = currentUser?.uid;
 
   useEffect(() => {

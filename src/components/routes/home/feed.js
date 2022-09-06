@@ -177,6 +177,8 @@ export default function Feed(props) {
           if (followingUsers?.includes(item.author)) {
             following = true;
           }
+          console.log(item);
+          const likes = item?.likes ?? 0;
           return (
             <Card
               following={following}
@@ -185,8 +187,8 @@ export default function Feed(props) {
               liked={liked}
               key={index}
               likedPosts={usersLikedPosts}
+              likes={likes}
               item={item}
-              toggleLoginModal={toggleLoginModal}
             ></Card>
           );
         })

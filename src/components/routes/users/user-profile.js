@@ -128,6 +128,7 @@ export default function UserProfile({
   loading,
   setLoadingData,
   setNav,
+  toggleLoginModal,
   ...props
 }) {
   useEffect(() => {
@@ -178,6 +179,7 @@ export default function UserProfile({
       console.log('executing');
       try {
         const result = await retrieveProfileData(profileUserId);
+        console.log(result);
         const {
           createdPosts,
           crowns,
@@ -194,9 +196,13 @@ export default function UserProfile({
         setFollowers(followers?.length || 0);
         setMemesCreated(createdPosts?.length || 0);
         setNumberOfFollowing(following?.length || 0);
+        console.log(avatar);
+        const hasAtLeastOneMeme = memeArray[0]?.authorPic ?? false;
         avatar
           ? setProfilePicture(avatar)
-          : setProfilePicture(memeArray[0]?.authorPic);
+          : hasAtLeastOneMeme
+          ? setProfilePicture(memeArray[0]?.authorPic)
+          : setProfilePicture('');
         setTitle(userTitle);
         setRetrievingData(false);
         setLoadingMemes(false);
@@ -209,42 +215,6 @@ export default function UserProfile({
     }
   }, [profileUserId]);
 
-  // useEffect(() => {
-  //   //This causes an infinite loop
-
-  //   // async function data() {
-  //   //   const result = await profileData(userId);
-  //   //   return result;
-  //   // }
-  //   data().then((result) => {
-  //     const {
-  //       createdPosts,
-  //       crowns,
-  //       followers,
-  //       following,
-  //       avatar,
-  //       userTitle,
-  //       id,
-  //     } = result;
-
-  //     setCrownCount(crowns || 0);
-  //     setFollowers(followers?.length || 0);
-  //     setMemesCreated(createdPosts?.length || 0);
-  //     setNumberOfFollowing(following?.length || 0);
-  //     setProfilePicture(avatar);
-  //     setTitle(userTitle);
-  //     setProfileId(id);
-  //     setRetrievingData(false);
-  //   });
-  //   return data;
-  // }, [userId]);
-
-  // useEffect(() => {
-  //   if (following?.includes(profileId)) {
-  //     setFollowsUser(true);
-  //   }
-  // }, [followsUser, following, userId, profileId]);
-
   useEffect(() => {
     let username;
     let profileName;
@@ -254,10 +224,6 @@ export default function UserProfile({
     }
     document.title = `Memesfr - ${profileName}`;
   }, [params.userId]);
-
-  // const toggleFollowUser = () => {
-  //   setFollowsUser((prevState) => !prevState);
-  // };
 
   const ProfileDisplay = () => {
     return (
@@ -463,18 +429,22 @@ export default function UserProfile({
       ) : (
         usersMemes?.map((item, index) => {
           const id = item?.id;
+          console.log(item);
           let liked = false;
           if (likedPosts?.includes(item.id)) {
             liked = true;
           }
 
+          const likes = item?.likes ?? 0;
+
           return (
             <Card
               following={followsUserAccount}
-              // login={toggleLoginModal}
+              login={toggleLoginModal}
               hearted={liked}
               liked={liked}
               key={id}
+              likes={likes}
               // likedPosts={usersLikedPosts}
               item={item}
               // toggleLoginModal={toggleLoginModal}

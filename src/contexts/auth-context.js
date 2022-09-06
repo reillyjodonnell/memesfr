@@ -7,11 +7,9 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthProvider({ children, setLoading }) {
-  const [currentUser, setCurrentUser] = useState({});
-  const [loadUser, setLoadUser] = useState(true);
+export default function AuthProvider({ children, setLoadingUser }) {
+  const [currentUser, setCurrentUser] = useState(null);
   const [notConfirmedEmail, setNotConfirmedEmail] = useState(false);
-  const [loadingUser, setLoadingUser] = useState(false);
   const [username, setUsername] = useState('');
   const [likedPosts, setLikedPosts] = useState([]);
   const [accountsUserFollows, setAccountsUserFollows] = useState([]);
@@ -84,7 +82,6 @@ export default function AuthProvider({ children, setLoading }) {
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
             setLoadingUser(false);
-            setLoading(false);
           }
           if (user.displayName && !user.emailVerified) {
             setNotConfirmedEmail(true);
@@ -97,20 +94,18 @@ export default function AuthProvider({ children, setLoading }) {
             // navigate('/setup');
           }
         } else {
-          setLoadUser(false);
           setLoadingUser(false);
         }
       });
       return unsubscribe;
     }
     return () => (mount = false);
-  }, [setLoading]);
+  }, [setLoadingUser]);
 
   const values = {
     currentUser,
     setCurrentUser,
     notConfirmedEmail,
-    loadingUser,
     likedPosts,
     accountsUserFollows,
   };

@@ -17,7 +17,7 @@
   padding: 1rem;
   width: 100%;
   overflow-y: auto;
-  /* border-right: 0.5px solid rgba(255, 255, 255, 0.212); */
+  border-right: 1px solid var(--line);
 }
 .sidebar-create-post {
   cursor: pointer;

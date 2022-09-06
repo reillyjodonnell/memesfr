@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '../css-components/topbar.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as Plus } from '../assets/icons/plus.svg';
@@ -22,7 +22,10 @@ export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
   const [languageModal, setLanguageModal] = useState(false);
   const [showIconText, setShowIconText] = useState(false);
-  const [timeoutRef, setTimeoutRef] = useState(null);
+  const [beginTimer, setBeginTimer] = useState(false);
+
+  const timeoutRef = useRef(null);
+  const callbackRef = useRef(null);
 
   const { t, i18n } = useTranslation('common');
 
@@ -145,37 +148,53 @@ export default function TopBar(props) {
       setIsHovering(true);
     }
   };
-
-  useEffect(() => {}, [isHovering]);
-
-  const mouseEnter = () => {
-    setIsHovering(true);
-    timeoutRef !== null && clearTimeout(timeoutRef);
-  };
-
-  const mouseLeave = () => {
-    const timeout = setTimeout(() => {
-      setIsHovering(false);
-    }, 1000);
-    setTimeoutRef(timeout);
-  };
-
   const navigateAndClose = (navigate) => {
     navigate();
     handleMouseOut();
   };
-
   const handleMouseOut = () => {
     setIsHovering(false);
     setLanguageModal(false);
   };
+
+  // useEffect(() => {
+  //   console.log(beginTimer);
+  //   if (beginTimer) {
+  //     const timeout = setTimeout(() => {
+  //       setIsHovering(false);
+  //     }, 1000);
+  //     timeoutRef.current = timeout;
+  //   }
+
+  //   return () => {
+  //     clearTimeout(timeoutRef);
+  //   };
+  // }, [timeoutRef, beginTimer]);
+
+  // const mouseEnter = () => {
+  //   setIsHovering(true);
+  //   setBeginTimer(false);
+  // };
+
+  // const mouseLeave = () => {
+  //   setBeginTimer(true);
+  // };
+
+  // const navigateAndClose = (navigate) => {
+  //   navigate();
+  //   handleMouseOut();
+  // };
+
+  // const handleMouseOut = () => {
+  //   setBeginTimer(true);
+  //   setLanguageModal(false);
+  // };
 
   const ProfileModal = ({ mouseLeave, mouseEnter }) => {
     return (
       <div
         id="nav"
         className={'topbar-profile-modal'}
-        onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeave}
       >
         {currentUser ? (
@@ -260,6 +279,7 @@ export default function TopBar(props) {
         {!currentUser && !loadingUser ? <LoggedOutSection /> : null}
 
         <button
+          aria-label="Upload meme"
           onClick={currentUser ? props.navigateToCreate : props.login}
           className="topbar-upload-meme-button topbar-tooltip topbar-first-button"
           data-tooltip={t('upload')}
@@ -268,7 +288,8 @@ export default function TopBar(props) {
         </button>
         {!loadingUser || currentUser ? (
           <>
-            <div
+            <button
+              aria-label="Messages"
               onClick={currentUser ? props.navigateToMessage : props.login}
               className={`topbar-upload-meme-button topbar-tooltip ${
                 props.active === 6 ? 'topbar-active' : null
@@ -276,29 +297,34 @@ export default function TopBar(props) {
               data-tooltip={t('messages')}
             >
               <Message className="stroke-text-color" />
-            </div>
-            <div
+            </button>
+            {/* <button
+              aria-label="Wallet"
               className="topbar-upload-meme-button topbar-tooltip"
               onClick={currentUser ? props.navigateToWallet : props.login}
               data-tooltip={t('inventory')}
             >
               <Wallet className="stroke-text-color" />
-            </div>
+            </button> */}
           </>
         ) : null}
       </div>
-      <div
+      <button
+        aria-label="Your profile"
         className="topbar-upload-meme-button"
         onClick={currentUser && props.navigateToProfile}
         // onMouseEnter={handleMouseOver}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
+        onMouseEnter={handleMouseOver}
+        // onMouseLeave={handleMouseOut}
       >
         <User className="topbar-avatar" />
-      </div>
+      </button>
 
       {isHovering && !languageModal ? (
-        <ProfileModal mouseLeave={mouseLeave} mouseEnter={mouseEnter} />
+        <ProfileModal
+          mouseLeave={handleMouseOut}
+          mouseEnter={handleMouseOver}
+        />
       ) : languageModal ? (
         <LanguageModal />
       ) : null}

@@ -165,7 +165,6 @@
   margin: 0 0 0.5rem 0;
   min-height: 50px;
   background-color: var(--bg);
-  min-width: 325px;
 }
 .login-modal-option-username:focus {
   transition: border 0.05s;

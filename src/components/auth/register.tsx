@@ -346,7 +346,7 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
                   <div className="flex items-center">
                     <input
                       //   type={'number'}
-                      className={`rounded-tl rounded-bl box-border p-1 px-2 flex w-full border-2 text-text-color text-base min-h-[50px] bg-bg 
+                      className={`rounded-round-tl rounded-round-bl box-border p-1 px-2 flex w-full border-2 text-text-color text-base min-h-[50px] bg-bg 
                      `}
                       placeholder="enter6DigitCode"
                     />
@@ -354,7 +354,7 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
                       id="request-code"
                       disabled={!validPhoneNumber}
                       onClick={loginWithPhone}
-                      className={`flex font-semibold justify-center items-center px-4 py-2  min-h-[50px] border-2 rounded-tr rounded-br border-line bg-line
+                      className={`flex font-semibold justify-center items-center px-4 py-2  min-h-[50px] border-2 rounded-round-tr rounded-round-br border-line bg-line
                       ${
                         validPhoneNumber
                           ? 'text-black'
@@ -404,7 +404,7 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
             )}
             <div className="flex w-full justify-start items-center ">
               <span
-                className="text-primary-accent px-2 py-1 hover:bg-hover rounded"
+                className="text-primary-accent px-2 py-1 hover:bg-hover rounded-round"
                 onClick={toggleUsePhone}
               >
                 {phone ? t('useEmailInstead') : t('usePhoneNumberInstead')}

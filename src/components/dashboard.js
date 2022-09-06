@@ -10,6 +10,7 @@ import Topbar from './topbar';
 import PopupModal from './templates/popup-modal';
 import { useTranslation } from 'react-i18next';
 import UserAuth from './auth/auth-container';
+import { signOut } from '../services/firebase-api';
 
 export default function Dashboard(props) {
   const [createPost, createPostFunction] = useState(false);
@@ -21,7 +22,7 @@ export default function Dashboard(props) {
 
   const { t, i18n } = useTranslation('common');
 
-  const { currentUser, signOut } = useAuth();
+  const { currentUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -42,8 +43,10 @@ export default function Dashboard(props) {
     resetPasswordFunction(!resetPassword);
   };
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+    window.location.reload();
   };
 
   function filterHome() {

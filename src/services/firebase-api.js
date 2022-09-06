@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { auth, db, storage } from '../services/firebase';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import firebase from 'firebase/app';
 import CreateProfile from '../components/create-profile';
 
@@ -401,17 +401,12 @@ export async function checkUsernameAvailability(username) {
 //   navigate('/reset');
 //   return auth.sendPasswordResetEmail(user.email);
 // }
-// function signOut() {
-//   auth.signOut().then(
-//     function () {
-//       navigate('/');
-//       window.location.reload();
-//     },
-//     function (error) {}
-//   );
+export async function signOut() {
+  await auth.signOut();
+  // window.location.reload();
 
-//   //Route to home screen and refresh the page plz
-// }
+  //Route to home screen and refresh the page plz
+}
 
 // function uploadMeme(image, title, type) {
 //   const author = currentUser.uid;

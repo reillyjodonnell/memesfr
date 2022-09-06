@@ -31,9 +31,9 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  height: 44px;
-  padding: 4px 0;
+  padding: 10px 0;
   box-sizing: border-box;
+  height: 100%;
 }
 .topbar-icon-text {
   color: var(--text-color);

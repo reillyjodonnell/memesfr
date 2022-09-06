@@ -19,8 +19,14 @@ import Wallet from './routes/wallet/wallet';
 import LanguageProvider from '../contexts/language-context';
 import Create from './routes/create/create';
 import { useTranslation } from 'react-i18next';
+import AuthenticatedRoute from './routes/authenticated-route';
 
-export default function Memesfr({ loadingUser, setLoadingUser }) {
+export default function Memesfr({
+  loadingUser,
+  setLoadingUser,
+  loadingContent,
+  setLoadingContent,
+}) {
   const [nav, setNav] = useState({ count: 0 });
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
@@ -88,6 +94,7 @@ export default function Memesfr({ loadingUser, setLoadingUser }) {
                       <UserProfile
                         // loading={loading}
                         // postsLoading={loading}
+                        toggleLoginModal={toggleLoginModal}
                         setLoadingData={setLoadingData}
                         following={following}
                         setNav={setNav}
@@ -97,11 +104,13 @@ export default function Memesfr({ loadingUser, setLoadingUser }) {
                   <Route
                     path="/notifications"
                     element={
-                      <Notifications
-                        nav={nav}
-                        setNav={setNav}
-                        notificationCount={notificationCount}
-                      />
+                      <AuthenticatedRoute>
+                        <Notifications
+                          nav={nav}
+                          setNav={setNav}
+                          notificationCount={notificationCount}
+                        />
+                      </AuthenticatedRoute>
                     }
                   />
 
@@ -110,12 +119,13 @@ export default function Memesfr({ loadingUser, setLoadingUser }) {
                   <Route path="/help" element={<Help />} />
                   <Route
                     path="/messages"
-                    element={<Messages nav={nav} setNav={setNav} />}
+                    element={
+                      <AuthenticatedRoute>
+                        <Messages nav={nav} setNav={setNav} />
+                      </AuthenticatedRoute>
+                    }
                   />
-                  <Route
-                    path="/wallet"
-                    element={<Wallet nav={nav} setNav={setNav} />}
-                  />
+
                   <Route path="/create" element={<Create />} />
                 </Route>
                 <Route path="/signup" element={<Register />} />

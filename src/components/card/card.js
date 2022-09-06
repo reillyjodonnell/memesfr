@@ -16,20 +16,15 @@ import FollowingButton from './following-button';
 import { fileType } from '../../constants/common';
 import { ReactComponent as Pencil } from '../../assets/svg/pencil.svg';
 
-export default function Card(props) {
+export default function Card({ likes = 0, ...props }) {
   const { t, i18n } = useTranslation('common');
 
-  const [heart, setHeart] = useState(false);
   const [thumbUp, setThumbUp] = useState(false);
   const [thumbDown, setThumbDown] = useState(false);
-  const [likes, changeLikes] = useState(0);
+  const [numberOfLikes, setNumberOfLikes] = useState(likes);
   const [options, expandOptions] = useState(false);
-  const [needSubmit, setNeedSubmit] = useState(false);
   const [permissionToEdit, setPermissionToEdit] = useState(false);
-  const [hasAlreadyLikedPost, setHasAlreadyLikedPost] = useState(false);
-  const [hasAlreadyHeartedPost, setHasAlreadyHeartedPost] = useState(false);
   const [followsUser, setFollowsUser] = useState(false);
-
   const { isMobile } = useMobile();
 
   const { login, following, item } = props;
@@ -39,14 +34,13 @@ export default function Card(props) {
   const shares = Math.round(Math.random() * 10000);
   const comments = Math.round(Math.random() * 40000);
 
-  const {
-    likePost,
-    dislikePost,
-    heartPost,
-    currentUser,
-    removeLikePost,
-    removeHeartPost,
-  } = useAuth();
+  const { author } = props?.item ?? '';
+
+  const { currentUser } = useAuth();
+
+  const [isAuthor, setIsAuthor] = useState(
+    currentUser ? currentUser.uid === props.item.author : false
+  );
 
   useEffect(() => {
     if (following) {
@@ -59,7 +53,7 @@ export default function Card(props) {
       setFollowsUser(true);
       followUser(currentUser.uid, props.item.author);
     } else {
-      props.toggleLoginModal();
+      login();
     }
   };
 
@@ -68,49 +62,22 @@ export default function Card(props) {
       setFollowsUser(false);
       unfollowUser(currentUser.uid, props.item.author);
     } else {
-      props.toggleLoginModal();
+      login();
     }
   };
 
-  function captureUserInput() {
-    if (currentUser && needSubmit) {
-      if (thumbUp && !hasAlreadyLikedPost) {
-        likePost(props.item.id);
-      }
-      if (thumbDown) {
-        dislikePost(props.item.id);
-      }
-      if (heart && !hasAlreadyHeartedPost) {
-        heartPost(props.item.id);
-      }
-      if (hasAlreadyHeartedPost && heart === false) {
-        removeHeartPost(props.item.id);
-      }
-      //if the user has the liked post in their list and the like is now unliked
-      if (hasAlreadyLikedPost && thumbUp === false) {
-        removeLikePost(props.item.id);
-      }
-      setNeedSubmit(false);
-    }
-  }
-
-  useEffect(() => {
-    //Await for the props to be passed
-    changeLikes(props.item.likes);
-  }, [props.item.likes]);
-
   const toggleThumbUp = () => {
-    setNeedSubmit(true);
+    // setNeedSubmit(true);
     if (thumbUp === true) {
       setThumbUp(!thumbUp);
-      changeLikes((likes) => likes - 1);
+      setNumberOfLikes((likes) => likes - 1);
     } else if (thumbDown === true) {
       setThumbDown(!thumbDown);
       setThumbUp(!thumbUp);
-      changeLikes((prevLikes) => prevLikes + 2);
+      setNumberOfLikes((prevLikes) => prevLikes + 2);
     } else {
       setThumbUp(!thumbUp);
-      changeLikes((likes) => likes + 1);
+      setNumberOfLikes((likes) => likes + 1);
     }
   };
 
@@ -123,12 +90,12 @@ export default function Card(props) {
     if (mounted) {
       if (props.liked === true) {
         setThumbUp(true);
-        setHasAlreadyLikedPost(true);
+        // setHasAlreadyLikedPost(true);
       }
-      if (props.hearted === true) {
-        setHeart(true);
-        setHasAlreadyHeartedPost(true);
-      }
+      // if (props.hearted === true) {
+      //   setHeart(true);
+      //   // setHasAlreadyHeartedPost(true);
+      // }
       return null;
     }
 
@@ -137,69 +104,7 @@ export default function Card(props) {
     };
   }, [props]);
 
-  function OptionsExpanded() {
-    if (permissionToEdit) {
-      return <ExpandedPencil></ExpandedPencil>;
-    }
-    if (!permissionToEdit) {
-      return (
-        <>
-          <div onClick={closeOptions} className="expanded-pencil">
-            <div className="edit">
-              <span>Close</span>
-            </div>
-            <div className="delete">
-              <span>Report Post</span>
-              <img alt="report button" src={report} />
-            </div>
-          </div>
-        </>
-      );
-    }
-  }
-
   /* THIS IS IF MODS/CREATORS WANT TO EDIT POST*/
-
-  function ExpandedPencil() {
-    return (
-      <div className="expanded-pencil">
-        <div className="edit">
-          <span>Edit post</span>
-        </div>
-        <div className="delete">
-          <img alt="a trash icon to remove posts" src={trash} />
-          <span>Remove post</span>
-        </div>
-      </div>
-    );
-  }
-  const DisplayAvatar = () => {
-    const avatar = item?.authorPic;
-    const username = item?.userName;
-
-    return (
-      <Link to={`/${username}`} state={{ profileUserId: props.item.author }}>
-        <div className="avatar-picture">
-          {avatar ? (
-            <img
-              alt="user's avatar"
-              src={avatar}
-              style={{ height: '100%', width: '100%' }}
-            />
-          ) : (
-            <img
-              alt="buff doge meme"
-              src={buffDoge}
-              style={{
-                height: '100%',
-                width: '100%',
-              }}
-            />
-          )}
-        </div>
-      </Link>
-    );
-  };
 
   function memeAuthor() {
     const memeAuthorUsername = item?.userName;
@@ -208,30 +113,42 @@ export default function Card(props) {
     } else return 'anonymous';
   }
 
+  const username = item?.userName ?? '';
+
   return props ? (
     <div
       className="card-area"
       style={isMobile ? { width: '100%' } : null}
-      onMouseLeave={captureUserInput}
-      onScrollCapture={isMobile ? captureUserInput : null}
+      // onMouseLeave={captureUserInput}
+      // onScrollCapture={isMobile ? captureUserInput : null}
     >
       <div className="card-container">
         <div className="card-container-padding">
-          <DisplayAvatar />
+          <DisplayAvatar
+            authorId={author}
+            avatar={item?.authorPic ?? ''}
+            username={username}
+          />
 
           <div className="card">
             <div className="upper">
               <div className="upper-top-info">
                 <div className="meme-identification">
-                  <div className="user-name-information">
-                    <span className="clickable">{memeAuthor()}</span>
-                    {isVerified && (
-                      <div className="verified-container">
-                        <CheckMark />
-                      </div>
-                    )}
-                    {/* {hasBanner && <UserBanner />} */}
-                  </div>
+                  <Link
+                    onClick={() => window.alert('CLICKED')}
+                    to={`/${username}`}
+                    state={{ profileUserId: author }}
+                  >
+                    <div className="user-name-information">
+                      <span className="clickable">{memeAuthor()}</span>
+                      {isVerified && (
+                        <div className="verified-container">
+                          <CheckMark />
+                        </div>
+                      )}
+                      {/* {hasBanner && <UserBanner />} */}
+                    </div>
+                  </Link>
 
                   <span className="meme-title">{props.item.title}</span>
 
@@ -239,7 +156,7 @@ export default function Card(props) {
                 </div>
                 {followsUser ? (
                   <FollowingButton toggleUnfollowUser={toggleUnfollowUser} />
-                ) : currentUser.uid === props.item.author ? (
+                ) : isAuthor ? (
                   <Pencil />
                 ) : (
                   <FollowButton toggleFollowUser={toggleFollowUser} />
@@ -279,7 +196,7 @@ export default function Card(props) {
                 }
               >
                 <FontAwesomeIcon icon={faCrown} className="w-6 h-6 card-icon" />
-                <span className="number-of-crowns">{likes}</span>
+                <span className="number-of-crowns">{numberOfLikes}</span>
               </div>
 
               <div
@@ -300,10 +217,75 @@ export default function Card(props) {
                 <span className="number-of-likes">{shares}</span>
               </div>
             </div>
-            {options ? <OptionsExpanded /> : null}
+            {options ? (
+              <OptionsExpanded
+                closeOptions={closeOptions}
+                permissionToEdit={permissionToEdit}
+              />
+            ) : null}
           </div>
         </div>
       </div>
     </div>
   ) : null;
+}
+
+const DisplayAvatar = ({ avatar, username, authorId }) => {
+  return (
+    <Link to={`/${username}`} state={{ profileUserId: authorId }}>
+      <div className="avatar-picture">
+        {avatar ? (
+          <img
+            alt="user's avatar"
+            src={avatar}
+            style={{ height: '100%', width: '100%' }}
+          />
+        ) : (
+          <img
+            alt="buff doge meme"
+            src={buffDoge}
+            style={{
+              height: '100%',
+              width: '100%',
+            }}
+          />
+        )}
+      </div>
+    </Link>
+  );
+};
+
+function ExpandedPencil() {
+  return (
+    <div className="expanded-pencil">
+      <div className="edit">
+        <span>Edit post</span>
+      </div>
+      <div className="delete">
+        <img alt="a trash icon to remove posts" src={trash} />
+        <span>Remove post</span>
+      </div>
+    </div>
+  );
+}
+
+function OptionsExpanded({ permissionToEdit, closeOptions }) {
+  if (permissionToEdit) {
+    return <ExpandedPencil></ExpandedPencil>;
+  }
+  if (!permissionToEdit) {
+    return (
+      <>
+        <div onClick={closeOptions} className="expanded-pencil">
+          <div className="edit">
+            <span>Close</span>
+          </div>
+          <div className="delete">
+            <span>Report Post</span>
+            <img alt="report button" src={report} />
+          </div>
+        </div>
+      </>
+    );
+  }
 }

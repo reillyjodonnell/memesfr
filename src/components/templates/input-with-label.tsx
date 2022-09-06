@@ -49,7 +49,7 @@ export default function InputWithLabel({
         <input
           autoComplete={autoComplete}
           value={value}
-          className={`rounded box-border p-1 px-2 flex w-full border-2 text-text-color text-base mb-2 min-h-[50px] bg-bg  ${
+          className={`rounded-round box-border p-1 px-2 flex w-full border-2 text-text-color text-base mb-2 min-h-[50px] bg-bg  ${
             error
               ? 'border-red-500 focus:border-red-500 focus:outline-none active:border-red-500'
               : 'border-line'
