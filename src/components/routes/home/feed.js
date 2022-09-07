@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Skeleton from '@material-ui/lab/Skeleton';
 import Card from '../../card/card';
 import '../../../css-components/dashboard.css';
 import { useAuth } from '../../../contexts/auth-context';
@@ -12,6 +11,9 @@ import {
   hasUserLikedPost,
   retrieveFollowing,
 } from '../../../services/firebase-api';
+import { useTheme } from '../../../contexts/theme-context';
+import Skeleton from '../../templates/skeleton';
+import FullScreenModal from '../../templates/full-screen-modal';
 const useStyles = makeStyles((theme) => ({
   skeleton: {
     margin: '2rem 1rem',
@@ -27,10 +29,13 @@ export default function Feed(props) {
   const [activeVideoURL, setActiveVideoURL] = useState('');
   const [usersLikedPosts, setUsersLikedPosts] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [fullScreenContent, setFullScreenContent] = useState([]);
 
   const { toggleLoginModal, nav } = props;
 
   const { currentUser } = useAuth();
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     const getFollowingUsers = async () => {
@@ -63,28 +68,14 @@ export default function Feed(props) {
   const { isMobile } = useMobile();
 
   const ShowSkeletons = () => {
-    return (
-      <div className="skeleton-container">
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-        <Skeleton className={classes.skeleton} variant="rect" />
-      </div>
-    );
+    const n = 20;
+    return [...Array(n)].map((e, i) => <Skeleton key={`skeleton-${i}`} />);
   };
+
+  function openFullScreen({ meme }) {
+    setFullScreen((prev) => !prev);
+    setFullScreenContent([meme]);
+  }
 
   // const RecentlyPosted = () => {
   //   let sayingOne = '';
@@ -163,6 +154,39 @@ export default function Feed(props) {
     </div>
   ) : (
     <div className="main-content">
+      {/* {fullScreen && fullScreenContent.length === 1 ? (
+        <FullScreenModal toggleState={() => openFullScreen((prev) => !prev)}>
+          {fullScreenContent.map((item) => {
+            console.log(item);
+            let liked = false;
+            let hearted = false;
+            let following = false;
+            const { id } = item;
+            if (usersLikedPosts?.includes(item.id)) {
+              liked = true;
+            }
+            if (followingUsers?.includes(item.author)) {
+              following = true;
+            }
+            console.log(item);
+            const likes = item?.likes ?? 0;
+            return (
+              <Card
+                enableFullScreen={openFullScreen}
+                following={following}
+                login={toggleLoginModal}
+                hearted={hearted}
+                liked={liked}
+                key={`meme-${id}`}
+                likedPosts={usersLikedPosts}
+                uniqueId={id}
+                likes={likes}
+                item={item}
+              ></Card>
+            );
+          })}
+        </FullScreenModal>
+      ) : null} */}
       {props.postsLoading ? (
         <ShowSkeletons />
       ) : !props.postsLoading && posts ? (
@@ -171,6 +195,7 @@ export default function Feed(props) {
           let liked = false;
           let hearted = false;
           let following = false;
+          const { id } = item;
           if (usersLikedPosts?.includes(item.id)) {
             liked = true;
           }
@@ -181,12 +206,14 @@ export default function Feed(props) {
           const likes = item?.likes ?? 0;
           return (
             <Card
+              enableFullScreen={openFullScreen}
               following={following}
               login={toggleLoginModal}
               hearted={hearted}
               liked={liked}
-              key={index}
+              key={`meme-${id}`}
               likedPosts={usersLikedPosts}
+              uniqueId={id}
               likes={likes}
               item={item}
             ></Card>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import '../../../css-components/routes/create/create.css';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/auth-context';
@@ -7,7 +7,8 @@ import { Picker } from 'emoji-mart';
 import { useTheme } from '../../../contexts/theme-context';
 import { ReactComponent as UploadFile } from '../../../assets/icons/upload.svg';
 import ImageThumb from '../../image-thumb';
-export default function Create() {
+import { navigation } from '../../../constants/navigation';
+export default function Create({ setNav }) {
   const { t, i18n } = useTranslation('common');
 
   const [file, setFile] = useState('');
@@ -22,6 +23,10 @@ export default function Create() {
   const { currentUser } = useAuth();
 
   const { activeBackground } = useTheme();
+
+  useLayoutEffect(() => {
+    setNav(navigation.CREATE);
+  }, [setNav]);
 
   useEffect(() => {
     switch (activeBackground) {

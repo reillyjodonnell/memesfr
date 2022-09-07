@@ -16,7 +16,7 @@ import FollowingButton from './following-button';
 import { fileType } from '../../constants/common';
 import { ReactComponent as Pencil } from '../../assets/svg/pencil.svg';
 
-export default function Card({ likes = 0, ...props }) {
+export default function Card({ likes = 0, enableFullScreen, ...props }) {
   const { t, i18n } = useTranslation('common');
 
   const [thumbUp, setThumbUp] = useState(false);
@@ -163,7 +163,10 @@ export default function Card({ likes = 0, ...props }) {
                 )}
               </div>
 
-              <div className="image-container">
+              <div
+                onClick={() => enableFullScreen({ meme: item })}
+                className="image-container"
+              >
                 {item?.fileType === fileType.VIDEO ? (
                   <video
                     autoPlay

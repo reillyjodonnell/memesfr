@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import '../../../css-components/routes/messages/messages.css';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Doge } from '../../../assets/buff-doge.jpg';
 import { ReactComponent as Edit } from '../../../assets/icons/edit.svg';
-import Og from '../../../assets/test/og.jpg';
 import { ReactComponent as Info } from '../../../assets/icons/info.svg';
 import { ReactComponent as Send } from '../../../assets/icons/send.svg';
 import { ReactComponent as Smile } from '../../../assets/icons/smile.svg';
+import { navigation } from '../../../constants/navigation';
 
 export default function Messages({ nav, setNav }) {
   const [showMessage, setShowMessage] = useState(false);
@@ -18,13 +17,12 @@ export default function Messages({ nav, setNav }) {
 
   document.title = `✉️ ${t('messages')} - Memesfr`;
 
-  useEffect(() => {
-    if (nav.count === null) {
-      setNav({ count: 6 });
-    }
-  }, []);
+  // this triggers a UI change so it should happen before the dom get's paint to prevent the flicker
+  useLayoutEffect(() => {
+    setNav({ count: navigation.MESSAGES });
+  }, [setNav]);
 
-  useEffect(() => {}, [message]);
+  useLayoutEffect(() => {}, []);
 
   useEffect(() => {
     //Set data to state

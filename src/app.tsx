@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './app.css';
+import Loading from './components/loading';
 import Memesfr from './components/memesfr';
 import AuthProvider from './contexts/auth-context';
+import ThemeProvider from './contexts/theme-context';
 function App() {
-  const [loadingUser, setLoadingUser] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [loadingData, setLoadingData] = useState(false);
+
   return (
-    <AuthProvider setLoadingUser={setLoadingUser}>
-      <Memesfr
-        loadingContent={loadingContent}
-        setLoadingContent={setLoadingContent}
-        setLoadingUser={setLoadingUser}
-        loadingUser={loadingUser}
-      />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider loadingUser={loadingUser} setLoadingUser={setLoadingUser}>
+        {loadingData || loadingUser ? (
+          <Loading />
+        ) : (
+          <Memesfr
+            setLoadingData={setLoadingData}
+            loadingData={loadingData}
+            setLoadingUser={setLoadingUser}
+            loadingUser={loadingUser}
+          />
+        )}
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

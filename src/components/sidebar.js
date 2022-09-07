@@ -1,27 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ReactComponent as Home } from '../assets/icons/home.svg';
 import { ReactComponent as Popular } from '../assets/icons/popular.svg';
 import { ReactComponent as Recent } from '../assets/icons/recent.svg';
 import { ReactComponent as User } from '../assets/svg/user.svg';
 import { ReactComponent as Notification } from '../assets/icons/notifications.svg';
 import { useAuth } from '../contexts/auth-context';
-import { useTheme } from '../contexts/theme-context';
 import '../css-components/sidebar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import TrendingTopics from './trending-topics';
 import { useTranslation } from 'react-i18next';
 import ConditionalNavigate from './templates/conditional-navigate';
+import { navigation } from '../constants/navigation';
 
-export default function Sidebar(props) {
-  const [doge, setDoge] = useState(false);
+export default function Sidebar({ nav, ...props }) {
   const [hasNotification, setHasNotfication] = useState(true);
-
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
   const profileUserId = currentUser?.uid;
-
   const { t, i18n } = useTranslation('common');
+
+  useEffect(() => {
+    console.log(nav);
+  }, [nav]);
 
   const Help = () => {
     <div onClick={() => navigate('/help')} className={'navigation-group'}>
@@ -50,7 +51,7 @@ export default function Sidebar(props) {
             <div
               onClick={props.homeFilter}
               className={
-                props.active === 0
+                nav === navigation.HOME
                   ? 'navigation-group navigation-group-active'
                   : 'navigation-group'
               }
@@ -58,7 +59,7 @@ export default function Sidebar(props) {
               <div className="navigation-group-items">
                 <Home
                   style={
-                    props.active === 0
+                    nav === navigation.HOME
                       ? {
                           stroke: 'var(--primary-accent)',
                         }
@@ -74,8 +75,9 @@ export default function Sidebar(props) {
               falseAction={() => props.login()}
             >
               <div
+                onClick={props.navigateToNotifications}
                 className={
-                  props.active === 1
+                  nav === navigation.NOTIFICATIONS
                     ? 'navigation-group navigation-group-active'
                     : 'navigation-group'
                 }
@@ -83,7 +85,7 @@ export default function Sidebar(props) {
                 <div className="notification-container">
                   <Notification
                     style={
-                      props.active === 1
+                      nav === navigation.NOTIFICATIONS
                         ? { stroke: 'var(--primary-accent)' }
                         : null
                     }
@@ -100,14 +102,14 @@ export default function Sidebar(props) {
             <div
               onClick={props.popularFilter}
               className={
-                props.active === 2
+                nav === navigation.POPULAR
                   ? 'navigation-group navigation-group-active'
                   : 'navigation-group'
               }
             >
               <Popular
                 style={
-                  props.active === 2
+                  nav === navigation.POPULAR
                     ? { stroke: 'var(--primary-accent)' }
                     : null
                 }
@@ -117,14 +119,14 @@ export default function Sidebar(props) {
             <div
               onClick={props.recentFilter}
               className={
-                props.active === 3
+                nav === navigation.RECENT
                   ? 'navigation-group navigation-group-active'
                   : 'navigation-group'
               }
             >
               <Recent
                 style={
-                  props.active === 3
+                  nav === navigation.RECENT
                     ? { stroke: 'var(--primary-accent)' }
                     : null
                 }
@@ -142,14 +144,14 @@ export default function Sidebar(props) {
               >
                 <div
                   className={
-                    props.active === 4
+                    nav === navigation.PROFILE
                       ? 'navigation-group navigation-group-active'
                       : 'navigation-group'
                   }
                 >
                   <User
                     style={
-                      props.active === 4
+                      nav === navigation.PROFILE
                         ? { stroke: 'var(--primary-accent)' }
                         : null
                     }

@@ -6,7 +6,7 @@ import {
   retrieveRecentPosts,
   retrieveFollowing,
 } from '../services/firebase-api';
-import Loading from './loading';
+import { navigation } from '../constants/navigation';
 
 export default function Home({
   notificationCount,
@@ -17,11 +17,13 @@ export default function Home({
   setNav,
   setPostsLoading,
   setFollowing,
-  loading,
-  loadingData,
 }) {
   const { currentUser } = useAuth();
   const currentUserId = currentUser?.uid;
+
+  useEffect(() => {
+    setNav(navigation.HOME);
+  }, [setNav]);
 
   useEffect(() => {
     const accountsUserIsFollowing = async () => {
@@ -49,15 +51,15 @@ export default function Home({
     return retrieveData;
   }
   useEffect(() => {
-    switch (nav?.count) {
-      case 0:
+    switch (nav) {
+      case navigation.HOME:
         setPostsLoading(true);
         popularPosts().then((data) => {
           setPosts(data);
           setPostsLoading(false);
         });
         break;
-      case 3:
+      case navigation.RECENT:
         setPostsLoading(true);
 
         recentPosts().then((data) => {
@@ -72,17 +74,13 @@ export default function Home({
 
   return (
     <>
-      {loading === false && loadingData === false ? (
-        <Dashboard
-          nav={nav}
-          setNav={setNav}
-          toggleLoginModal={toggleLoginModal}
-          loginModal={loginModal}
-          notificationCount={notificationCount}
-        />
-      ) : (
-        <Loading />
-      )}
+      <Dashboard
+        nav={nav}
+        setNav={setNav}
+        toggleLoginModal={toggleLoginModal}
+        loginModal={loginModal}
+        notificationCount={notificationCount}
+      />
     </>
   );
 }

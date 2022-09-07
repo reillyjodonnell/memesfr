@@ -7,7 +7,11 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthProvider({ children, setLoadingUser }) {
+export default function AuthProvider({
+  children,
+  setLoadingUser,
+  loadingUser,
+}) {
   const [currentUser, setCurrentUser] = useState(null);
   const [notConfirmedEmail, setNotConfirmedEmail] = useState(false);
   const [username, setUsername] = useState('');

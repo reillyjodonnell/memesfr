@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import '../css-components/topbar.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as Plus } from '../assets/icons/plus.svg';
@@ -9,14 +9,122 @@ import { ReactComponent as Language } from '../assets/icons/language.svg';
 import { ReactComponent as Help } from '../assets/icons/help.svg';
 import { ReactComponent as User } from '../assets/svg/user.svg';
 import { ReactComponent as Message } from '../assets/icons/message.svg';
-import { ReactComponent as Wallet } from '../assets/icons/wallet.svg';
 
 import { useLanguage } from '../contexts/language-context';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../contexts/auth-context';
 import { Settings } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import { navigation } from '../constants/navigation';
+
+const LanguageModal = ({ handleMouseOut, navigateAndClose }) => {
+  const {
+    setLanguageToSpanish,
+    setLanguageToChinese,
+    setLanguageToGerman,
+    setLanguageToEnglish,
+    setLanguageToFrench,
+    setLanguageToArabic,
+    setLanguageToPortuguese,
+    setLanguageToRussian,
+    languagePreference,
+    setLanguageToJapanese,
+  } = useLanguage();
+  return (
+    <div className="topbar-profile-modal" onMouseLeave={handleMouseOut}>
+      <div
+        className={
+          languagePreference === 'English'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+        onClick={() => navigateAndClose(setLanguageToEnglish)}
+      >
+        <span className="topbar-profile-modal-item-text">English</span>
+      </div>
+      <div
+        className={
+          languagePreference === 'Spanish'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+        onClick={() => navigateAndClose(setLanguageToSpanish)}
+      >
+        <span className="topbar-profile-modal-item-text">Español</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToFrench)}
+        className={
+          languagePreference === 'French'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">français</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToGerman)}
+        className={
+          languagePreference === 'German'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">Deutsch</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToChinese)}
+        className={
+          languagePreference === 'Chinese'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">中国人</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToArabic)}
+        className={
+          languagePreference === 'Arabic'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">عربى</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToPortuguese)}
+        className={
+          languagePreference === 'Portuguese'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">Português</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToRussian)}
+        className={
+          languagePreference === 'Russian'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">русский</span>
+      </div>
+      <div
+        onClick={() => navigateAndClose(setLanguageToJapanese)}
+        className={
+          languagePreference === 'Japanese'
+            ? 'topbar-profile-modal-item-active'
+            : 'topbar-profile-modal-item'
+        }
+      >
+        <span className="topbar-profile-modal-item-text">日本</span>
+      </div>
+    </div>
+  );
+};
 
 export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
@@ -30,116 +138,6 @@ export default function TopBar(props) {
   const { t, i18n } = useTranslation('common');
 
   const { currentUser, loadingUser } = useAuth();
-
-  const {
-    setLanguageToSpanish,
-    setLanguageToChinese,
-    setLanguageToGerman,
-    setLanguageToEnglish,
-    setLanguageToFrench,
-    setLanguageToArabic,
-    setLanguageToPortuguese,
-    setLanguageToRussian,
-    languagePreference,
-    setLanguageToJapanese,
-  } = useLanguage();
-
-  const LanguageModal = () => {
-    return (
-      <div className="topbar-profile-modal" onMouseLeave={handleMouseOut}>
-        <div
-          className={
-            languagePreference === 'English'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-          onClick={() => navigateAndClose(setLanguageToEnglish)}
-        >
-          <span className="topbar-profile-modal-item-text">English</span>
-        </div>
-        <div
-          className={
-            languagePreference === 'Spanish'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-          onClick={() => navigateAndClose(setLanguageToSpanish)}
-        >
-          <span className="topbar-profile-modal-item-text">Español</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToFrench)}
-          className={
-            languagePreference === 'French'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">français</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToGerman)}
-          className={
-            languagePreference === 'German'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">Deutsch</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToChinese)}
-          className={
-            languagePreference === 'Chinese'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">中国人</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToArabic)}
-          className={
-            languagePreference === 'Arabic'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">عربى</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToPortuguese)}
-          className={
-            languagePreference === 'Portuguese'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">Português</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToRussian)}
-          className={
-            languagePreference === 'Russian'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">русский</span>
-        </div>
-        <div
-          onClick={() => navigateAndClose(setLanguageToJapanese)}
-          className={
-            languagePreference === 'Japanese'
-              ? 'topbar-profile-modal-item-active'
-              : 'topbar-profile-modal-item'
-          }
-        >
-          <span className="topbar-profile-modal-item-text">日本</span>
-        </div>
-      </div>
-    );
-  };
 
   const handleMouseOver = () => {
     if (isHovering) {
@@ -281,7 +279,9 @@ export default function TopBar(props) {
         <button
           aria-label="Upload meme"
           onClick={currentUser ? props.navigateToCreate : props.login}
-          className="topbar-upload-meme-button topbar-tooltip topbar-first-button"
+          className={`topbar-upload-meme-button topbar-tooltip topbar-first-button ${
+            props.active === navigation.CREATE ? 'topbar-active' : ''
+          }`}
           data-tooltip={t('upload')}
         >
           <Plus />
@@ -292,7 +292,7 @@ export default function TopBar(props) {
               aria-label="Messages"
               onClick={currentUser ? props.navigateToMessage : props.login}
               className={`topbar-upload-meme-button topbar-tooltip ${
-                props.active === 6 ? 'topbar-active' : null
+                props.active === navigation.MESSAGES ? 'topbar-active' : ''
               }`}
               data-tooltip={t('messages')}
             >
@@ -326,7 +326,10 @@ export default function TopBar(props) {
           mouseEnter={handleMouseOver}
         />
       ) : languageModal ? (
-        <LanguageModal />
+        <LanguageModal
+          handleMouseOut={handleMouseOut}
+          navigateAndClose={navigateAndClose}
+        />
       ) : null}
     </div>
   );

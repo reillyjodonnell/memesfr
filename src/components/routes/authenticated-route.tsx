@@ -6,7 +6,7 @@ export default function AuthenticatedRoute({
 }: {
   children: JSX.Element;
 }) {
-  const { currentUser } = useAuth();
+  const { currentUser, loadingUser } = useAuth();
 
   return currentUser ? children : <Navigate to="/" replace />;
 }

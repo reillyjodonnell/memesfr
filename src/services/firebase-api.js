@@ -403,7 +403,6 @@ export async function checkUsernameAvailability(username) {
 // }
 export async function signOut() {
   await auth.signOut();
-  // window.location.reload();
 
   //Route to home screen and refresh the page plz
 }

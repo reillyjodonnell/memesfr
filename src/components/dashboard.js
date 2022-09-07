@@ -11,6 +11,7 @@ import PopupModal from './templates/popup-modal';
 import { useTranslation } from 'react-i18next';
 import UserAuth from './auth/auth-container';
 import { signOut } from '../services/firebase-api';
+import { navigation } from '../constants/navigation';
 
 export default function Dashboard(props) {
   const [createPost, createPostFunction] = useState(false);
@@ -50,79 +51,73 @@ export default function Dashboard(props) {
   };
 
   function filterHome() {
-    if (nav !== 0) {
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 0 });
-      navigate('/');
-    }
+    // myRef.current.scrollIntoView({ behavior: 'smooth' });
+    setNav(navigation.HOME);
+    navigate('/');
   }
-  function filterTrending() {
-    if (nav !== 1) {
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 1 });
-    }
-  }
+  // function filterTrending() {
+  //   if (nav !== navigation.) {
+  //     // myRef.current.scrollIntoView({ behavior: 'smooth' });
+  //     setNav({ count: 1 });
+  //   }
+  // }
 
   function filterPopular() {
-    if (nav !== 2) {
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-
-      setNav({ count: 2 });
-    }
+    // myRef.current.scrollIntoView({ behavior: 'smooth' });
+    navigate('/');
+    setNav(navigation.POPULAR);
+  }
+  function filterNotifications() {
+    navigate('/');
+    setNav(navigation.RECENT);
   }
   function filterRecent() {
     navigate('/');
 
-    if (nav !== 3) {
-      // myRef.current.scrollIntoView({ behavior: 'smooth' });
-      setNav({ count: 3 });
-    }
-  }
-  function filterRandom() {
-    setNav({ count: 4 });
+    setNav(navigation.RECENT);
   }
 
   const navigateToProfile = () => {
-    setNav({ count: 4 });
+    setNav(navigation.PROFILE);
     navigate(`/${currentUser.username}`, {
       state: { profileUserId: currentUser?.uid },
     });
   };
   const navigateToNotifications = () => {
-    setNav({ count: 1 });
+    setNav(navigation.NOTIFICATIONS);
     navigate(`/notifications`);
   };
   const navigateToSettings = () => {
-    setNav({ count: null });
+    setNav(null);
     navigate('/settings');
   };
   const navigateToCoins = () => {
-    setNav({ count: null });
+    setNav(null);
     navigate('/coins');
   };
   const navigateToHelp = () => {
-    setNav({ count: null });
+    setNav(null);
 
     navigate('/help');
   };
   const navigateToMessage = () => {
-    setNav({ count: 6 });
+    setNav(navigation.MESSAGES);
 
     navigate('/messages');
   };
-  const navigateToWallet = () => {
-    setNav({ count: 7 });
+  // const navigateToWallet = () => {
+  //   setNav({ count: 7 });
 
-    navigate('/wallet');
-  };
+  //   navigate('/wallet');
+  // };
 
   const navigateToCreate = () => {
-    setNav({ count: 5 });
+    setNav(navigation.CREATE);
     navigate('/create');
   };
 
   const navigateToLogin = () => {
-    setNav({ count: null });
+    setNav(null);
     navigate('/login');
   };
 
@@ -142,10 +137,10 @@ export default function Dashboard(props) {
             <MobileNav
               active={nav.count}
               homeFilter={filterHome}
-              trendingFilter={filterTrending}
+              // trendingFilter={filterTrending}
               recentFilter={filterRecent}
               popularFilter={filterPopular}
-              randomFilter={filterRandom}
+              // randomFilter={filterRandom}
               createPost={createMemePost}
               resetPassword={resetUserPassword}
               navigateToCreate={navigateToCreate}
@@ -157,17 +152,17 @@ export default function Dashboard(props) {
           <>
             <Topbar
               homeFilter={filterHome}
-              trendingFilter={filterTrending}
+              // trendingFilter={filterTrending}
               recentFilter={filterRecent}
               popularFilter={filterPopular}
-              randomFilter={filterRandom}
+              // randomFilter={filterRandom}
               navigateToProfile={navigateToProfile}
               navigateToNotifications={navigateToNotifications}
               navigateToCoins={navigateToCoins}
               navigateToHelp={navigateToHelp}
               navigateToSettings={navigateToSettings}
               navigateToMessage={navigateToMessage}
-              navigateToWallet={navigateToWallet}
+              // navigateToWallet={navigateToWallet}
               navigateToCreate={navigateToCreate}
               navigateToLogin={navigateToLogin}
               createPost={createMemePost}
@@ -188,17 +183,18 @@ export default function Dashboard(props) {
             >
               <Sidebar
                 homeFilter={filterHome}
-                trendingFilter={filterTrending}
+                // trendingFilter={filterTrending}
                 recentFilter={filterRecent}
                 popularFilter={filterPopular}
-                randomFilter={filterRandom}
+                notificationsFilter={filterNotifications}
+                // randomFilter={filterRandom}
                 navigateToProfile={navigateToProfile}
                 navigateToNotifications={navigateToNotifications}
                 navigateToLogin={navigateToLogin}
                 createPost={createMemePost}
                 login={toggleLoginModal}
                 notificationCount={props.notificationCount}
-                active={nav?.count}
+                nav={nav ?? -1}
                 username={username}
                 avatar={avatar}
                 resetPassword={resetUserPassword}

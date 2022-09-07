@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Login from './login';
 import Register from './signup';
 import Home from './home';
-import AuthProvider from '../contexts/auth-context';
-import ThemeProvider from '../contexts/theme-context';
 import MobileProvider from '../contexts/mobile-context';
 import CreateProfile from './create-profile';
 import Edit from './edit-profile';
@@ -24,15 +22,14 @@ import AuthenticatedRoute from './routes/authenticated-route';
 export default function Memesfr({
   loadingUser,
   setLoadingUser,
-  loadingContent,
-  setLoadingContent,
+  loadingData,
+  setLoadingData,
 }) {
-  const [nav, setNav] = useState({ count: 0 });
+  const [nav, setNav] = useState(-1);
   const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
   const [following, setFollowing] = useState([]);
   const [loginModal, setLoginModal] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
 
   const [postsLoading, setPostsLoading] = useState(false);
 
@@ -51,90 +48,89 @@ export default function Memesfr({
       <BrowserRouter>
         <MobileProvider>
           <LanguageProvider>
-            <ThemeProvider>
-              <Routes>
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <Home
+                    loadingUser={loadingUser}
+                    setLoading={setLoadingUser}
+                    setFollowing={setFollowing}
+                    toggleLoginModal={toggleLoginModal}
+                    loginModal={loginModal}
+                    setPosts={setPosts}
+                    notificationCount={notificationCount}
+                    nav={nav}
+                    setNav={setNav}
+                    setPostsLoading={setPostsLoading}
+                    postsLoading={postsLoading}
+                  />
+                }
+              >
                 <Route
-                  exact
                   path="/"
                   element={
-                    <Home
-                      loading={loadingUser}
-                      loadingUser={loadingUser}
-                      setLoading={setLoadingUser}
-                      loadingData={loadingData}
-                      setFollowing={setFollowing}
+                    <Feed
+                      following={following}
                       toggleLoginModal={toggleLoginModal}
                       loginModal={loginModal}
-                      setPosts={setPosts}
-                      notificationCount={notificationCount}
+                      postsData={posts}
                       nav={nav}
                       setNav={setNav}
-                      setPostsLoading={setPostsLoading}
                       postsLoading={postsLoading}
                     />
                   }
-                >
-                  <Route
-                    path="/"
-                    element={
-                      <Feed
-                        following={following}
-                        toggleLoginModal={toggleLoginModal}
-                        loginModal={loginModal}
-                        postsData={posts}
+                />
+                <Route
+                  path=":userId"
+                  element={
+                    <UserProfile
+                      // loading={loading}
+                      // postsLoading={loading}
+                      toggleLoginModal={toggleLoginModal}
+                      setLoadingData={setLoadingData}
+                      following={following}
+                      setNav={setNav}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path="/notifications"
+                  element={
+                    <AuthenticatedRoute>
+                      <Notifications
                         nav={nav}
                         setNav={setNav}
-                        postsLoading={postsLoading}
+                        notificationCount={notificationCount}
                       />
-                    }
-                  />
-                  <Route
-                    path=":userId"
-                    element={
-                      <UserProfile
-                        // loading={loading}
-                        // postsLoading={loading}
-                        toggleLoginModal={toggleLoginModal}
-                        setLoadingData={setLoadingData}
-                        following={following}
-                        setNav={setNav}
-                      />
-                    }
-                  ></Route>
-                  <Route
-                    path="/notifications"
-                    element={
-                      <AuthenticatedRoute>
-                        <Notifications
-                          nav={nav}
-                          setNav={setNav}
-                          notificationCount={notificationCount}
-                        />
-                      </AuthenticatedRoute>
-                    }
-                  />
+                    </AuthenticatedRoute>
+                  }
+                />
 
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/coins" element={<Coins />} />
-                  <Route path="/help" element={<Help />} />
-                  <Route
-                    path="/messages"
-                    element={
-                      <AuthenticatedRoute>
-                        <Messages nav={nav} setNav={setNav} />
-                      </AuthenticatedRoute>
-                    }
-                  />
-
-                  <Route path="/create" element={<Create />} />
-                </Route>
-                <Route path="/signup" element={<Register />} />
-                <Route path="/setup" element={<CreateProfile />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/coins" element={<Coins />} />
                 <Route path="/help" element={<Help />} />
-                <Route path="/edit" element={<Edit />} />
-              </Routes>
-            </ThemeProvider>
+                <Route
+                  path="/messages"
+                  element={
+                    <AuthenticatedRoute>
+                      <Messages setNav={setNav} />
+                    </AuthenticatedRoute>
+                  }
+                />
+
+                <Route
+                  path="/create"
+                  element={<Create nav={nav} setNav={setNav} />}
+                />
+              </Route>
+              <Route path="/signup" element={<Register />} />
+              <Route path="/setup" element={<CreateProfile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/edit" element={<Edit />} />
+            </Routes>
           </LanguageProvider>
         </MobileProvider>
       </BrowserRouter>

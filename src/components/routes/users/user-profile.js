@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../../css-components/dashboard.css';
 import { useAuth } from '../../../contexts/auth-context';
@@ -14,6 +14,7 @@ import { t } from 'i18next';
 import LoadingSpinner from '../../loading-spinner';
 import { useLocation } from 'react-router-dom';
 import Card from '../../card/card';
+import { navigation } from '../../../constants/navigation';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -131,16 +132,16 @@ export default function UserProfile({
   toggleLoginModal,
   ...props
 }) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Any navigation number is set to null to hide styling
-    setNav(null);
+    setNav(navigation.PROFILE);
 
     // Scroll to top (regardless of previous scroll position) to see full profile
     /* settimeout make sure this run after components have rendered. This will help fixing bug for some views where scroll to top not working perfectly */
     setTimeout(() => {
       window.scrollTo({ top: 0 });
     }, 0);
-  }, []);
+  }, [setNav]);
 
   const location = useLocation();
   const { profileUserId } = location?.state ?? {};
