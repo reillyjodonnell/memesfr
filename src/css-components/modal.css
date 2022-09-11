@@ -169,6 +169,7 @@
   position: absolute;
   width: 30px;
   stroke: var(--text-color);
+  background-color: var(--bg);
   color: black;
   top: 0;
   right: 0;

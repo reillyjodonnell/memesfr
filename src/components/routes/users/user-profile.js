@@ -145,8 +145,6 @@ export default function UserProfile({
 
   const location = useLocation();
   const { profileUserId } = location?.state ?? {};
-  console.log(location?.state);
-  const isSameUser = location?.state?.isSameUser ?? false;
 
   let params = useParams();
   const { userId } = params;
@@ -167,6 +165,14 @@ export default function UserProfile({
 
   const { accentColor } = useTheme();
   const { currentUser, likedPosts, accountsUserFollows } = useAuth();
+
+  const [isSameUser, setIsSameUser] = useState(
+    currentUser?.uid === profileUserId
+  );
+
+  useLayoutEffect(() => {
+    setActiveFilter(navigation.PROFILE);
+  }, []);
 
   useEffect(() => {
     if (!isSameUser && accountsUserFollows.includes(profileUserId)) {
@@ -192,18 +198,25 @@ export default function UserProfile({
           memeArray,
         } = result;
 
+        console.log(avatar);
+
         setUsersMemes([...memeArray]);
         setCrownCount(crowns || 0);
         setFollowers(followers?.length || 0);
         setMemesCreated(createdPosts?.length || 0);
         setNumberOfFollowing(following?.length || 0);
         console.log(avatar);
+        console.log(memeArray[0]);
         const hasAtLeastOneMeme = memeArray[0]?.authorPic ?? false;
-        avatar
-          ? setProfilePicture(avatar)
-          : hasAtLeastOneMeme
-          ? setProfilePicture(memeArray[0]?.authorPic)
+        console.log(isSameUser);
+        isSameUser
+          ? setProfilePicture(memeArray[0].authorPic)
           : setProfilePicture('');
+        // avatar
+        //   ? setProfilePicture(avatar)
+        //   : hasAtLeastOneMeme
+        //   ? setProfilePicture(memeArray[0]?.authorPic)
+        //   : setProfilePicture(null);
         setTitle(userTitle);
         setRetrievingData(false);
         setLoadingMemes(false);
@@ -215,6 +228,10 @@ export default function UserProfile({
       loadProfilePosts();
     }
   }, [profileUserId]);
+
+  useEffect(() => {
+    console.log(profilePicture);
+  }, [profilePicture]);
 
   useEffect(() => {
     let username;
@@ -430,7 +447,6 @@ export default function UserProfile({
       ) : (
         usersMemes?.map((item, index) => {
           const id = item?.id;
-          console.log(item);
           let liked = false;
           if (likedPosts?.includes(item.id)) {
             liked = true;

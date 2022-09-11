@@ -5,9 +5,9 @@ import { useAuth } from '../../../contexts/auth-context';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 import { useTheme } from '../../../contexts/theme-context';
-import { ReactComponent as UploadFile } from '../../../assets/icons/upload.svg';
 import ImageThumb from '../../image-thumb';
 import { navigation } from '../../../constants/navigation';
+import { ReactComponent as Image } from '../../../assets/icons/add-image.svg';
 export default function Create({ setNav }) {
   const { t, i18n } = useTranslation('common');
 
@@ -144,8 +144,13 @@ export default function Create({ setNav }) {
                 type="file"
               />
               <div className="upload-file-prompt">
-                <UploadFile />
-                <span>Click or Drag and Drop dank meme here</span>
+                <Image className="flex  w-24 h-24 stroke-secondary mb-6" />
+                <span className="mb-6 text-xl">
+                  Click or Drag and Drop dank meme here
+                </span>
+                <button className="flex justify-center items-center text-white  font-semibold border-2 border-primary-accent bg-primary-accent text-2xl rounded-round px-6 py-2 mb-6">
+                  Select Image
+                </button>
               </div>
             </>
           ) : (
@@ -160,87 +165,89 @@ export default function Create({ setNav }) {
           )}
         </div>
 
-        <div className="create-post-user-area">
-          <div className="create-post-user">
-            <div className="create-post-avatar-picture">
-              <img className="" src={avatar} />
-            </div>
-            <span className="create-post-username">{username}</span>
-          </div>
-          <div className="create-post-description">
-            <div className="create-post-caption-container">
-              <div className="create-post-caption-container-titles">
-                <span className="create-post-caption-container-title-caption">
-                  {t('caption')}
-                </span>
-                <span
-                  style={!acceptInput ? { color: 'red' } : null}
-                  className="create-post-caption-container-title-characters"
-                >
-                  {`${letterCount} / 69`}
-                </span>
+        {file ? (
+          <div className="create-post-user-area">
+            <div className="create-post-user">
+              <div className="create-post-avatar-picture">
+                <img className="" src={avatar} />
               </div>
-              <div
-                className={`create-post-caption-input-container
+              <span className="create-post-username">{username}</span>
+            </div>
+            <div className="create-post-description">
+              <div className="create-post-caption-container">
+                <div className="create-post-caption-container-titles">
+                  <span className="create-post-caption-container-title-caption">
+                    {t('caption')}
+                  </span>
+                  <span
+                    style={!acceptInput ? { color: 'red' } : null}
+                    className="create-post-caption-container-title-characters"
+                  >
+                    {`${letterCount} / 69`}
+                  </span>
+                </div>
+                <div
+                  className={`create-post-caption-input-container
                   ${
                     !acceptInput
                       ? 'create-post-caption-input-container-invalid'
                       : null
                   }`}
-              >
-                <div
-                  className="create-post-caption-input"
-                  contentEditable
-                  id="caption"
-                  onInput={handleCaptionInput}
-                  value={caption}
-                ></div>
-                <div className="create-post-caption-secondary">
-                  <div className="create-post-emoji-container">
-                    <span
-                      onClick={openEmojiPicker}
-                      className="create-post-emoji-icon"
+                >
+                  <div
+                    className="create-post-caption-input"
+                    contentEditable
+                    id="caption"
+                    onInput={handleCaptionInput}
+                    value={caption}
+                  ></div>
+                  <div className="create-post-caption-secondary">
+                    <div className="create-post-emoji-container">
+                      <span
+                        onClick={openEmojiPicker}
+                        className="create-post-emoji-icon"
+                      >
+                        😀
+                      </span>
+                    </div>
+                    <div
+                      onClick={handleHashTag}
+                      className="create-post-hashtag-container"
                     >
-                      😀
-                    </span>
+                      <span className="create-post-hashtag-icon">#</span>
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="create-post-caption-container-titles">
+                  <span className="create-post-caption-container-title-caption">
+                    {t('cover')}
+                  </span>
+                </div>
+                <div className="create-post-cover-container">
+                  <div className="create-post-caption-secondary">
+                    <div className="create-post-emoji-container">
+                      <span className="create-post-emoji-icon">🥇</span>
+                    </div>
+                  </div>
+                </div> */}
+                <div className="create-post-actions">
+                  <div className="create-post-action-button create-post-trash-button">
+                    {t('trash')}
                   </div>
                   <div
-                    onClick={handleHashTag}
-                    className="create-post-hashtag-container"
+                    className={`create-post-action-button ${
+                      validPost
+                        ? 'create-post-submit-button-valid'
+                        : 'create-post-submit-button-invalid'
+                    }`}
                   >
-                    <span className="create-post-hashtag-icon">#</span>
+                    {t('submit')}
                   </div>
-                </div>
-              </div>
-              <div className="create-post-caption-container-titles">
-                <span className="create-post-caption-container-title-caption">
-                  {t('cover')}
-                </span>
-              </div>
-              <div className="create-post-cover-container">
-                <div className="create-post-caption-secondary">
-                  <div className="create-post-emoji-container">
-                    <span className="create-post-emoji-icon">🥇</span>
-                  </div>
-                </div>
-              </div>
-              <div className="create-post-actions">
-                <div className="create-post-action-button create-post-trash-button">
-                  {t('trash')}
-                </div>
-                <div
-                  className={`create-post-action-button ${
-                    validPost
-                      ? 'create-post-submit-button-valid'
-                      : 'create-post-submit-button-invalid'
-                  }`}
-                >
-                  {t('submit')}
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   ) : null;
