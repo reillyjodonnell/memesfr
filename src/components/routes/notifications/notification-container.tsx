@@ -1,7 +1,4 @@
-import { faCrown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { notificationConstants } from './notification-constants';
-import { ReactComponent as User } from '../../../assets/icons/user.svg';
 import { t } from 'i18next';
 type NotificationContainerProps = {
   senderAvatar: string;
@@ -17,7 +14,6 @@ export default function NotificationContainer({
   senderAvatar,
   senderName,
   image,
-  sourceContentElement,
   rightElement,
   type,
 }: NotificationContainerProps) {
@@ -38,7 +34,7 @@ export default function NotificationContainer({
         />
       </div>
       <div className="flex flex-col justify-center items-start">
-        <span className="flex justify-start w-full items-center font-semibold text-lg">
+        <span className="flex text-black dark:text-white justify-start w-full items-center font-semibold text-lg">
           {senderName}
         </span>
         <div className="flex">
@@ -49,7 +45,11 @@ export default function NotificationContainer({
       {/* <div>{sourceContentElement}</div> */}
       <div className="flex justify-center items-center ml-auto">
         {type === notificationConstants.CROWNED ? (
-          <img src={image} className="flex w-20 h-20 rounded-round" />
+          <img
+            alt="A white crown with three points"
+            src={image}
+            className="flex w-20 h-20 rounded-round"
+          />
         ) : type === notificationConstants.FOLLOWED ? (
           // <User className="flex w-16 h-16 rounded-round font-secondary stroke-secondary" />
           <button className="flex cursor-pointer justify-center items-center px-4 py-2 bg-primary-accent rounded-round text-white font-semibold border-2 border-primary-accent hover:brightness-90 transition-all">

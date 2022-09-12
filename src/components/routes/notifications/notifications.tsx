@@ -44,7 +44,9 @@ export default function Notifications({ notificationCount }: any) {
   return (
     <div className="flex flex-col w-full justify-start items-center  p-6 m-6 ">
       <div className="flex justify-center items-center w-full pb-12">
-        <span className="flex text-3xl font-bold">{t('notifications')}</span>
+        <span className="flex text-black dark:text-white text-3xl font-bold">
+          {t('notifications')}
+        </span>
       </div>
 
       <div className="flex flex-col justify-start items-center border border-line rounded-round w-5/6">

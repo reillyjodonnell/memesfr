@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import Doge from '../assets/buff-doge.jpg';
 
 const ThemeContext = React.createContext();
@@ -13,6 +13,70 @@ export default function ThemeProvider({ children }) {
   const [activeBackground, setActiveBackground] = useState(null);
   const [darkMode, setDarkMode] = useState(null);
   const [accentColor, setAccentColor] = useState('');
+
+  const r = document.querySelector(':root');
+
+  const handleLightMode = useCallback(() => {
+    r.classList.remove('dark');
+    r.classList.add('light');
+    r.style.setProperty('--bg', 'var(--light-bg)');
+    r.style.setProperty('--text-color', 'var(--dark-text)');
+    r.style.setProperty('--line', 'var(--light-mode-line)');
+    r.style.setProperty(
+      '--secondary-text-color',
+      'var(--light-text-secondary)'
+    );
+    r.style.setProperty('--shadow', 'var(--light-mode-shadow)');
+    r.style.setProperty('--hover', 'var(--light-mode-hover)');
+    r.style.setProperty(
+      '--secondary-title-color',
+      'var(--light-secondary-title-color)'
+    );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-light)'
+    );
+    r.style.setProperty('--navigation', 'var(--light-mode-navigation)');
+  }, [r]);
+
+  const handleDarkMode = useCallback(() => {
+    r.classList.remove('light');
+    r.classList.add('dark');
+
+    r.style.setProperty('--bg', 'var(--black-bg)');
+    r.style.setProperty('--text-color', 'var(--light-text)');
+    r.style.setProperty('--line', 'var(--dark-mode-hover)');
+    r.style.setProperty('--secondary-text-color', 'var(--dark-text-secondary)');
+    r.style.setProperty('--shadow', 'var(--dark-mode-shadow)');
+    r.style.setProperty('--hover', 'var(--normal-mode-hover)');
+    r.style.setProperty(
+      '--secondary-title-color',
+      'var(--dark-secondary-title-color)'
+    );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-dark)'
+    );
+    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
+  }, [r]);
+
+  const handleDefaultMode = useCallback(() => {
+    r.style.setProperty('--bg', 'var(--dark-bg)');
+    r.style.setProperty('--text-color', 'var(--light-text)');
+    r.style.setProperty('--line', 'var(--dark-mode-line)');
+    r.style.setProperty('--secondary-text-color', 'var(--dark-text-secondary)');
+    r.style.setProperty('--shadow', 'var(--dark-mode-shadow)');
+    r.style.setProperty('--hover', 'var(--dark-mode-hover)');
+    r.style.setProperty(
+      '--secondary-title-color',
+      'var(--dark-secondary-title-color)'
+    );
+    r.style.setProperty(
+      '--bg-transparent',
+      'var(--background-transparent-dark)'
+    );
+    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
+  }, [r]);
 
   useEffect(() => {
     const darkModeJSON = localStorage.getItem('backgroundColor');
@@ -29,12 +93,13 @@ export default function ThemeProvider({ children }) {
       case 'light':
         handleLightMode();
         setActiveBackground(2);
+        break;
       default:
         handleLightMode();
         setActiveBackground(2);
         break;
     }
-  }, []);
+  }, [handleDarkMode, handleLightMode, setActiveBackground, handleDefaultMode]);
 
   useEffect(() => {
     const colorValue = localStorage.getItem('accentColor');
@@ -71,63 +136,6 @@ export default function ThemeProvider({ children }) {
     document.body.style.backgroundSize = 'contain';
   }
 
-  const handleLightMode = () => {
-    r.style.setProperty('--bg', 'var(--light-bg)');
-    r.style.setProperty('--text-color', 'var(--dark-text)');
-    r.style.setProperty('--line', 'var(--light-mode-line)');
-    r.style.setProperty(
-      '--secondary-text-color',
-      'var(--light-text-secondary)'
-    );
-    r.style.setProperty('--shadow', 'var(--light-mode-shadow)');
-    r.style.setProperty('--hover', 'var(--light-mode-hover)');
-    r.style.setProperty(
-      '--secondary-title-color',
-      'var(--light-secondary-title-color)'
-    );
-    r.style.setProperty(
-      '--bg-transparent',
-      'var(--background-transparent-light)'
-    );
-    r.style.setProperty('--navigation', 'var(--light-mode-navigation)');
-  };
-
-  const handleDarkMode = () => {
-    r.style.setProperty('--bg', 'var(--black-bg)');
-    r.style.setProperty('--text-color', 'var(--light-text)');
-    r.style.setProperty('--line', 'var(--dark-mode-hover)');
-    r.style.setProperty('--secondary-text-color', 'var(--dark-text-secondary)');
-    r.style.setProperty('--shadow', 'var(--dark-mode-shadow)');
-    r.style.setProperty('--hover', 'var(--normal-mode-hover)');
-    r.style.setProperty(
-      '--secondary-title-color',
-      'var(--dark-secondary-title-color)'
-    );
-    r.style.setProperty(
-      '--bg-transparent',
-      'var(--background-transparent-dark)'
-    );
-    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
-  };
-
-  const handleDefaultMode = () => {
-    r.style.setProperty('--bg', 'var(--dark-bg)');
-    r.style.setProperty('--text-color', 'var(--light-text)');
-    r.style.setProperty('--line', 'var(--dark-mode-line)');
-    r.style.setProperty('--secondary-text-color', 'var(--dark-text-secondary)');
-    r.style.setProperty('--shadow', 'var(--dark-mode-shadow)');
-    r.style.setProperty('--hover', 'var(--dark-mode-hover)');
-    r.style.setProperty(
-      '--secondary-title-color',
-      'var(--dark-secondary-title-color)'
-    );
-    r.style.setProperty(
-      '--bg-transparent',
-      'var(--background-transparent-dark)'
-    );
-    r.style.setProperty('--navigation', 'var(--dark-mode-navigation)');
-  };
-
   const handleBackgroundColor = (index) => {
     switch (index) {
       case 0:
@@ -162,8 +170,6 @@ export default function ThemeProvider({ children }) {
 
     setDarkMode((prev) => !prev);
   };
-
-  var r = document.querySelector(':root');
 
   const handleStoringColor = (color, value) => {
     localStorage.setItem('accentColor', color);
