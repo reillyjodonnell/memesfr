@@ -45,8 +45,9 @@ export default function Create({ setNav }) {
     }
   }, [activeBackground]);
 
-  const avatar = currentUser && currentUser.photoURL;
-  const username = currentUser && currentUser.displayName;
+  const avatar = currentUser?.photoURL ?? '';
+
+  const username = currentUser?.displayName ?? '';
 
   document.title = `✏️ ${t('create')} - Memesfr`;
 
@@ -87,7 +88,7 @@ export default function Create({ setNav }) {
     setFileType('');
     setFile('');
   }
-  const inlcudeEmojis = [
+  const includeEmojis = [
     'search',
     'custom',
     'people',
@@ -104,7 +105,7 @@ export default function Create({ setNav }) {
     <div className="create-post-container">
       {emojiContainerOpen && (
         <Picker
-          include={inlcudeEmojis}
+          include={includeEmojis}
           set={'apple'}
           onSelect={(emoji) => handleEmojiPicker(emoji)}
           title=""
@@ -169,7 +170,12 @@ export default function Create({ setNav }) {
           <div className="create-post-user-area">
             <div className="create-post-user">
               <div className="create-post-avatar-picture">
-                <img className="" src={avatar} />
+                <img
+                  className=""
+                  alt="your user avatar"
+                  referrerpolicy="no-referrer"
+                  src={avatar}
+                />
               </div>
               <span className="create-post-username">{username}</span>
             </div>
@@ -218,21 +224,10 @@ export default function Create({ setNav }) {
                     </div>
                   </div>
                 </div>
-                {/* <div className="create-post-caption-container-titles">
-                  <span className="create-post-caption-container-title-caption">
-                    {t('cover')}
-                  </span>
-                </div>
-                <div className="create-post-cover-container">
-                  <div className="create-post-caption-secondary">
-                    <div className="create-post-emoji-container">
-                      <span className="create-post-emoji-icon">🥇</span>
-                    </div>
-                  </div>
-                </div> */}
+
                 <div className="create-post-actions">
-                  <div className="create-post-action-button create-post-trash-button">
-                    {t('trash')}
+                  <div className="create-post-action-button create-post-trash-button hover:border-red-500">
+                    {`${t('trash')} 🗑`}
                   </div>
                   <div
                     className={`create-post-action-button ${
