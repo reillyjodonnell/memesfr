@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../css-components/dashboard.css';
 import Sidebar from './sidebar';
 import { useAuth } from '../contexts/auth-context';

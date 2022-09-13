@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '../../card/card';
 import '../../../css-components/dashboard.css';
@@ -14,6 +14,7 @@ import {
 import { useTheme } from '../../../contexts/theme-context';
 import Skeleton from '../../templates/skeleton';
 import FullScreenModal from '../../templates/full-screen-modal';
+import { navigation } from '../../../constants/navigation';
 const useStyles = makeStyles((theme) => ({
   skeleton: {
     margin: '2rem 1rem',
@@ -32,10 +33,14 @@ export default function Feed(props) {
   const [fullScreen, setFullScreen] = useState(false);
   const [fullScreenContent, setFullScreenContent] = useState([]);
 
-  const { toggleLoginModal, nav } = props;
+  const { toggleLoginModal, nav, setNav } = props;
 
   const { currentUser } = useAuth();
   const { darkMode } = useTheme();
+
+  useLayoutEffect(() => {
+    setNav(navigation.HOME);
+  }, [setNav]);
 
   useEffect(() => {
     const getFollowingUsers = async () => {

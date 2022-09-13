@@ -193,30 +193,28 @@ export default function UserProfile({
           followers,
           following,
           avatar,
+
           userTitle,
           id,
           memeArray,
         } = result;
-
-        console.log(avatar);
 
         setUsersMemes([...memeArray]);
         setCrownCount(crowns || 0);
         setFollowers(followers?.length || 0);
         setMemesCreated(createdPosts?.length || 0);
         setNumberOfFollowing(following?.length || 0);
-        console.log(avatar);
-        console.log(memeArray[0]);
+
         const hasAtLeastOneMeme = memeArray[0]?.authorPic ?? false;
-        console.log(isSameUser);
-        isSameUser
-          ? setProfilePicture(memeArray[0].authorPic)
-          : setProfilePicture('');
-        // avatar
-        //   ? setProfilePicture(avatar)
-        //   : hasAtLeastOneMeme
-        //   ? setProfilePicture(memeArray[0]?.authorPic)
-        //   : setProfilePicture(null);
+        // console.log(isSameUser);
+        // isSameUser
+        //   ? setProfilePicture(memeArray[0].authorPic)
+        //   : setProfilePicture('');
+        avatar && setProfilePicture(avatar);
+
+        // : hasAtLeastOneMeme
+        // ? setProfilePicture(memeArray[0]?.authorPic)
+        // : setProfilePicture(null);
         setTitle(userTitle);
         setRetrievingData(false);
         setLoadingMemes(false);

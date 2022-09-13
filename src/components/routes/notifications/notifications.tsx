@@ -1,5 +1,6 @@
 import { t } from 'i18next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { navigation } from '../../../constants/navigation';
 import { useAuth } from '../../../contexts/auth-context';
 import '../../../css-components/routes/notifications/notifications.css';
 import { notificationConstants } from './notification-constants';
@@ -29,17 +30,14 @@ const data = [
   },
 ];
 
-export default function Notifications({ notificationCount }: any) {
+export default function Notifications({ notificationCount, setNav }: any) {
   if (notificationCount > 0) {
     document.title = `(${notificationCount}) Memesfr`;
   }
 
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (!user) {
-    }
-  }, []);
+  useLayoutEffect(() => {
+    setNav(navigation.NOTIFICATIONS);
+  }, [setNav]);
 
   return (
     <div className="flex flex-col w-full justify-start items-center  p-6 m-6 ">

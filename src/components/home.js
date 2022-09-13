@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Dashboard from './dashboard';
 import { useAuth } from '../contexts/auth-context';
 import {
@@ -20,10 +20,6 @@ export default function Home({
 }) {
   const { currentUser } = useAuth();
   const currentUserId = currentUser?.uid;
-
-  useEffect(() => {
-    setNav(navigation.HOME);
-  }, [setNav]);
 
   useEffect(() => {
     const accountsUserIsFollowing = async () => {

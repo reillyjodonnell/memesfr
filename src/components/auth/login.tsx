@@ -197,7 +197,10 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
       </div>
       <div className="login-modal-options-container">
         <div className="login-modal-login-container">
-          <form onSubmit={(e) => submitForm(e)}>
+          <form
+            className="flex flex-col w-full justify-center items-start"
+            onSubmit={(e) => submitForm(e)}
+          >
             <input
               id="login"
               value={typeof loginField === 'string' ? loginField : ''}

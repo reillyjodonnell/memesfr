@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { auth, db, storage } from '../services/firebase';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { auth, db } from '../services/firebase';
 import firebase from 'firebase/app';
-import CreateProfile from '../components/create-profile';
 
 const actionCodeSettings = {
   url: 'https://memesfr.com/',
