@@ -1,4 +1,4 @@
-import { auth, db } from '../services/firebase';
+import { auth, db, storage } from '../services/firebase';
 import firebase from 'firebase/app';
 
 const actionCodeSettings = {
@@ -7,12 +7,12 @@ const actionCodeSettings = {
 };
 
 export async function retrieveProfileData(userId) {
-  console.log(userId);
   try {
     const profileData = await db.collection('users').doc(userId);
 
     const profileResult = await profileData.get();
     const profileStats = profileResult.data();
+
     const recent10Posts = profileStats?.createdPosts?.slice(0, 9);
     const memes = profileStats?.createdPosts;
 
@@ -24,15 +24,12 @@ export async function retrieveProfileData(userId) {
     let memeArray = [];
     const querySnapshot = await query;
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
       memeArray.push(doc.data());
     });
 
     const profileStatsWithId = { ...profileStats, id: userId, memeArray };
     return profileStatsWithId;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 }
 
 export async function retrievePopularPosts() {
@@ -735,6 +732,4 @@ export async function hasUserLikedPost({ currentUser }) {
 // }
 export async function retrieveUsersPosts(id) {
   const profileRef = await db.collection('users')?.doc(id).get();
-
-  console.log(profileRef);
 }

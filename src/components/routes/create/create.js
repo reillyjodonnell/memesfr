@@ -140,6 +140,7 @@ export default function Create({ setNav }) {
           {!file ? (
             <>
               <input
+                accept="video/*, image/*"
                 onChange={handleUpload}
                 className="hidden-file"
                 type="file"

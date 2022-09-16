@@ -73,9 +73,9 @@ export default function Sidebar({ nav, ...props }) {
               booleanCheck={currentUser}
               navigateTo={`/notifications`}
               falseAction={() => props.login()}
+              action={props.navigateToNotifications}
             >
               <div
-                onClick={props.navigateToNotifications}
                 className={
                   nav === navigation.NOTIFICATIONS
                     ? 'navigation-group navigation-group-active'

@@ -183,20 +183,19 @@ export default function UserProfile({
   useEffect(() => {
     //load the last 5 of the users posts
     async function loadProfilePosts() {
-      console.log('executing');
       try {
         const result = await retrieveProfileData(profileUserId);
-        console.log(result);
         const {
           createdPosts,
           crowns,
           followers,
           following,
           avatar,
-
           userTitle,
           id,
           memeArray,
+          authorPic,
+          image,
         } = result;
 
         setUsersMemes([...memeArray]);
@@ -206,15 +205,14 @@ export default function UserProfile({
         setNumberOfFollowing(following?.length || 0);
 
         const hasAtLeastOneMeme = memeArray[0]?.authorPic ?? false;
-        // console.log(isSameUser);
-        // isSameUser
-        //   ? setProfilePicture(memeArray[0].authorPic)
-        //   : setProfilePicture('');
-        avatar && setProfilePicture(avatar);
-
-        // : hasAtLeastOneMeme
-        // ? setProfilePicture(memeArray[0]?.authorPic)
-        // : setProfilePicture(null);
+        isSameUser
+          ? setProfilePicture(memeArray[0].authorPic)
+          : setProfilePicture('');
+        // avatar
+        //   ? setProfilePicture(avatar)
+        //   : hasAtLeastOneMeme
+        //   ? setProfilePicture(memeArray[0]?.authorPic)
+        //   : setProfilePicture(null);
         setTitle(userTitle);
         setRetrievingData(false);
         setLoadingMemes(false);
@@ -226,10 +224,6 @@ export default function UserProfile({
       loadProfilePosts();
     }
   }, [profileUserId]);
-
-  useEffect(() => {
-    console.log(profilePicture);
-  }, [profilePicture]);
 
   useEffect(() => {
     let username;

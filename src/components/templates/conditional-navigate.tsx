@@ -6,6 +6,7 @@ type ConditionaNavigateProps = {
   navigateTo: string;
   state?: any;
   falseAction?: any;
+  action?: any;
 };
 
 export default function ConditionalNavigate({
@@ -14,9 +15,10 @@ export default function ConditionalNavigate({
   navigateTo,
   state,
   falseAction,
+  action,
 }: ConditionaNavigateProps) {
   return booleanCheck ? (
-    <Link to={navigateTo} state={state}>
+    <Link onClick={action ? action : () => {}} to={navigateTo} state={state}>
       {children}
     </Link>
   ) : (
