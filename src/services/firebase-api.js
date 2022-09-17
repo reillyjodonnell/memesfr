@@ -32,6 +32,7 @@ export async function retrieveProfileData(userId) {
   } catch (err) {}
 }
 
+// this is unscalable - since the document max data could be potentially reached
 export async function retrievePopularPosts() {
   const popRef = db.collection('popular').doc('top_fifty');
   const collections = await popRef.get();
@@ -94,6 +95,12 @@ export async function retrievePopularPosts() {
   });
   return updatedObjects;
 }
+
+// This is the scalable method - get the top 50 documents based on likes
+
+// The issue will be associating the number of likes to those documents as likes are sharded
+
+export async function retrievePopPosts() {}
 
 export async function retrieveRecentPosts() {
   const recentRef = db.collection('recent').doc('recent_fifty');

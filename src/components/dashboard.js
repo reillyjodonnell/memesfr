@@ -135,7 +135,7 @@ export default function Dashboard(props) {
           <>
             <Outlet />
             <MobileNav
-              active={nav.count}
+              active={nav}
               homeFilter={filterHome}
               // trendingFilter={filterTrending}
               recentFilter={filterRecent}
@@ -167,7 +167,7 @@ export default function Dashboard(props) {
               navigateToLogin={navigateToLogin}
               createPost={createMemePost}
               login={toggleLoginModal}
-              active={nav?.count}
+              active={nav}
               username={username}
               avatar={avatar}
               resetPassword={resetUserPassword}

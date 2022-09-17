@@ -264,6 +264,8 @@ export default function TopBar(props) {
     );
   };
 
+  console.log(props.active);
+
   return (
     <div className="topbar-content">
       <Link className="text-decoration-none" to={'/'}>

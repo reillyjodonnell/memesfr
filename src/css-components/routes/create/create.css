@@ -242,11 +242,12 @@
 }
 .create-post-trash-button {
   background-color: var(--hover);
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--line);
   color: var(--text-color);
 }
 .create-post-trash-button:hover {
   transition: all var(--speed);
+  background-color: rgba(255, 0, 0, 0.308);
   filter: brightness(0.8);
 }
 
@@ -254,6 +255,12 @@
   background-color: var(--bg);
   border: 1px solid var(--text-color);
   color: var(--text-color);
+}
+.create-post-submit-button-valid:hover {
+  transition: all var(--speed);
+  background-color: var(--primary-accent);
+  color: white;
+  filter: brightness(1.2);
 }
 
 .create-post-submit-button-invalid {

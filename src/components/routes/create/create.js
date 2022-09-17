@@ -22,28 +22,9 @@ export default function Create({ setNav }) {
   const [emojiContainerOpen, setEmojiContainerOpen] = useState(false);
   const { currentUser } = useAuth();
 
-  const { activeBackground } = useTheme();
-
   useLayoutEffect(() => {
     setNav(navigation.CREATE);
   }, [setNav]);
-
-  useEffect(() => {
-    switch (activeBackground) {
-      case 0:
-        setDisplayLightBackground(true);
-        break;
-      case 1:
-        setDisplayLightBackground(true);
-        break;
-      case 2:
-        setDisplayLightBackground(false);
-        break;
-      default:
-        setDisplayLightBackground(true);
-        break;
-    }
-  }, [activeBackground]);
 
   const avatar = currentUser?.photoURL ?? '';
 
@@ -60,7 +41,7 @@ export default function Create({ setNav }) {
 
     const letterLength = e.currentTarget.textContent.length;
     setLetterCount(letterLength);
-    if (letterLength >= 69) {
+    if (letterLength > 69) {
       setAcceptInput(false);
     } else {
       setAcceptInput(true);
@@ -69,6 +50,10 @@ export default function Create({ setNav }) {
 
   const openEmojiPicker = () => {
     setEmojiContainerOpen((prev) => !prev);
+  };
+
+  const clearMeme = () => {
+    setFile('');
   };
 
   const handleEmojiPicker = (emoji) => {
@@ -100,6 +85,10 @@ export default function Create({ setNav }) {
     'symbols',
     'flags',
   ];
+
+  function shouldEnableSubmitButton() {
+    return file && letterCount > 0 && letterCount <= 69;
+  }
 
   return currentUser ? (
     <div className="create-post-container">
@@ -227,18 +216,21 @@ export default function Create({ setNav }) {
                 </div>
 
                 <div className="create-post-actions">
-                  <div className="create-post-action-button create-post-trash-button hover:border-red-500">
+                  <button
+                    onClick={clearMeme}
+                    className="create-post-action-button create-post-trash-button hover:border-red-500"
+                  >
                     {`${t('trash')} 🗑`}
-                  </div>
-                  <div
+                  </button>
+                  <button
                     className={`create-post-action-button ${
-                      validPost
+                      shouldEnableSubmitButton()
                         ? 'create-post-submit-button-valid'
                         : 'create-post-submit-button-invalid'
                     }`}
                   >
                     {t('submit')}
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
