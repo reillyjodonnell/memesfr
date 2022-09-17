@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faShare,
-  faComment,
-  faCrown,
-  faHeart,
-} from '@fortawesome/free-solid-svg-icons';
+import { faShare, faComment, faCrown } from '@fortawesome/free-solid-svg-icons';
 import '../../css-components/mobile/side-crown-container.css';
-import { ReactComponent as User } from '../../assets/svg/user.svg';
 
 export default function SideCrownContainer() {
   const [likes, changeLikes] = useState(69);
-  const [needSubmit, setNeedSubmit] = useState(false);
   const [thumbUp, setThumbUp] = useState(false);
 
-  const currentUser = false;
   // const thumbUp = false;
   const toggleThumbUp = () => {
-    setNeedSubmit(true);
     if (thumbUp === true) {
       setThumbUp(!thumbUp);
       changeLikes((likes) => likes - 1);
@@ -26,7 +17,6 @@ export default function SideCrownContainer() {
       changeLikes((likes) => likes + 1);
     }
   };
-  const activatePrompt = () => {};
   const comments = 420;
   const shares = 42069;
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import '../css-components/topbar.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
 import { ReactComponent as Plus } from '../assets/icons/plus.svg';
@@ -129,14 +129,7 @@ const LanguageModal = ({ handleMouseOut, navigateAndClose }) => {
 export default function TopBar(props) {
   const [isHovering, setIsHovering] = useState(false);
   const [languageModal, setLanguageModal] = useState(false);
-  const [showIconText, setShowIconText] = useState(false);
-  const [beginTimer, setBeginTimer] = useState(false);
-
-  const timeoutRef = useRef(null);
-  const callbackRef = useRef(null);
-
-  const { t, i18n } = useTranslation('common');
-
+  const { t } = useTranslation('common');
   const { currentUser, loadingUser } = useAuth();
 
   const handleMouseOver = () => {
@@ -155,40 +148,7 @@ export default function TopBar(props) {
     setLanguageModal(false);
   };
 
-  // useEffect(() => {
-  //   console.log(beginTimer);
-  //   if (beginTimer) {
-  //     const timeout = setTimeout(() => {
-  //       setIsHovering(false);
-  //     }, 1000);
-  //     timeoutRef.current = timeout;
-  //   }
-
-  //   return () => {
-  //     clearTimeout(timeoutRef);
-  //   };
-  // }, [timeoutRef, beginTimer]);
-
-  // const mouseEnter = () => {
-  //   setIsHovering(true);
-  //   setBeginTimer(false);
-  // };
-
-  // const mouseLeave = () => {
-  //   setBeginTimer(true);
-  // };
-
-  // const navigateAndClose = (navigate) => {
-  //   navigate();
-  //   handleMouseOut();
-  // };
-
-  // const handleMouseOut = () => {
-  //   setBeginTimer(true);
-  //   setLanguageModal(false);
-  // };
-
-  const ProfileModal = ({ mouseLeave, mouseEnter }) => {
+  const ProfileModal = ({ mouseLeave }) => {
     return (
       <div
         id="nav"
@@ -264,8 +224,6 @@ export default function TopBar(props) {
     );
   };
 
-  console.log(props.active);
-
   return (
     <div className="topbar-content">
       <Link className="text-decoration-none" to={'/'}>
@@ -300,14 +258,6 @@ export default function TopBar(props) {
             >
               <Message className="stroke-text-color" />
             </button>
-            {/* <button
-              aria-label="Wallet"
-              className="topbar-upload-meme-button topbar-tooltip"
-              onClick={currentUser ? props.navigateToWallet : props.login}
-              data-tooltip={t('inventory')}
-            >
-              <Wallet className="stroke-text-color" />
-            </button> */}
           </>
         ) : null}
       </div>
@@ -315,9 +265,7 @@ export default function TopBar(props) {
         aria-label="Your profile"
         className="topbar-upload-meme-button"
         onClick={currentUser && props.navigateToProfile}
-        // onMouseEnter={handleMouseOver}
         onMouseEnter={handleMouseOver}
-        // onMouseLeave={handleMouseOut}
       >
         <User className="topbar-avatar" />
       </button>

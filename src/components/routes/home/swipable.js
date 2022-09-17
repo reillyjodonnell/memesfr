@@ -1,11 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import '../../../css-components/routes/home/swipable.css';
 import SideCrownContainer from '../../mobile/side-crown-container';
 import { ReactComponent as User } from '../../../assets/svg/user.svg';
-export default function Swipable({ setActiveVideoURL }) {
-  const [pressed, setPressed] = useState(false);
-  const [startingPosition, setStartingPosition] = useState({ x: 0, y: 0 });
-
+export default function Swipable() {
   const ref = useRef(null);
   const [startingYPosition, setStartingYPosition] = useState(0);
   const [movingYPosition, setMovingYPosition] = useState(0);
@@ -56,7 +53,7 @@ export default function Swipable({ setActiveVideoURL }) {
   //   };
   useEffect(() => {
     setYDifference(movingYPosition - startingYPosition);
-  }, [movingYPosition]);
+  }, [movingYPosition, startingYPosition]);
 
   useEffect(() => {
     if (!touching) {
@@ -86,8 +83,6 @@ export default function Swipable({ setActiveVideoURL }) {
     setTouching(false);
     // setMovingYPosition(e.changedTouches[0].clientY);
   };
-
-  const sampleData = [{}];
 
   const height = 763;
 

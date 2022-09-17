@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './app.css';
 import Loading from './components/loading';
 import Memesfr from './components/memesfr';
@@ -10,7 +10,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <AuthProvider loadingUser={loadingUser} setLoadingUser={setLoadingUser}>
+      <AuthProvider setLoadingUser={setLoadingUser}>
         {loadingData || loadingUser ? (
           <Loading />
         ) : (

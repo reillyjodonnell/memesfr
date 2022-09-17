@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ReactComponent as SettingsIcon } from '../../../assets/svg/settings.svg';
 import '../../../css-components/routes/settings/settings.css';
 import { ReactComponent as CheckMark } from '../../../assets/icons/checkmark.svg';
@@ -10,7 +10,6 @@ import { ReactComponent as User } from '../../../assets/svg/user.svg';
 import { ReactComponent as Camera } from '../../../assets/icons/image.svg';
 import { ReactComponent as Pencil } from '../../../assets/svg/pencil.svg';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HelpOutlineRounded } from '@material-ui/icons';
 
 export default function Settings() {
@@ -18,12 +17,11 @@ export default function Settings() {
   const {
     activeColor,
     SelectAnotherColor,
-    darkMode,
     activeBackground,
     handleBackgroundColor,
   } = useTheme();
 
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const ActiveColor = () => {
     return (

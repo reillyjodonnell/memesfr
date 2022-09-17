@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../../css-components/dashboard.css';
 import { useAuth } from '../../../contexts/auth-context';
@@ -150,7 +150,6 @@ export default function UserProfile({
   const { userId } = params;
   const classes = useStyles();
   const [activeFilter, setActiveFilter] = useState(0);
-  const [crownCount, setCrownCount] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [profilePicture, setProfilePicture] = useState(null);
   const [title, setTitle] = useState('');
@@ -166,9 +165,7 @@ export default function UserProfile({
   const { accentColor } = useTheme();
   const { currentUser, likedPosts, accountsUserFollows } = useAuth();
 
-  const [isSameUser, setIsSameUser] = useState(
-    currentUser?.uid === profileUserId
-  );
+  const isSameUser = currentUser?.uid === profileUserId;
 
   useLayoutEffect(() => {
     setActiveFilter(navigation.PROFILE);
@@ -185,26 +182,13 @@ export default function UserProfile({
     async function loadProfilePosts() {
       try {
         const result = await retrieveProfileData(profileUserId);
-        const {
-          createdPosts,
-          crowns,
-          followers,
-          following,
-          avatar,
-          userTitle,
-          id,
-          memeArray,
-          authorPic,
-          image,
-        } = result;
-
+        const { createdPosts, followers, following, userTitle, memeArray } =
+          result;
         setUsersMemes([...memeArray]);
-        setCrownCount(crowns || 0);
         setFollowers(followers?.length || 0);
         setMemesCreated(createdPosts?.length || 0);
         setNumberOfFollowing(following?.length || 0);
 
-        const hasAtLeastOneMeme = memeArray[0]?.authorPic ?? false;
         isSameUser
           ? setProfilePicture(memeArray[0].authorPic)
           : setProfilePicture('');
@@ -217,23 +201,21 @@ export default function UserProfile({
         setRetrievingData(false);
         setLoadingMemes(false);
       } catch (err) {
-        console.err(err);
+        console.error(err);
       }
     }
     if (profileUserId) {
       loadProfilePosts();
     }
-  }, [profileUserId]);
+  }, [profileUserId, isSameUser]);
 
   useEffect(() => {
-    let username;
-    let profileName;
+    let profileName = '';
     if (currentUser) {
-      username = currentUser.displayName;
       profileName = params.userId;
     }
     document.title = `Memesfr - ${profileName}`;
-  }, [params.userId]);
+  }, [params.userId, currentUser]);
 
   const ProfileDisplay = () => {
     return (
@@ -252,10 +234,18 @@ export default function UserProfile({
                     className="user-avatar"
                     style={{ backgroundColor: 'var(--hover)' }}
                   >
-                    <img src={Smile} className="user-avatar" />
+                    <img
+                      alt="The user's avatar"
+                      src={Smile}
+                      className="user-avatar"
+                    />
                   </div>
                 ) : (
-                  <img className="user-avatar" src={profilePicture} />
+                  <img
+                    alt="The user's avatar"
+                    className="user-avatar"
+                    src={profilePicture}
+                  />
                 )}
               </div>
             </div>
@@ -275,20 +265,7 @@ export default function UserProfile({
                 <span className="user-follower-count">{numberOfFollowing}</span>
                 <span className="user-stat-title">{t('following')}</span>
               </div>
-              {/* <div className="user-stat-group">
-              <span className="user-crowns">{crownCount} </span>
 
-              <span
-                style={{
-                  padding: '0px',
-                  margin: '0px !important',
-                  display: 'inline',
-                }}
-                className="user-stat-title"
-              >
-                crowns
-              </span>
-            </div> */}
               <div className="user-stat-group">
                 <span className="user-bday">{memesCreated} </span>
 
@@ -308,7 +285,6 @@ export default function UserProfile({
             {isSameUser ? (
               <div className={'user-follow-button-container'}>
                 <div
-                  // onClick={toggleFollowUser}
                   className={`${
                     accentColor === 'green'
                       ? 'user-follow-button-active-alt'
@@ -327,22 +303,10 @@ export default function UserProfile({
                     ) : (
                       <FollowButton className="user-follow-button" />
                     )}
-                    {/* <div
-                    onClick={toggleFollowUser}
-                    onMouseEnter={}
-                    className={
-                      followsUser
-                        ? 'user-follow-button-active'
-                        : 'user-follow-button'
-                    }
-                  >
-                    <span>{followsUser ? 'Following' : 'Follow'} </span>
-                  </div> */}
                   </div>
                   {followsUserAccount && (
                     <div className="user-follow-button-container">
                       <div
-                        // onClick={toggleFollowUser}
                         className={
                           followsUserAccount
                             ? 'user-follow-button-active'
@@ -454,9 +418,7 @@ export default function UserProfile({
               liked={liked}
               key={id}
               likes={likes}
-              // likedPosts={usersLikedPosts}
               item={item}
-              // toggleLoginModal={toggleLoginModal}
             />
           );
         })

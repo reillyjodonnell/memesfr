@@ -7,14 +7,9 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthProvider({
-  children,
-  setLoadingUser,
-  loadingUser,
-}) {
+export default function AuthProvider({ children, setLoadingUser }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [notConfirmedEmail, setNotConfirmedEmail] = useState(false);
-  const [username, setUsername] = useState('');
   const [likedPosts, setLikedPosts] = useState([]);
   const [accountsUserFollows, setAccountsUserFollows] = useState([]);
 
@@ -46,7 +41,6 @@ export default function AuthProvider({
 
       setLikedPosts([...likedPosts]);
       setAccountsUserFollows([...following]);
-      setUsername(username);
       setCurrentUser((prev) => {
         return { ...prev, username };
       });

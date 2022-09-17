@@ -1,8 +1,5 @@
-import React from 'react';
 import '../css-components/mobile-header.css';
 import { ReactComponent as Castle } from '../assets/svg/castle.svg';
-import { ReactComponent as User } from '../assets/svg/user.svg';
-import { useAuth } from '../contexts/auth-context';
 import { ReactComponent as Hamburger } from '../assets/icons/hamburger.svg';
 
 export default function MobileHeader(props) {

@@ -17,13 +17,10 @@ import { fileType } from '../../constants/common';
 import { ReactComponent as Pencil } from '../../assets/svg/pencil.svg';
 
 export default function Card({ likes = 0, enableFullScreen, ...props }) {
-  const { t, i18n } = useTranslation('common');
-
   const [thumbUp, setThumbUp] = useState(false);
   const [thumbDown, setThumbDown] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState(likes);
   const [options, expandOptions] = useState(false);
-  const [permissionToEdit, setPermissionToEdit] = useState(false);
   const [followsUser, setFollowsUser] = useState(false);
   const { isMobile } = useMobile();
 
@@ -38,9 +35,7 @@ export default function Card({ likes = 0, enableFullScreen, ...props }) {
 
   const { currentUser } = useAuth();
 
-  const [isAuthor, setIsAuthor] = useState(
-    currentUser ? currentUser.uid === props.item.author : false
-  );
+  const isAuthor = currentUser ? currentUser.uid === props.item.author : false;
 
   useEffect(() => {
     if (following) {
@@ -220,12 +215,7 @@ export default function Card({ likes = 0, enableFullScreen, ...props }) {
                 <span className="number-of-likes">{shares}</span>
               </div>
             </div>
-            {options ? (
-              <OptionsExpanded
-                closeOptions={closeOptions}
-                permissionToEdit={permissionToEdit}
-              />
-            ) : null}
+            {options ? <OptionsExpanded closeOptions={closeOptions} /> : null}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 
 import { useTranslation } from 'react-i18next';
 const languageContext = React.createContext();
@@ -12,13 +12,8 @@ export default function LanguageProvider({ children }) {
   const [languagePreference, setLanguagePreference] = useState('');
   const [languageChanged, setLanguageChanged] = useState(false);
 
-  // function getLang() {
-  //   if (navigator.languages != undefined) {
-  //     return navigator.languages[0];
-  //   }
-  //   return navigator.language;
-  // }
-
+  // t must be here otherwise translations fail
+  // eslint-disable-next-line no-unused-vars
   const [t, i18n] = useTranslation();
 
   useEffect(() => {
@@ -124,7 +119,7 @@ export default function LanguageProvider({ children }) {
         break;
       default:
     }
-  }, [languagePreference]);
+  }, [languagePreference, i18n]);
 
   const setLanguageToSpanish = () => {
     setLanguagePreference('Spanish');

@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { ReactComponent as Home } from '../assets/icons/home.svg';
 import { ReactComponent as Popular } from '../assets/icons/popular.svg';
 import { ReactComponent as Recent } from '../assets/icons/recent.svg';
@@ -6,42 +5,41 @@ import { ReactComponent as User } from '../assets/svg/user.svg';
 import { ReactComponent as Notification } from '../assets/icons/notifications.svg';
 import { useAuth } from '../contexts/auth-context';
 import '../css-components/sidebar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TrendingTopics from './trending-topics';
 import { useTranslation } from 'react-i18next';
 import ConditionalNavigate from './templates/conditional-navigate';
 import { navigation } from '../constants/navigation';
 
-export default function Sidebar({ nav, ...props }) {
-  const [hasNotification, setHasNotfication] = useState(true);
+const NotificationAlert = ({ notificationCount = 0 }) => {
+  return (
+    <div className="notification-alert">
+      <span className="notification-alert-number">{notificationCount}</span>
+    </div>
+  );
+};
+
+const Help = () => {
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
-  const username = currentUser?.username;
-  const profileUserId = currentUser?.uid;
-  const { t, i18n } = useTranslation('common');
 
-  useEffect(() => {
-    console.log(nav);
-  }, [nav]);
-
-  const Help = () => {
+  return (
     <div onClick={() => navigate('/help')} className={'navigation-group'}>
       <div className="navigation-group-items navigation-settings-icon">
         <Help />
         <span className="navigation-group-text">{t('help')}</span>
       </div>
-    </div>;
-  };
+    </div>
+  );
+};
 
-  const NotificationAlert = () => {
-    return (
-      <div className="notification-alert">
-        <span className="notification-alert-number">
-          {props.notificationCount}
-        </span>
-      </div>
-    );
-  };
+export default function Sidebar({ nav, ...props }) {
+  const { currentUser } = useAuth();
+  const username = currentUser?.username;
+  const profileUserId = currentUser?.uid;
+  const { t } = useTranslation('common');
+
+  const hasNotification = true;
 
   return (
     <div className="sidebar-fixed">
@@ -90,7 +88,11 @@ export default function Sidebar({ nav, ...props }) {
                         : null
                     }
                   ></Notification>
-                  {hasNotification && <NotificationAlert />}
+                  {hasNotification && (
+                    <NotificationAlert
+                      notificationCount={props?.notificationCount}
+                    />
+                  )}
                 </div>
 
                 <span className="navigation-group-text">

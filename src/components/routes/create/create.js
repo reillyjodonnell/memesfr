@@ -1,24 +1,20 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import '../../../css-components/routes/create/create.css';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/auth-context';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
-import { useTheme } from '../../../contexts/theme-context';
 import ImageThumb from '../../image-thumb';
 import { navigation } from '../../../constants/navigation';
 import { ReactComponent as Image } from '../../../assets/icons/add-image.svg';
 export default function Create({ setNav }) {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const [file, setFile] = useState('');
-  const [fileType, setFileType] = useState('');
   const [fileError, setFileError] = useState(false);
   const [letterCount, setLetterCount] = useState(0);
   const [caption, setCaption] = useState(t('writeCaption'));
   const [acceptInput, setAcceptInput] = useState(true);
-  const [validPost, setValidPost] = useState(false);
-  const [displayLightBackground, setDisplayLightBackground] = useState(false);
   const [emojiContainerOpen, setEmojiContainerOpen] = useState(false);
   const { currentUser } = useAuth();
 
@@ -70,7 +66,6 @@ export default function Create({ setNav }) {
   };
 
   function removeFile() {
-    setFileType('');
     setFile('');
   }
   const includeEmojis = [
@@ -100,7 +95,6 @@ export default function Create({ setNav }) {
           title=""
           emojiSize={20}
           perLine={6}
-          theme={displayLightBackground ? 'light' : 'dark'}
           style={{
             width: '300px',
             position: 'absolute',
@@ -146,7 +140,6 @@ export default function Create({ setNav }) {
             </>
           ) : (
             <ImageThumb
-              setFileType={setFileType}
               setFile={setFile}
               removeFile={removeFile}
               setFileError={setFileError}

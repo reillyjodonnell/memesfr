@@ -20,26 +20,27 @@ export async function continueWithTwitter({ displayErrorMessage }: any) {
 
 async function continueWithProvider({ provider, displayErrorMessage }: any) {
   try {
-    const result = await firebase.auth().signInWithPopup(provider);
+    // const result =
+    await firebase.auth().signInWithPopup(provider);
     /** @type {firebase.auth.OAuthCredential} */
-    const credential =
-      (result?.credential as firebase.auth.OAuthCredential) ?? null;
+    // const credential =
+    //   (result?.credential as firebase.auth.OAuthCredential) ?? null;
 
     // This gives you a Google Access Token. You can use it to access the Google API.
-    const token = credential?.accessToken ?? null;
+    // const token = credential?.accessToken ?? null;
 
     // The signed-in user info.
-    const user = result.user;
+    // const user = result.user;
   } catch (error: any) {
     // Handle Errors here.
     const errorCode = error?.code ?? '';
-    const errorMessage = error?.message ?? '';
+    // const errorMessage = error?.message ?? '';
     // We want to display the error message to the UI
     errorCode && displayErrorMessage(errorCode);
     // The email of the user's account used.
-    const email = error?.email ?? '';
+    // const email = error?.email ?? '';
     // The firebase.auth.AuthCredential type that was used.
-    const credential = error?.credential ?? '';
+    // const credential = error?.credential ?? '';
     // ...
   }
 }

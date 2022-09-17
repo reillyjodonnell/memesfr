@@ -101,6 +101,18 @@ export default function ThemeProvider({ children }) {
     }
   }, [handleDarkMode, handleLightMode, setActiveBackground, handleDefaultMode]);
 
+  const handleSettingColor = useCallback(
+    (color) => {
+      r.style.setProperty('--primary-accent', `var(--${color})`);
+      r.style.setProperty('--highlight', `var(--${color}-highlight)`);
+      r.style.setProperty(
+        '--light-highlight',
+        `var(--${color}-light-highlight)`
+      );
+    },
+    [r.style]
+  );
+
   useEffect(() => {
     const colorValue = localStorage.getItem('accentColor');
     const colorNumberJSON = localStorage.getItem('accentColorNumber');
@@ -114,15 +126,15 @@ export default function ThemeProvider({ children }) {
       setActiveColor(colorNumber);
       handleSettingColor(colorValue);
     }
-  }, []);
+  }, [handleSettingColor]);
 
   useEffect(() => {
     let mount = true;
-    if (mount === true) {
-      if (doge == true) {
+    if (mount) {
+      if (doge) {
         setDogeBackground();
       }
-      if (doge == false) document.body.style.backgroundImage = '';
+      if (doge === false) document.body.style.backgroundImage = '';
     }
     return () => (mount = false);
   }, [doge]);
@@ -174,12 +186,6 @@ export default function ThemeProvider({ children }) {
   const handleStoringColor = (color, value) => {
     localStorage.setItem('accentColor', color);
     localStorage.setItem('accentColorNumber', value);
-  };
-
-  const handleSettingColor = (color) => {
-    r.style.setProperty('--primary-accent', `var(--${color})`);
-    r.style.setProperty('--highlight', `var(--${color}-highlight)`);
-    r.style.setProperty('--light-highlight', `var(--${color}-light-highlight)`);
   };
 
   const SelectAnotherColor = (value, color) => {

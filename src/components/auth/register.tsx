@@ -2,10 +2,7 @@ import React, { useState, useEffect, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../../css-components/login-modal.css';
 import './register.css';
-// import { useLanguage } from '../../contexts/language-context';
 import { ReactComponent as BackArrow } from '../../assets/icons/chevron-left.svg';
-// import { useAuth } from '../../contexts/auth-context';
-// import Firebase from 'firebase/app';
 import Fbook from '../../assets/brands/facebook.png';
 import Google from '../../assets/brands/google.png';
 import Twitter from '../../assets/brands/twitter.png';
@@ -23,7 +20,6 @@ import {
   continueWithTwitter,
   requestCaptcha,
   sendCodeToPhone,
-  checkPhoneCode,
 } from './auth-helpers';
 import Spacer from '../templates/spacer';
 import ErrorMessage from '../templates/error-message';
@@ -35,9 +31,7 @@ type RegisterProps = {
 };
 
 export default function Register({ toggleLogin, closeModal }: RegisterProps) {
-  //   const [smallerInput, setSmallerInput] = useState<Boolean>(true);
   const [nextButtonClicked, setNextButtonClicked] = useState<Boolean>(false);
-  //   const [validLoginInput, setValidLoginInput] = useState<Boolean>(false);
   const [phone, setPhone] = useState(true);
 
   const [usernameSpinner, setUsernameSpinner] = useState(false);
@@ -49,8 +43,6 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
   const [passwordError, setPasswordError] = useState('');
   const [validPassword, setValidPassword] = useState(false);
 
-  const [nameField, setNameField] = useState('');
-
   const [emailField, setEmailField] = useState('');
   const [emailError, setEmailError] = useState('');
   const [validEmail, setValidEmail] = useState(false);
@@ -60,7 +52,9 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState('');
+
+  const { t } = useTranslation('common');
 
   //   const { login } = useAuth();
 
@@ -93,17 +87,12 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
       setValidUsername(false);
       setUsernameError(t('usernameMustBe4Characters'));
     }
-  }, [usernameField]);
+  }, [usernameField, t]);
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validAccount()) {
       try {
-        // await login(loginField, passwordField).then((user: Firebase.User) => {
-        //   if (user) {
-        //     window.location.reload();
-        //   }
-        // });
       } catch (error: any) {
         switch (error?.code) {
           case 'auth/invalid-email':
@@ -116,96 +105,6 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
     } else return;
   };
 
-  //   const handleInputChange = () => {
-  //     setError('');
-  //     areBothFieldsValid()
-  //       ? setEnableSubmitButton(true)
-  //       : setEnableSubmitButton(false);
-  //   };
-
-  //   const handlePaste = (type: string, e: React.ClipboardEvent) => {
-  //     e.preventDefault();
-  //     const value = e.clipboardData.getData('Text');
-  //     if (type === 'login') {
-  //       setLoginField(value);
-  //     } else {
-  //       setPasswordField(value);
-  //     }
-  //     handleInputChange();
-  //   };
-
-  const { t } = useTranslation('common');
-
-  //   const { languagePreference } = useLanguage();
-
-  //   useEffect(() => {
-  //     switch (languagePreference) {
-  //       case 'English':
-  //         setSmallerInput(false);
-  //         break;
-  //       default:
-  //         setSmallerInput(true);
-  //         break;
-  //     }
-  //   }, [languagePreference]);
-
-  //   const handleForm = (e: React.FormEvent<HTMLInputElement>) => {
-  //     e.preventDefault();
-  //     checkForInvalidInput((e.target as HTMLInputElement).value);
-  //     setLoginField((e.target as HTMLInputElement).value);
-
-  //     parseCategoryOfInput((e.target as HTMLInputElement).value);
-  //   };
-
-  //   const whiteSpaceIsPresent = /\s/;
-
-  //   const checkForInvalidInput = (input: string) => {
-  //     if (whiteSpaceIsPresent.test(input)) {
-  //       setError('Invalid Input');
-  //     } else {
-  //       setError('');
-  //     }
-  //   };
-
-  //   const areBothFieldsValid = () => {
-  //     if (
-  //       typeof loginField === 'string' &&
-  //       typeof passwordField === 'string' &&
-  //       loginField.length > 5 &&
-  //       passwordField?.length > 5
-  //     ) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   };
-
-  //   function parseCategoryOfInput(passedValue: string) {
-  //     if (formatPhoneNumber(passedValue) !== null && isOnlyNumbers(passedValue)) {
-  //       const formattedNumber = formatPhoneNumber(passedValue);
-  //       typeof formattedNumber === 'string' && setLoginField(formattedNumber);
-  //       setValidLoginInput(true);
-  //       // setDetectedLoginType('phone');
-  //     } else if (passedValue.length > 4 && isOnlyNumbers(passedValue) === false) {
-  //       setValidLoginInput(true);
-  //       // setDetectedLoginType('username');
-  //     } else {
-  //       setValidLoginInput(false);
-  //     }
-  //   }
-
-  //   function isOnlyNumbers(passedInput: string) {
-  //     return /^\d+$/.test(passedInput);
-  //   }
-
-  //   function formatPhoneNumber(number: String) {
-  //     var match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
-  //     if (match) {
-  //       return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-  //     }
-  //     return null;
-  //   }
-
   const handleNext = () => {
     setNextButtonClicked((prevState) => !prevState);
   };
@@ -214,7 +113,6 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
     setNextButtonClicked((prevState) => !prevState);
     // clear the inputs
     setUsernameField('');
-    setNameField('');
     setPhoneField('');
     setEmailField('');
   };
@@ -461,7 +359,11 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Fbook} />
+          <img
+            alt="Facebook's icon, the lowercase blue f, to register with Facebook"
+            className="login-modal-option-social-icon"
+            src={Fbook}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithFacebook')}
           </span>
@@ -475,7 +377,11 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Google} />
+          <img
+            alt="Google's icon, the uppercase multicolor 'G', to register with Google"
+            className="login-modal-option-social-icon"
+            src={Google}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithGoogle')}
           </span>
@@ -489,7 +395,11 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Twitter} />
+          <img
+            alt="Twitter's icon, the blue bird, to register with Twitter"
+            className="login-modal-option-social-icon"
+            src={Twitter}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithTwitter')}
           </span>

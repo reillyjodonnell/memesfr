@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './login';
-import Register from './signup';
 import Home from './home';
 import MobileProvider from '../contexts/mobile-context';
 import CreateProfile from './create-profile';
 import Edit from './edit-profile';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UserProfile from './routes/users/user-profile';
 import Notifications from './routes/notifications/notifications';
 import Feed from './routes/home/feed';
@@ -13,7 +12,6 @@ import Settings from './routes/settings/settings';
 import Help from './routes/help/help';
 import Coins from './routes/coins/coins';
 import Messages from './routes/messages/messages';
-import Wallet from './routes/wallet/wallet';
 import LanguageProvider from '../contexts/language-context';
 import Create from './routes/create/create';
 import { useTranslation } from 'react-i18next';
@@ -26,14 +24,13 @@ export default function Memesfr({
   setLoadingData,
 }) {
   const [nav, setNav] = useState(-1);
-  const [notificationCount, setNotificationCount] = useState(69);
   const [posts, setPosts] = useState({});
   const [following, setFollowing] = useState([]);
   const [loginModal, setLoginModal] = useState(false);
 
   const [postsLoading, setPostsLoading] = useState(false);
 
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const toggleLoginModal = () => {
     setLoginModal((prev) => !prev);
@@ -42,6 +39,8 @@ export default function Memesfr({
   useEffect(() => {
     document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
   }, [t]);
+
+  const notificationCount = 69;
 
   return (
     <>
@@ -125,7 +124,6 @@ export default function Memesfr({
                   element={<Create nav={nav} setNav={setNav} />}
                 />
               </Route>
-              <Route path="/signup" element={<Register />} />
               <Route path="/setup" element={<CreateProfile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/help" element={<Help />} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import ReactDom from 'react-dom';
 import '../../css-components/templates/popup-modal.css';
 import { ReactComponent as Cancel } from '../../assets/svg/x.svg';
@@ -15,14 +15,10 @@ export default function PopupModal({
     document.getElementById('root').style.overflowY = 'hidden';
 
     return () => {
-      removeblur();
+      document.getElementById('dashboard').style.filter = 'blur(0px)';
+      document.getElementById('root').style.overflowY = '';
     };
   }, []);
-
-  function removeblur() {
-    document.getElementById('dashboard').style.filter = 'blur(0px)';
-    document.getElementById('root').style.overflowY = '';
-  }
 
   const handleClose = () => {
     toggleState();

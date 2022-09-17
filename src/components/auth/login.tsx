@@ -1,4 +1,9 @@
-import React, { useState, useEffect, MouseEventHandler } from 'react';
+import React, {
+  useState,
+  useEffect,
+  MouseEventHandler,
+  useCallback,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import '../../css-components/login-modal.css';
 import { useLanguage } from '../../contexts/language-context';
@@ -43,21 +48,13 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const [token, setToken] = useState('');
-
-  // useEffect(() => {
-  //   new Firebase.auth.RecaptchaVerifier('request-otp', { size: 'invisible' })
-  //     .verify()
-  //     .then(setToken);
-  // }, []);
-
   useEffect(() => {
     if (currentUser) {
       closeModal();
       // go to homepage
       navigate('/');
     }
-  }, [currentUser, closeModal]);
+  }, [currentUser, closeModal, navigate]);
 
   const { login } = useAuth();
 
@@ -83,16 +80,29 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
     } else return;
   };
 
-  useEffect(() => {
-    handleInputChange();
-  }, [passwordField, loginField]);
+  const areBothFieldsValid = useCallback(() => {
+    if (
+      typeof loginField === 'string' &&
+      typeof passwordField === 'string' &&
+      loginField.length > 5 &&
+      passwordField?.length > 5
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [loginField, passwordField]);
 
-  const handleInputChange = () => {
+  const handleInputChange = useCallback(() => {
     setError('');
     areBothFieldsValid()
       ? setEnableSubmitButton(true)
       : setEnableSubmitButton(false);
-  };
+  }, [areBothFieldsValid]);
+
+  useEffect(() => {
+    handleInputChange();
+  }, [passwordField, loginField, handleInputChange]);
 
   const handlePaste = (type: string, e: React.ClipboardEvent) => {
     e.preventDefault();
@@ -143,19 +153,6 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
       setError('Invalid Input');
     } else {
       setError('');
-    }
-  };
-
-  const areBothFieldsValid = () => {
-    if (
-      typeof loginField === 'string' &&
-      typeof passwordField === 'string' &&
-      loginField.length > 5 &&
-      passwordField?.length > 5
-    ) {
-      return true;
-    } else {
-      return false;
     }
   };
 
@@ -300,7 +297,11 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Fbook} />
+          <img
+            alt="Facebook's icon, the lowercase blue f, to continue with Facebook sign in"
+            className="login-modal-option-social-icon"
+            src={Fbook}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithFacebook')}
           </span>
@@ -313,7 +314,11 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Google} />
+          <img
+            alt="Google's icon, an uppercase G with multi colors, to continue with Google sign in"
+            className="login-modal-option-social-icon"
+            src={Google}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithGoogle')}
           </span>
@@ -326,7 +331,11 @@ export default function Login({ toggleLogin, closeModal }: LoginProps) {
           }
           className="auth-option-container mb-1"
         >
-          <img className="login-modal-option-social-icon" src={Twitter} />
+          <img
+            alt="Twitter's icon, the blue bird, to continue with Twitter sign in"
+            className="login-modal-option-social-icon"
+            src={Twitter}
+          />
           <span className="login-modal-option-social-prompt">
             {t('continueWithTwitter')}
           </span>

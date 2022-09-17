@@ -21,7 +21,7 @@ export default function Dashboard(props) {
 
   const { isMobile } = useMobile();
 
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const { currentUser } = useAuth();
 
@@ -51,19 +51,11 @@ export default function Dashboard(props) {
   };
 
   function filterHome() {
-    // myRef.current.scrollIntoView({ behavior: 'smooth' });
     setNav(navigation.HOME);
     navigate('/');
   }
-  // function filterTrending() {
-  //   if (nav !== navigation.) {
-  //     // myRef.current.scrollIntoView({ behavior: 'smooth' });
-  //     setNav({ count: 1 });
-  //   }
-  // }
 
   function filterPopular() {
-    // myRef.current.scrollIntoView({ behavior: 'smooth' });
     navigate('/');
     setNav(navigation.POPULAR);
   }
@@ -105,11 +97,6 @@ export default function Dashboard(props) {
 
     navigate('/messages');
   };
-  // const navigateToWallet = () => {
-  //   setNav({ count: 7 });
-
-  //   navigate('/wallet');
-  // };
 
   const navigateToCreate = () => {
     setNav(navigation.CREATE);
@@ -137,10 +124,8 @@ export default function Dashboard(props) {
             <MobileNav
               active={nav}
               homeFilter={filterHome}
-              // trendingFilter={filterTrending}
               recentFilter={filterRecent}
               popularFilter={filterPopular}
-              // randomFilter={filterRandom}
               createPost={createMemePost}
               resetPassword={resetUserPassword}
               navigateToCreate={navigateToCreate}
@@ -152,17 +137,14 @@ export default function Dashboard(props) {
           <>
             <Topbar
               homeFilter={filterHome}
-              // trendingFilter={filterTrending}
               recentFilter={filterRecent}
               popularFilter={filterPopular}
-              // randomFilter={filterRandom}
               navigateToProfile={navigateToProfile}
               navigateToNotifications={navigateToNotifications}
               navigateToCoins={navigateToCoins}
               navigateToHelp={navigateToHelp}
               navigateToSettings={navigateToSettings}
               navigateToMessage={navigateToMessage}
-              // navigateToWallet={navigateToWallet}
               navigateToCreate={navigateToCreate}
               navigateToLogin={navigateToLogin}
               createPost={createMemePost}
@@ -183,11 +165,9 @@ export default function Dashboard(props) {
             >
               <Sidebar
                 homeFilter={filterHome}
-                // trendingFilter={filterTrending}
                 recentFilter={filterRecent}
                 popularFilter={filterPopular}
                 notificationsFilter={filterNotifications}
-                // randomFilter={filterRandom}
                 navigateToProfile={navigateToProfile}
                 navigateToNotifications={navigateToNotifications}
                 navigateToLogin={navigateToLogin}

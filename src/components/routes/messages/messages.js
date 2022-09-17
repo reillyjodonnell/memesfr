@@ -7,26 +7,117 @@ import { ReactComponent as Send } from '../../../assets/icons/send.svg';
 import { ReactComponent as Smile } from '../../../assets/icons/smile.svg';
 import { navigation } from '../../../constants/navigation';
 
+const chatData = [
+  {
+    type: 'sent',
+    text: 'Hey dude check this meme out',
+    reaction: [
+      {
+        reactionIcon: '👍',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: false,
+      },
+    ],
+  },
+  {
+    type: 'received',
+    text: 'Wow thats sick!',
+  },
+  {
+    type: 'received',
+    text: 'Heres another meme',
+    reaction: [
+      {
+        reactionIcon: '👍',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: false,
+      },
+    ],
+  },
+  {
+    type: 'sent',
+    text: 'Hey dude check this meme out',
+
+    reaction: [
+      {
+        reactionIcon: '🔥',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: false,
+      },
+    ],
+  },
+  {
+    type: 'sent',
+    text: 'Hey dude check this meme out',
+    reaction: [
+      {
+        reactionIcon: '🔥',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: true,
+        userHasReacted: true,
+      },
+    ],
+  },
+  {
+    type: 'sent',
+    text: 'Hey dude check this meme out',
+    reaction: [
+      {
+        reactionIcon: '🔥',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: true,
+        userHasReacted: true,
+      },
+    ],
+  },
+  {
+    type: 'received',
+    text: 'I wish there was GIF support ',
+  },
+  {
+    type: 'sent',
+    text: 'Hey dude! Heres another meme',
+  },
+  {
+    type: 'sent',
+    text: 'I need to upload newer memes. Im tired of looking at the same ones all day',
+  },
+  {
+    type: 'received',
+    text: 'I totally feel the same way',
+    reaction: [
+      {
+        reactionIcon: '😎',
+        reactionIconCount: 1,
+        reactionAuthorIsUser: true,
+        userHasReacted: true,
+      },
+    ],
+  },
+  {
+    type: 'sent',
+    text: 'Alright im gonna head up like spongebob',
+  },
+];
+
 export default function Messages({ nav, setNav }) {
   const [showMessage, setShowMessage] = useState(false);
   const [focused, setFocused] = useState(false);
   const [message, setMessage] = useState([]);
   const [userInput, setUserInput] = useState('');
 
-  const { t, i18n } = useTranslation('common');
-
-  document.title = `✉️ ${t('messages')} - Memesfr`;
+  const { t } = useTranslation('common');
 
   // this triggers a UI change so it should happen before the dom get's paint to prevent the flicker
   useLayoutEffect(() => {
-    setNav({ count: navigation.MESSAGES });
-  }, [setNav]);
+    document.title = `✉️ ${t('messages')} - Memesfr`;
 
-  useLayoutEffect(() => {}, []);
+    setNav({ count: navigation.MESSAGES });
+  }, [setNav, t]);
 
   useEffect(() => {
     //Set data to state
-    chatData.map((val, index) => {
+    chatData.forEach((val, index) => {
       const updatedObject = {
         ...val,
         isReactionOpen: false,
@@ -82,8 +173,6 @@ export default function Messages({ nav, setNav }) {
         isReactionOpen: false,
       };
     };
-
-    const hasUserReacted = selectedItem.reaction;
 
     if (!length) {
       overwriteReaction();
@@ -170,109 +259,14 @@ export default function Messages({ nav, setNav }) {
     setMessage(copiedArray);
   };
 
-  const chatData = [
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-      reaction: [
-        {
-          reactionIcon: '👍',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: false,
-        },
-      ],
-    },
-    {
-      type: 'received',
-      text: 'Wow thats sick!',
-    },
-    {
-      type: 'received',
-      text: 'Heres another meme',
-      reaction: [
-        {
-          reactionIcon: '👍',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: false,
-        },
-      ],
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-
-      reaction: [
-        {
-          reactionIcon: '🔥',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: false,
-        },
-      ],
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-      reaction: [
-        {
-          reactionIcon: '🔥',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: true,
-          userHasReacted: true,
-        },
-      ],
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude check this meme out',
-      reaction: [
-        {
-          reactionIcon: '🔥',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: true,
-          userHasReacted: true,
-        },
-      ],
-    },
-    {
-      type: 'received',
-      text: 'I wish there was GIF support ',
-    },
-    {
-      type: 'sent',
-      text: 'Hey dude! Heres another meme',
-    },
-    {
-      type: 'sent',
-      text: 'I need to upload newer memes. Im tired of looking at the same ones all day',
-    },
-    {
-      type: 'received',
-      text: 'I totally feel the same way',
-      reaction: [
-        {
-          reactionIcon: '😎',
-          reactionIconCount: 1,
-          reactionAuthorIsUser: true,
-          userHasReacted: true,
-        },
-      ],
-    },
-    {
-      type: 'sent',
-      text: 'Alright im gonna head up like spongebob',
-    },
-  ];
-
   const ChatBubble = ({
     type,
     text,
     image = 'https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb',
-    time,
     reaction,
     passedIndex,
   }) => {
-    const { reactionAuthorIsUser, reactionIcon, reactionIconCount } =
-      reaction || {};
+    const { reactionAuthorIsUser } = reaction || {};
     const messageContainerClassname =
       type === 'sent'
         ? 'message-sent message-content-message-bubble'
@@ -392,7 +386,10 @@ export default function Messages({ nav, setNav }) {
           {/* <img className="og" src={Og} /> */}
 
           <div className="messages-user-image-container">
-            <img src="https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb" />
+            <img
+              alt="The user's avatar"
+              src="https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb"
+            />
           </div>
           <div className="messages-user-preview">
             <div className="messages-username-and-time">
@@ -478,7 +475,10 @@ export default function Messages({ nav, setNav }) {
               <div className="message-content-profile-section-padding">
                 <div className="message-content-profile-section-content">
                   <div className="message-content-profile-section-image-container">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb" />
+                    <img
+                      alt="The user's avatar"
+                      src="https://firebasestorage.googleapis.com/v0/b/memes-30d06.appspot.com/o/users%2F3VFjwmekKaT55anTfWMe8WavF532?alt=media&token=1767eb84-f319-47f2-9d44-9f32c96b83fb"
+                    />
                   </div>
                   <span>Username</span>
                 </div>
