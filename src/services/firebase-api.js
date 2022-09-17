@@ -6,12 +6,22 @@ const actionCodeSettings = {
   handleCodeInApp: true,
 };
 
-export async function retrieveProfileData(userId) {
+async function retrieveProfile(userId) {
   try {
     const profileData = await db.collection('users').doc(userId);
 
     const profileResult = await profileData.get();
     const profileStats = profileResult.data();
+
+    return profileStats;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function retrieveProfileData(userId) {
+  try {
+    const profileStats = await retrieveProfile(userId);
 
     const recent10Posts = profileStats?.createdPosts?.slice(0, 9);
     const memes = profileStats?.createdPosts;
@@ -97,10 +107,60 @@ export async function retrievePopularPosts() {
 }
 
 // This is the scalable method - get the top 50 documents based on likes
+// the document is always up to date via cloud function that is accumulating the number of likes on a post and writing to this document for us.
+export async function retrieveTop50Posts() {
+  let posts = [];
+  try {
+    const docs = await db
+      .collection('memes')
+      .orderBy('likes', 'desc')
+      .limit(50)
+      .get();
 
-// The issue will be associating the number of likes to those documents as likes are sharded
+    await docs?.forEach(async (doc) => {
+      const data = doc.data();
+      console.log(data);
 
-export async function retrievePopPosts() {}
+      const { author } = data;
+
+      if (author) {
+        // retrieve their profile
+        const profileData = await retrieveProfile(author);
+
+        // append the avatar and username to the meme if they exist
+        const { avatar, username } = profileData;
+
+        posts.push({
+          ...doc,
+          authorPic: avatar ? avatar : doc?.authorPic,
+          userName: username ? username : doc?.userName,
+        });
+      }
+    });
+    return posts;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function retrieveRecent50Posts() {
+  let posts = [];
+  try {
+    const docs = await db
+      .collection('memes')
+      .orderBy('createdAt', 'desc')
+      .limit(50)
+      .get();
+
+    await docs?.forEach((doc) => {
+      posts.push(doc.data());
+    });
+
+    return posts;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export async function retrieveRecentPosts() {
   const recentRef = db.collection('recent').doc('recent_fifty');

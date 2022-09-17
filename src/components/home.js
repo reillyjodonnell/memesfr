@@ -5,6 +5,8 @@ import {
   retrievePopularPosts,
   retrieveRecentPosts,
   retrieveFollowing,
+  retrieveTop50Posts,
+  retrieveRecent50Posts,
 } from '../services/firebase-api';
 import { navigation } from '../constants/navigation';
 
@@ -70,6 +72,7 @@ export default function Home({
 
   return (
     <>
+      <button onClick={retrieveTop50Posts}>Retrieve top 50 </button>
       <Dashboard
         nav={nav}
         setNav={setNav}
