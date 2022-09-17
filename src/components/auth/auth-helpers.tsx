@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 import { authMessages } from '../../constants/auth';
-import { auth } from '../../services/firebase';
 
 export async function continueWithFacebook({
   displayErrorMessage,
@@ -104,18 +103,3 @@ export async function checkPhoneCode(confirmationResult: any, code: any) {
     return user;
   } catch (err) {}
 }
-
-export async function setUsername() {
-  const user = auth?.currentUser ?? null;
-
-  // if(user){
-  //   user.updateProfile({
-  //     displayName
-
-  //   })
-  // }
-}
-
-// export async function createAccount(){
-//   auth.createUserWithEmailAndPassword()
-// }

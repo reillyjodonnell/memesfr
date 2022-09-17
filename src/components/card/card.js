@@ -8,7 +8,6 @@ import buffDoge from '../../assets/buff-doge.jpg';
 import { ReactComponent as CheckMark } from '../../assets/icons/checkmark.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faComment, faCrown } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'react-i18next';
 import { useMobile } from '../../contexts/mobile-context';
 import { followUser, unfollowUser } from '../../services/firebase-api';
 import FollowButton from './follow-button';

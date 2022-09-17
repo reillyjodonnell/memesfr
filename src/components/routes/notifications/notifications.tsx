@@ -1,7 +1,6 @@
 import { t } from 'i18next';
-import React, { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { navigation } from '../../../constants/navigation';
-import { useAuth } from '../../../contexts/auth-context';
 import '../../../css-components/routes/notifications/notifications.css';
 import { notificationConstants } from './notification-constants';
 import NotificationContainer from './notification-container';
@@ -66,6 +65,7 @@ export default function Notifications({ notificationCount, setNav }: any) {
                 }
                 rightElement={
                   <img
+                    alt="The type of notification"
                     src={item?.image}
                     className="flex w-20 h-20 rounded-round"
                   />
