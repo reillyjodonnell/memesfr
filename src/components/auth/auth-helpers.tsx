@@ -19,7 +19,6 @@ export async function continueWithTwitter({ displayErrorMessage }: any) {
 
 async function continueWithProvider({ provider, displayErrorMessage }: any) {
   try {
-    // const result =
     await firebase.auth().signInWithPopup(provider);
     /** @type {firebase.auth.OAuthCredential} */
     // const credential =

@@ -6,14 +6,13 @@ import firebase from 'firebase/app';
 //   handleCodeInApp: true,
 // };
 
-async function retrieveProfile(userId) {
+export async function retrieveProfile(userId) {
   try {
-    const profileData = await db.collection('users').doc(userId);
-
-    const profileResult = await profileData.get();
-    const profileStats = profileResult.data();
-
-    return profileStats;
+    const profileData = await db.collection('users').doc(userId).get();
+    if (profileData?.exists) {
+      const profileStats = profileData.data();
+      return profileStats;
+    } else return null;
   } catch (err) {
     console.error(err);
   }

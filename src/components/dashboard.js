@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import UserAuth from './auth/auth-container';
 import { signOut } from '../services/firebase-api';
 import { navigation } from '../constants/navigation';
+import NewUser from './new-user';
 
 export default function Dashboard(props) {
   const [createPost, createPostFunction] = useState(false);
@@ -23,7 +24,7 @@ export default function Dashboard(props) {
 
   const { t } = useTranslation('common');
 
-  const { currentUser } = useAuth();
+  const { currentUser, newUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -117,7 +118,10 @@ export default function Dashboard(props) {
             toggleState={createMemePost}
           ></PopupModal>
         )}
-        {loginModal ? <UserAuth toggleLoginModal={toggleLoginModal} /> : null}
+        {newUser ? <NewUser /> : null}
+        {loginModal && !newUser ? (
+          <UserAuth toggleLoginModal={toggleLoginModal} />
+        ) : null}
         {isMobile ? (
           <>
             <Outlet />

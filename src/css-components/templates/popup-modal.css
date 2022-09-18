@@ -5,10 +5,10 @@
   width: 30vw;
   max-width: 500px;
   min-width: 470px;
-  max-height: 700px;
+  /* max-height: 700px; */
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  /* height: 90vh; */
   z-index: 100;
   background-color: var(--bg);
   color: var(--text-color);
@@ -20,6 +20,7 @@
   padding: 2rem;
   border-radius: 20px;
   overflow-y: auto;
+  transition: all var(--speed);
   /* max-height: 650px; */
 }
 

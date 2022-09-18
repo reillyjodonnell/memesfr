@@ -4,6 +4,9 @@ import 'firebase/firestore';
 
 const app = firebase.initializeApp({
   apiKey: 'AIzaSyAe_UlaDUOKGyFJUwnTl7u3JwY8P_XHrAE',
+  // When we have a privacy policy in place we put this here and then update
+  // the various auth providers to redirect to the below site
+  // authDomain: 'memesfr.com',
   authDomain: 'memes-30d06.firebaseapp.com',
   projectId: 'memes-30d06',
   storageBucket: 'memes-30d06.appspot.com',

@@ -10,7 +10,6 @@ interface IProps {
 
 export default function UserAuth({ toggleLoginModal }: IProps) {
   const [login, setLogin] = useState(true);
-
   const { t } = useTranslation('common');
 
   return (

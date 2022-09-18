@@ -7,7 +7,6 @@ import ThemeProvider from './contexts/theme-context';
 function App() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [loadingData, setLoadingData] = useState(false);
-
   return (
     <ThemeProvider>
       <AuthProvider setLoadingUser={setLoadingUser}>

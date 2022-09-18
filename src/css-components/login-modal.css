@@ -145,7 +145,6 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  cursor: pointer;
   margin: 10px 2rem;
 }
 .login-modal-option-container span {

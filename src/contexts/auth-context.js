@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { auth, db } from '../services/firebase';
+import { retrieveProfile } from '../services/firebase-api';
 
 const AuthContext = React.createContext();
 
@@ -9,28 +10,15 @@ export function useAuth() {
 
 export default function AuthProvider({ children, setLoadingUser }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [newUser, setNewUser] = useState(false);
+
   const [notConfirmedEmail, setNotConfirmedEmail] = useState(false);
   const [likedPosts, setLikedPosts] = useState([]);
   const [accountsUserFollows, setAccountsUserFollows] = useState([]);
 
   const user = auth.currentUser;
 
-  // // Here we're syncing the avatar in the JWT to the database
-  // useEffect(() => {
-  //   async function setPhotoToDatabase() {
-  //     try {
-  //       const userRef = await db.collection('users').doc(user?.uid);
-  //       userRef.set(
-  //         {
-  //           avatar: user?.photoURL,
-  //         },
-  //         { merge: true }
-  //       );
-  //     } catch (err) {
-  //     }
-  //   }
-  //   setPhotoToDatabase();
-  // }, [user]);
+  console.log(user);
 
   useEffect(() => {
     async function retrieveUsername() {
@@ -50,33 +38,27 @@ export default function AuthProvider({ children, setLoadingUser }) {
     }
   }, [user]);
 
-  // uid &&
-  //   db
-  //     .collection('users')
-  //     .doc(user?.uid)
-  //     .get('username')
-  //     .then((res) => {
-  //       const username = res?.data()?.username ?? null;
-  //       formattedUser.username = username;
-  //     });
-
-  // const formattedUser = {
-  //   // we will need the display name (whatever that may be)
-  //   displayName: user?.displayName ?? '',
-  //   // the actual username from the users document
-  //   username: '',
-  //   // their photoUrl / image
-  //   image: user?.photoURL ?? '',
-  //   // their uid
-  //   uid: user?.uid,
-  // };
-
   useEffect(() => {
+    async function checkIfProfileExists(id) {
+      try {
+        const exists = await retrieveProfile(id);
+        if (exists) {
+          setNewUser(false);
+        } else setNewUser(true);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     setLoadingUser(true);
     let mount = true;
     if (mount === true) {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (user) {
+        checkIfProfileExists(user?.uid);
+        if (user && !newUser) {
+          setCurrentUser(user);
+          setLoadingUser(false);
+
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
             setLoadingUser(false);
@@ -91,14 +73,19 @@ export default function AuthProvider({ children, setLoadingUser }) {
 
             // navigate('/setup');
           }
+        }
+        if (user && newUser) {
+          setCurrentUser(null);
+          setLoadingUser(false);
         } else {
+          setCurrentUser(null);
           setLoadingUser(false);
         }
       });
       return unsubscribe;
     }
     return () => (mount = false);
-  }, [setLoadingUser]);
+  }, [setLoadingUser, newUser]);
 
   const values = {
     currentUser,
@@ -106,6 +93,7 @@ export default function AuthProvider({ children, setLoadingUser }) {
     notConfirmedEmail,
     likedPosts,
     accountsUserFollows,
+    newUser,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
