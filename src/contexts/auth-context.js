@@ -18,46 +18,34 @@ export default function AuthProvider({ children, setLoadingUser }) {
 
   const user = auth.currentUser;
 
-  console.log(user);
+  async function checkIfProfileExists(id) {
+    try {
+      const profileData = await retrieveProfile(id);
+      if (profileData) {
+        const username = profileData?.username ?? '';
+        const likedPosts = profileData?.likedPosts ?? [];
+        const following = profileData?.following ?? [];
+
+        setLikedPosts([...likedPosts]);
+        setAccountsUserFollows([...following]);
+        setCurrentUser(user);
+        setNewUser(false);
+      } else setNewUser(true);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
-    async function retrieveUsername() {
-      const res = await db.collection('users')?.doc(user?.uid).get();
-      const username = res?.data()?.username ?? '';
-      const likedPosts = res?.data()?.likedPosts ?? [];
-      const following = res?.data()?.following ?? [];
-
-      setLikedPosts([...likedPosts]);
-      setAccountsUserFollows([...following]);
-      setCurrentUser((prev) => {
-        return { ...prev, username };
-      });
-    }
-    if (user) {
-      retrieveUsername();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    async function checkIfProfileExists(id) {
-      try {
-        const exists = await retrieveProfile(id);
-        if (exists) {
-          setNewUser(false);
-        } else setNewUser(true);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
     setLoadingUser(true);
     let mount = true;
     if (mount === true) {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        checkIfProfileExists(user?.uid);
-        if (user && !newUser) {
-          setCurrentUser(user);
+        // This is the JWT provided by Cloud Firestore
+        if (user) {
           setLoadingUser(false);
+          setCurrentUser(user);
+          checkIfProfileExists(user?.uid);
 
           if (user.emailVerified && user.displayName != null) {
             setCurrentUser(user);
@@ -70,13 +58,7 @@ export default function AuthProvider({ children, setLoadingUser }) {
           if (user.emailVerified && user.displayName === null) {
             setCurrentUser(user);
             setLoadingUser(false);
-
-            // navigate('/setup');
           }
-        }
-        if (user && newUser) {
-          setCurrentUser(null);
-          setLoadingUser(false);
         } else {
           setCurrentUser(null);
           setLoadingUser(false);
@@ -94,6 +76,7 @@ export default function AuthProvider({ children, setLoadingUser }) {
     likedPosts,
     accountsUserFollows,
     newUser,
+    setNewUser,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

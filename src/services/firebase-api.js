@@ -1,4 +1,4 @@
-import { auth, db } from '../services/firebase';
+import { auth, db, storage } from '../services/firebase';
 import firebase from 'firebase/app';
 
 // const actionCodeSettings = {
@@ -15,6 +15,45 @@ export async function retrieveProfile(userId) {
     } else return null;
   } catch (err) {
     console.error(err);
+  }
+}
+
+export async function createUserProfile({ userId, avatar, username }) {
+  if (!(userId && avatar && username)) {
+    throw new Error('Invalid data supplied');
+  }
+  try {
+    const avatarUrl = await generateProfilePictureUrl({ file: avatar, userId });
+    console.log(avatarUrl);
+    await createUser({ uid: userId, username, avatarUrl });
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
+}
+
+async function createUser({ uid, username, avatarUrl }) {
+  if (uid && username && avatarUrl) {
+    const items = [
+      {
+        avatar: avatarUrl,
+      },
+      {
+        username,
+      },
+      {
+        created: firebase.database.ServerValue.TIMESTAMP, // server time
+      },
+    ];
+
+    const userRef = await db.collection('users').doc(uid);
+
+    Promise.all(
+      await db.collection('usernames').doc(username).set({ uid }),
+      await userRef.set(...items)
+    );
+  } else {
+    throw new Error('Uh oh');
   }
 }
 
@@ -178,37 +217,23 @@ export async function retrieveRecentPosts() {
         });
         return total_count;
       });
-    const shardHeartRef = db.collection('heartCounters').doc(item.id);
 
     //Here we look at the amount of hearts a post has
-    const totalHeartsOnPost = shardHeartRef
-      .collection('shards')
-      .get()
-      .then((snapshot) => {
-        let total_count = 0;
-        snapshot.forEach((doc) => {
-          total_count += doc.data().count;
-        });
-        return total_count;
-      });
+
     totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
       const amountOfLikes = resolvedPromiseForNumberOfLikes;
       return amountOfLikes;
     });
-    totalHeartsOnPost.then((resolvedPromiseForNumberOfHearts) => {
-      const amountOfHearts = resolvedPromiseForNumberOfHearts;
-      return amountOfHearts;
-    });
+
     async function documentData() {
       const usersLikes = await totalLikesOnPost;
-      const usersHearts = await totalHeartsOnPost;
+
       const docData = {
         userName: item.userName,
         title: item.title,
         author: item.author,
         authorPic: item.authorPic,
         likes: usersLikes,
-        hearts: usersHearts,
         image: item.image,
         fileType: item.fileType,
         createdAt: item.createdAt,
@@ -465,37 +490,6 @@ export async function hasUserLikedPost({ currentUser }) {
 // //     });
 // // }
 
-// //1 read
-// function addUsernameToDB(id) {
-//   const value = user.uid;
-//   const items = [
-//     {
-//       createdPosts: [],
-//     },
-//     {
-//       hearted: [],
-//     },
-//     {
-//       likedPosts: [],
-//     },
-//     {
-//       photoURL: user.photoURL,
-//     },
-//     {
-//       userName: id,
-//     },
-//     {
-//       crowns: 0,
-//     },
-//     {
-//       followers: [],
-//     },
-//   ];
-
-//   db.collection('usernames').doc(id).set({ uid: value });
-//   db.collection('users').doc(value).set({ items });
-// }
-
 // function updateProfile(name, file, defaultAvatar) {
 //   if (defaultAvatar) {
 //     addUsernameToDB(name);
@@ -522,42 +516,10 @@ export async function hasUserLikedPost({ currentUser }) {
 //     );
 // }
 
-// function setProfilePicture(file, defaultAvatar) {
-//   let imageFile;
-//   const id = user.uid;
-//   if (defaultAvatar) {
-//     imageFile = file;
-//   }
-//   if (!defaultAvatar) {
-//     imageFile = URL.createObjectURL(file);
-//   }
-
-//   const upload = storage.ref(`users/${id}`).put(file);
-//   upload.on(
-//     'state_changed',
-//     (snapshot) => {},
-//     (error) => {},
-//     () => {
-//       storage
-//         .ref('users')
-//         .child(id)
-//         .getDownloadURL()
-//         .then((url) => {
-//           currentUser.updateProfile({
-//             photoURL: url,
-//           });
-//         });
-//     }
-//   );
-//   currentUser
-//     .updateProfile({
-//       photoURL: imageFile,
-//     })
-//     .then(
-//       function () {},
-//       function (error) {}
-//     );
-// }
+async function generateProfilePictureUrl({ file, userId }) {
+  const upload = storage.ref(`users/${userId}`).put(file);
+  // Get the firestore url for this to attach to the user profile
+}
 
 // //How do we count the total number of likes on the post?
 
