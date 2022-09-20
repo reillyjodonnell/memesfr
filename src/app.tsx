@@ -15,7 +15,6 @@ function App() {
         ) : (
           <Memesfr
             setLoadingData={setLoadingData}
-            loadingData={loadingData}
             setLoadingUser={setLoadingUser}
             loadingUser={loadingUser}
           />

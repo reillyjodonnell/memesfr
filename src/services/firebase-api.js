@@ -86,42 +86,43 @@ export async function retrievePopularPosts() {
   const popRef = db.collection('popular').doc('top_fifty');
   const collections = await popRef.get();
   const items = collections.data();
+  const posts = items?.posts ?? [];
 
-  const updatedObjects = items.posts.map((item) => {
-    //For each item look through the shards and tally them up
-    const shardRef = db.collection('counters').doc(item.id);
-    const totalLikesOnPost = shardRef
-      .collection('shards')
-      .get()
-      .then((snapshot) => {
-        let total_count = 0;
-        snapshot.forEach((doc) => {
-          total_count += doc.data().count;
+  const updatedObjects = await Promise.all(
+    posts.map(async (item) => {
+      //For each item look through the shards and tally them up
+      const shardRef = db.collection('counters').doc(item.id);
+      const totalLikesOnPost = shardRef
+        .collection('shards')
+        .get()
+        .then((snapshot) => {
+          let total_count = 0;
+          snapshot.forEach((doc) => {
+            total_count += doc.data().count;
+          });
+          return total_count;
         });
-        return total_count;
-      });
-    const shardHeartRef = db.collection('heartCounters').doc(item.id);
+      const shardHeartRef = db.collection('heartCounters').doc(item.id);
 
-    //Here we look at the amount of hearts a post has
-    const totalHeartsOnPost = shardHeartRef
-      .collection('shards')
-      .get()
-      .then((snapshot) => {
-        let total_count = 0;
-        snapshot.forEach((doc) => {
-          total_count += doc.data().count;
+      //Here we look at the amount of hearts a post has
+      const totalHeartsOnPost = shardHeartRef
+        .collection('shards')
+        .get()
+        .then((snapshot) => {
+          let total_count = 0;
+          snapshot.forEach((doc) => {
+            total_count += doc.data().count;
+          });
+          return total_count;
         });
-        return total_count;
+      totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
+        const amountOfLikes = resolvedPromiseForNumberOfLikes;
+        return amountOfLikes;
       });
-    totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
-      const amountOfLikes = resolvedPromiseForNumberOfLikes;
-      return amountOfLikes;
-    });
-    totalHeartsOnPost.then((resolvedPromiseForNumberOfHearts) => {
-      const amountOfHearts = resolvedPromiseForNumberOfHearts;
-      return amountOfHearts;
-    });
-    async function documentData() {
+      totalHeartsOnPost.then((resolvedPromiseForNumberOfHearts) => {
+        const amountOfHearts = resolvedPromiseForNumberOfHearts;
+        return amountOfHearts;
+      });
       const usersLikes = await totalLikesOnPost;
       const usersHearts = await totalHeartsOnPost;
       const docData = {
@@ -137,10 +138,8 @@ export async function retrievePopularPosts() {
         id: item.id,
       };
       return docData;
-    }
-
-    return documentData();
-  });
+    })
+  );
   return updatedObjects;
 }
 
@@ -204,28 +203,28 @@ export async function retrieveRecentPosts() {
   const recentRef = db.collection('recent').doc('recent_fifty');
   const collections = await recentRef.get();
   const items = collections.data();
-  const updatedObjects = items.posts.map((item) => {
-    //For each item look through the shards and tally them up
-    const shardRef = db.collection('counters').doc(item.id);
-    const totalLikesOnPost = shardRef
-      .collection('shards')
-      .get()
-      .then((snapshot) => {
-        let total_count = 0;
-        snapshot.forEach((doc) => {
-          total_count += doc.data().count;
+  const updatedObjects = Promise.all(
+    items.posts.map(async (item) => {
+      //For each item look through the shards and tally them up
+      const shardRef = db.collection('counters').doc(item.id);
+      const totalLikesOnPost = shardRef
+        .collection('shards')
+        .get()
+        .then((snapshot) => {
+          let total_count = 0;
+          snapshot.forEach((doc) => {
+            total_count += doc.data().count;
+          });
+          return total_count;
         });
-        return total_count;
+
+      //Here we look at the amount of hearts a post has
+
+      totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
+        const amountOfLikes = resolvedPromiseForNumberOfLikes;
+        return amountOfLikes;
       });
 
-    //Here we look at the amount of hearts a post has
-
-    totalLikesOnPost.then((resolvedPromiseForNumberOfLikes) => {
-      const amountOfLikes = resolvedPromiseForNumberOfLikes;
-      return amountOfLikes;
-    });
-
-    async function documentData() {
       const usersLikes = await totalLikesOnPost;
 
       const docData = {
@@ -240,10 +239,8 @@ export async function retrieveRecentPosts() {
         id: item.id,
       };
       return docData;
-    }
-
-    return documentData();
-  });
+    })
+  );
   return updatedObjects;
 
   //updatedObjects is an array of promises. How do we turn each promise into an array with actual values?

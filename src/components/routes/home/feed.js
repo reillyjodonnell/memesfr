@@ -34,7 +34,7 @@ export default function Feed(props) {
       const following = await retrieveFollowing(id);
       setFollowingUsers(following);
     };
-    getFollowingUsers();
+    if (currentUser) getFollowingUsers();
   }, [currentUser]);
 
   useEffect(() => {
@@ -83,10 +83,10 @@ export default function Feed(props) {
           let hearted = false;
           let following = false;
           const { id } = item;
-          if (usersLikedPosts?.includes(item.id)) {
+          if (currentUser && usersLikedPosts?.includes(item.id)) {
             liked = true;
           }
-          if (followingUsers?.includes(item.author)) {
+          if (currentUser && followingUsers?.includes(item.author)) {
             following = true;
           }
           const likes = item?.likes ?? 0;

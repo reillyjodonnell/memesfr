@@ -17,7 +17,7 @@ export default function Home({
   setNav,
   setPostsLoading,
   setFollowing,
-}) {
+}: any) {
   const { currentUser } = useAuth();
   const currentUserId = currentUser?.uid;
 
@@ -26,45 +26,31 @@ export default function Home({
       const followingData = await retrieveFollowing(currentUserId);
       return followingData;
     };
-    accountsUserIsFollowing().then((data) => {
-      setFollowing(data);
-    });
-  }, [currentUserId, setFollowing]);
+    if (currentUser) {
+      accountsUserIsFollowing().then((data) => {
+        setFollowing(data);
+      });
+    }
+  }, [currentUserId, setFollowing, currentUser]);
 
-  async function popularPosts() {
-    const postsPromises = await retrievePopularPosts();
-    const retrieveData = Promise.all(postsPromises).then((data) => {
-      return data;
-    });
-    return retrieveData;
-  }
-
-  async function recentPosts() {
-    const postsPromises = await retrieveRecentPosts();
-    const retrieveData = Promise.all(postsPromises).then((data) => {
-      return data;
-    });
-    return retrieveData;
-  }
   useEffect(() => {
-    switch (nav) {
-      case navigation.HOME:
-        setPostsLoading(true);
-        popularPosts().then((data) => {
-          setPosts(data);
-          setPostsLoading(false);
-        });
-        break;
-      case navigation.RECENT:
-        setPostsLoading(true);
+    async function retrievePopular() {
+      const popPosts = await retrievePopularPosts();
+      setPosts(popPosts);
+      if (popPosts) setPostsLoading(false);
+    }
+    async function retrieveRecent() {
+      const response = await retrieveRecentPosts();
+      setPosts(response);
+      if (response) setPostsLoading(false);
+    }
 
-        recentPosts().then((data) => {
-          setPosts(data);
-          setPostsLoading(false);
-        });
-        break;
-      default:
-        break;
+    setPostsLoading(true);
+    if (nav === navigation.HOME) {
+      retrievePopular();
+    }
+    if (nav === navigation.RECENT) {
+      retrieveRecent();
     }
   }, [nav, setPosts, setPostsLoading]);
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import Login from './login';
 import Home from './home';
 import MobileProvider from '../contexts/mobile-context';
@@ -20,14 +20,12 @@ import AuthenticatedRoute from './routes/authenticated-route';
 export default function Memesfr({
   loadingUser,
   setLoadingUser,
-  loadingData,
   setLoadingData,
 }) {
   const [nav, setNav] = useState(-1);
   const [posts, setPosts] = useState({});
   const [following, setFollowing] = useState([]);
   const [loginModal, setLoginModal] = useState(false);
-
   const [postsLoading, setPostsLoading] = useState(false);
 
   const { t } = useTranslation('common');
@@ -36,7 +34,7 @@ export default function Memesfr({
     setLoginModal((prev) => !prev);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.title = `🏠 Memesfr - ${t('dankestMemes')}`;
   }, [t]);
 
