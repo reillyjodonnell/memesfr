@@ -133,6 +133,7 @@ export default function NewUser() {
                       >
                         {avatar ? (
                           <img
+                            className="flex w-full h-full object-cover"
                             alt="This is the avatar to represent your profile"
                             src={URL.createObjectURL(avatar)}
                           />

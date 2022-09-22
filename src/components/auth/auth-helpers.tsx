@@ -1,6 +1,12 @@
 import firebase from 'firebase';
 import { authMessages } from '../../constants/auth';
 
+declare global {
+  interface Window {
+    recaptchaVerifier: any;
+  }
+}
+
 export async function continueWithFacebook({
   displayErrorMessage,
   redirect,
