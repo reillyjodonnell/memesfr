@@ -18,44 +18,44 @@ export async function retrieveProfile(userId) {
   }
 }
 
-export async function createUserProfile({ userId, avatar, username }) {
-  if (!(userId && avatar && username)) {
-    throw new Error('Invalid data supplied');
-  }
-  try {
-    const avatarUrl = await generateProfilePictureUrl({ file: avatar, userId });
-    console.log(avatarUrl);
-    await createUser({ uid: userId, username, avatarUrl });
-  } catch (err) {
-    console.error(err);
-    throw new Error(err);
-  }
-}
+// export async function createUserProfile({ userId, avatar, username }) {
+//   if (!(userId && avatar && username)) {
+//     throw new Error('Invalid data supplied');
+//   }
+//   try {
+//     const avatarUrl = await generateProfilePictureUrl({ file: avatar, userId });
+//     console.log(avatarUrl);
+//     await createUser({ uid: userId, username, avatarUrl });
+//   } catch (err) {
+//     console.error(err);
+//     throw new Error(err);
+//   }
+// }
 
-async function createUser({ uid, username, avatarUrl }) {
-  if (uid && username && avatarUrl) {
-    const items = [
-      {
-        avatar: avatarUrl,
-      },
-      {
-        username,
-      },
-      {
-        created: firebase.database.ServerValue.TIMESTAMP, // server time
-      },
-    ];
+// async function createUser({ uid, username, avatarUrl }) {
+//   if (uid && username && avatarUrl) {
+//     const items = [
+//       {
+//         avatar: avatarUrl,
+//       },
+//       {
+//         username,
+//       },
+//       {
+//         created: firebase.database.ServerValue.TIMESTAMP, // server time
+//       },
+//     ];
 
-    const userRef = await db.collection('users').doc(uid);
+//     const userRef = await db.collection('users').doc(uid);
 
-    Promise.all(
-      await db.collection('usernames').doc(username).set({ uid }),
-      await userRef.set(...items)
-    );
-  } else {
-    throw new Error('Uh oh');
-  }
-}
+//     Promise.all(
+//       await db.collection('usernames').doc(username).set({ uid }),
+//       await userRef.set(...items)
+//     );
+//   } else {
+//     throw new Error('Uh oh');
+//   }
+// }
 
 export async function retrieveProfileData(userId) {
   try {
@@ -513,10 +513,10 @@ export async function hasUserLikedPost({ currentUser }) {
 //     );
 // }
 
-async function generateProfilePictureUrl({ file, userId }) {
-  const upload = storage.ref(`users/${userId}`).put(file);
-  // Get the firestore url for this to attach to the user profile
-}
+// async function generateProfilePictureUrl({ file, userId }) {
+// const upload = storage.ref(`users/${userId}`).put(file);
+// Get the firestore url for this to attach to the user profile
+// }
 
 // //How do we count the total number of likes on the post?
 

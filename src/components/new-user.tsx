@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   checkUsernameAvailability,
-  createUserProfile,
+  // createUserProfile,
 } from '../services/firebase-api';
 import InputWithLabel from './templates/input-with-label';
 import PopupModal from './templates/popup-modal';
@@ -37,7 +37,7 @@ export default function NewUser() {
     // we need to send over the username, uid, and avatar to generate the profile
     try {
       if (username && userId && avatar) {
-        await createUserProfile({ userId, avatar, username });
+        // await createUserProfile({ userId, avatar, username });
         setLoading(false);
         setNewUser(false);
       } else {
