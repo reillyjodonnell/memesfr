@@ -23,13 +23,14 @@ export default function AuthProvider({ children, setLoadingUser }) {
       try {
         const profileData = await retrieveProfile(id);
         if (profileData) {
-          // const username = profileData?.username ?? '';
+          const username = profileData?.username ?? '';
           const likedPosts = profileData?.likedPosts ?? [];
           const following = profileData?.following ?? [];
 
           setLikedPosts([...likedPosts]);
           setAccountsUserFollows([...following]);
-          setCurrentUser(user);
+          const updatedUser = { ...user, username };
+          setCurrentUser(updatedUser);
           setNewUser(false);
         } else setNewUser(true);
       } catch (err) {

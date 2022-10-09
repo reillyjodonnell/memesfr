@@ -1,16 +1,13 @@
 .sidebar-fixed {
   height: 90vh;
   display: flex;
-  /* background-color: var(--bg); */
   overflow: hidden;
-  top: 66px;
+  top: var(--header-height);
   color: #fbfaf8;
   min-width: 372px;
   max-width: 372px;
-
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
 }
 .sidebar-content {
   display: flex;

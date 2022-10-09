@@ -76,6 +76,7 @@ html {
   --neon-font-color: #ffffffab;
   --line: var(--dark-mode-line);
   --hover: var(--dark-mode-hover);
+  --header-height: 65px;
 
   --rounded: 10px;
 

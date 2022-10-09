@@ -60,13 +60,9 @@ export default function Dashboard(props) {
     navigate('/');
     setNav(navigation.POPULAR);
   }
-  function filterNotifications() {
-    navigate('/');
-    setNav(navigation.RECENT);
-  }
+
   function filterRecent() {
     navigate('/');
-
     setNav(navigation.RECENT);
   }
 
@@ -171,7 +167,6 @@ export default function Dashboard(props) {
                 homeFilter={filterHome}
                 recentFilter={filterRecent}
                 popularFilter={filterPopular}
-                notificationsFilter={filterNotifications}
                 navigateToProfile={navigateToProfile}
                 navigateToNotifications={navigateToNotifications}
                 navigateToLogin={navigateToLogin}
