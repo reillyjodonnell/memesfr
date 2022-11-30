@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, ChangeEvent } from 'react';
 import '../../../css-components/routes/create/create.css';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../contexts/auth-context';
@@ -7,13 +7,14 @@ import { Picker } from 'emoji-mart';
 import ImageThumb from '../../image-thumb';
 import { navigation } from '../../../constants/navigation';
 import { ReactComponent as Image } from '../../../assets/icons/add-image.svg';
-export default function Create({ setNav }) {
-  const { t } = useTranslation('common');
 
-  const [file, setFile] = useState('');
+export default function Create({ setNav }: { setNav: Function }) {
+  const { t } = useTranslation('common');
+  const [fileType, setFileType] = useState('');
+  const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState(false);
   const [letterCount, setLetterCount] = useState(0);
-  const [caption, setCaption] = useState(t('writeCaption'));
+  const [caption, setCaption] = useState('');
   const [acceptInput, setAcceptInput] = useState(true);
   const [emojiContainerOpen, setEmojiContainerOpen] = useState(false);
   const { currentUser } = useAuth();
@@ -28,14 +29,16 @@ export default function Create({ setNav }) {
 
   document.title = `✏️ ${t('create')} - Memesfr`;
 
-  const handleUpload = (event) => {
-    setFile(event.target.files[0]);
+  const submitMeme = () => {};
+
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = (event?.target as HTMLInputElement)?.files;
+    setFile(file?.[0] ?? null);
   };
 
-  const handleCaptionInput = (e) => {
-    setCaption(e.currentTarget.textContent);
-
-    const letterLength = e.currentTarget.textContent.length;
+  const handleCaptionInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setCaption(e?.currentTarget?.value ?? '');
+    const letterLength = e?.currentTarget?.value?.length ?? 0;
     setLetterCount(letterLength);
     if (letterLength > 69) {
       setAcceptInput(false);
@@ -49,37 +52,23 @@ export default function Create({ setNav }) {
   };
 
   const clearMeme = () => {
-    setFile('');
+    setFile(null);
   };
 
-  const handleEmojiPicker = (emoji) => {
-    const prevHTML = document.getElementById('caption').innerHTML;
-    document.getElementById('caption').innerHTML = `${prevHTML}${emoji.native}`;
+  const handleEmojiPicker = (emoji: any) => {
+    setCaption((prev) => `${prev}${emoji?.native ?? ''}`);
     setEmojiContainerOpen(false);
     setLetterCount((prevCount) => prevCount + 1);
   };
 
   const handleHashTag = () => {
-    const prevHTML = document.getElementById('caption').innerHTML;
-    document.getElementById('caption').innerHTML = `${prevHTML}#`;
+    setCaption((prev) => `${prev}#`);
     setLetterCount((prevCount) => prevCount + 1);
   };
 
   function removeFile() {
-    setFile('');
+    setFile(null);
   }
-  const includeEmojis = [
-    'search',
-    'custom',
-    'people',
-    'nature',
-    'foods',
-    'activity',
-    'places',
-    'objects',
-    'symbols',
-    'flags',
-  ];
 
   function shouldEnableSubmitButton() {
     return file && letterCount > 0 && letterCount <= 69;
@@ -89,7 +78,18 @@ export default function Create({ setNav }) {
     <div className="create-post-container">
       {emojiContainerOpen && (
         <Picker
-          include={includeEmojis}
+          include={[
+            'search',
+            'custom',
+            'people',
+            'nature',
+            'foods',
+            'activity',
+            'places',
+            'objects',
+            'symbols',
+            'flags',
+          ]}
           set={'apple'}
           onSelect={(emoji) => handleEmojiPicker(emoji)}
           title=""
@@ -124,7 +124,7 @@ export default function Create({ setNav }) {
             <>
               <input
                 accept="video/*, image/*"
-                onChange={handleUpload}
+                onChange={(e) => handleUpload(e)}
                 className="hidden-file"
                 type="file"
               />
@@ -143,7 +143,6 @@ export default function Create({ setNav }) {
               setFile={setFile}
               removeFile={removeFile}
               setFileError={setFileError}
-              className="meme-image-preview"
               file={file}
             ></ImageThumb>
           )}
@@ -156,7 +155,7 @@ export default function Create({ setNav }) {
                 <img
                   className=""
                   alt="your user avatar"
-                  referrerpolicy="no-referrer"
+                  referrerPolicy="no-referrer"
                   src={avatar}
                 />
               </div>
@@ -169,7 +168,7 @@ export default function Create({ setNav }) {
                     {t('caption')}
                   </span>
                   <span
-                    style={!acceptInput ? { color: 'red' } : null}
+                    style={{ color: !acceptInput ? 'red' : '' }}
                     className="create-post-caption-container-title-characters"
                   >
                     {`${letterCount} / 69`}
@@ -183,13 +182,14 @@ export default function Create({ setNav }) {
                       : null
                   }`}
                 >
-                  <div
+                  <input
                     className="create-post-caption-input"
                     contentEditable
                     id="caption"
-                    onInput={handleCaptionInput}
+                    onChange={(e) => handleCaptionInput(e)}
                     value={caption}
-                  ></div>
+                    placeholder={t('writeCaption') as string}
+                  />
                   <div className="create-post-caption-secondary">
                     <div className="create-post-emoji-container">
                       <span
@@ -216,6 +216,7 @@ export default function Create({ setNav }) {
                     {`${t('trash')} 🗑`}
                   </button>
                   <button
+                    onClick={submitMeme}
                     className={`create-post-action-button ${
                       shouldEnableSubmitButton()
                         ? 'create-post-submit-button-valid'

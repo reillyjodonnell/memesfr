@@ -119,7 +119,11 @@ export default function Memesfr({
 
                 <Route
                   path="/create"
-                  element={<Create nav={nav} setNav={setNav} />}
+                  element={
+                    <AuthenticatedRoute>
+                      <Create nav={nav} setNav={setNav} />
+                    </AuthenticatedRoute>
+                  }
                 />
               </Route>
               <Route path="/setup" element={<CreateProfile />} />
