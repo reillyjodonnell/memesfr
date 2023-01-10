@@ -10,7 +10,6 @@ import { ReactComponent as Image } from '../../../assets/icons/add-image.svg';
 
 export default function Create({ setNav }: { setNav: Function }) {
   const { t } = useTranslation('common');
-  const [fileType, setFileType] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState(false);
   const [letterCount, setLetterCount] = useState(0);
