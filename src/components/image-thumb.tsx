@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { ReactComponent as X } from '../assets/svg/x.svg';
 import '../css-components/modal.css';
+
+type ImageThumbProps = {
+  file: File;
+  setFileError: Function;
+  removeFile: Function;
+  setFile: Function;
+};
+
 const ImageThumb = ({
   file,
   setFileError,
-  setFileType,
   removeFile,
   setFile,
-}) => {
+}: ImageThumbProps) => {
   setFileError('');
   const filesFormats = [
     'image/jpeg',
@@ -18,26 +25,22 @@ const ImageThumb = ({
   ];
   const validFormat = filesFormats.includes(file.type);
   if (file.type === 'video/mp4') {
-    setFileType('video');
     return (
       <div className="meme-image-preview">
         <video
-          loop="true"
+          loop
           className=" meme-image-preview"
           src={URL.createObjectURL(file)}
-          alt={file.name}
-          autoPlay="true"
-          controls="true"
+          autoPlay
+          controls
           style={{ objectFit: 'contain' }}
         ></video>
-        <X className="cancel-meme" onClick={removeFile} />
+        <X className="cancel-meme" onClick={removeFile as MouseEventHandler} />
       </div>
     );
   }
 
   if (validFormat) {
-    setFileType('image');
-
     return (
       <div className="meme-image-preview">
         <img
@@ -45,7 +48,7 @@ const ImageThumb = ({
           className="meme-image-preview"
           alt={file.name}
         ></img>
-        <X className="cancel-meme" onClick={removeFile} />
+        <X className="cancel-meme" onClick={removeFile as MouseEventHandler} />
       </div>
     );
   } else {
@@ -57,4 +60,4 @@ const ImageThumb = ({
   }
 };
 
-export default React.memo(ImageThumb);
+export default ImageThumb;
