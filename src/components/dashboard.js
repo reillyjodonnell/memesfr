@@ -3,7 +3,7 @@ import '../css-components/dashboard.css';
 import Sidebar from './sidebar';
 import { useAuth } from '../contexts/auth-context';
 import { useMobile } from '../contexts/mobile-context';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import MobileNav from './mobile-nav';
 import { Outlet } from 'react-router-dom';
 import Topbar from './topbar';
@@ -26,7 +26,9 @@ export default function Dashboard(props) {
 
   const { currentUser, newUser } = useAuth();
 
-  const navigate = useNavigate();
+  function navigate() {}
+
+  // const navigate = useNavigate();
 
   let username;
   let avatar;

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import Dashboard from './dashboard';
-import { useAuth } from '../contexts/auth-context';
+import Dashboard from '../src/components/dashboard';
+import { useAuth } from '../src/contexts/auth-context';
 import {
   retrievePopularPosts,
   retrieveRecentPosts,
   retrieveFollowing,
-} from '../services/firebase-api';
-import { navigation } from '../constants/navigation';
+} from '../src/services/firebase-api';
+// import { navigation } from '../src/constants/navigation';
 
 export default function Home({
   notificationCount,
@@ -46,12 +46,12 @@ export default function Home({
     }
 
     setPostsLoading(true);
-    if (nav === navigation.HOME) {
-      retrievePopular();
-    }
-    if (nav === navigation.RECENT) {
-      retrieveRecent();
-    }
+    // if (nav === navigation.HOME) {
+    //   retrievePopular();
+    // }
+    // if (nav === navigation.RECENT) {
+    //   retrieveRecent();
+    // }
   }, [nav, setPosts, setPostsLoading]);
 
   return (

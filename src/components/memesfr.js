@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from 'react';
 import Login from './login';
-import Home from './home';
+import Home from '../../pages/home';
 import MobileProvider from '../contexts/mobile-context';
 import CreateProfile from './create-profile';
 import Edit from './edit-profile';
