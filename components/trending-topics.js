@@ -1,5 +1,4 @@
 import React from 'react';
-import '../css-components/trending-topics.css';
 export default function TrendingTopics() {
   const trendingTopics = [
     { title: 'Political' },

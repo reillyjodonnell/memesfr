@@ -16,7 +16,7 @@ export default function AuthProvider({ children, setLoadingUser }) {
   const [likedPosts, setLikedPosts] = useState([]);
   const [accountsUserFollows, setAccountsUserFollows] = useState([]);
 
-  const user = auth.currentUser;
+  const user = auth?.currentUser;
 
   useEffect(() => {
     async function checkIfProfileExists(id) {
@@ -33,12 +33,10 @@ export default function AuthProvider({ children, setLoadingUser }) {
           setCurrentUser(updatedUser);
           setNewUser(false);
         } else setNewUser(true);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
     setLoadingUser(true);
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth?.onAuthStateChanged((user) => {
       // This is the JWT provided by Cloud Firestore
       if (user) {
         setLoadingUser(false);

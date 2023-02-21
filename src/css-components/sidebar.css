@@ -186,6 +186,10 @@
   color: var(--primary-accent);
   font-weight: 700;
 }
+.navigation-group-svg {
+  width: 32px;
+  height: 32px;
+}
 .navigation-group svg,
 .logout-container svg {
   width: 32px !important;

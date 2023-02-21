@@ -27,11 +27,9 @@
   justify-content: center;
   align-items: center;
   min-width: 0;
-  margin: 20px 0;
+  padding: 20px 0;
   min-height: 0;
-  /* margin: 0; */
   box-sizing: border-box;
-  /* border-bottom: 1px solid var(--line); */
 }
 
 .card-container-padding {
@@ -63,7 +61,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  margin-right: auto;
   min-height: 400px;
 }
 .upper {
@@ -103,6 +100,7 @@
 
 .meme-image {
   display: flex;
+  width: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
@@ -587,9 +585,7 @@
   transition: var(--speed) all;
 }
 .verified-container {
-  height: 10px;
-  width: 10px;
-  background-color: var(--primary-accent);
+  color: var(--primary-accent);
   padding: 3px;
   display: flex;
   justify-content: center;

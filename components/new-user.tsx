@@ -32,8 +32,6 @@ export default function NewUser() {
     const username = usernameField;
     const userId = currentUser?.uid ?? null;
 
-    console.log(username, userId, avatar);
-
     // we need to send over the username, uid, and avatar to generate the profile
     try {
       if (username && userId && avatar) {

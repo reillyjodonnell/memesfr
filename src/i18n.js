@@ -25,6 +25,7 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
+    keySeparator: false, // we do not use keys in form messages.welcome
     resources: {
       en: {
         common: common_en,

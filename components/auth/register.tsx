@@ -158,9 +158,7 @@ export default function Register({ toggleLogin, closeModal }: RegisterProps) {
   function loginWithPhone() {
     requestCaptcha({
       elementId: 'request-code',
-      callback: (a: any) => {
-        console.log(a);
-      },
+      callback: (a: any) => {},
     });
     const appVerifier = window.recaptchaVerifier;
     const unformattedNumber = phoneField.replace(/\D/g, '');

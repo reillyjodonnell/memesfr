@@ -23,6 +23,7 @@
 .trendingtopics-text-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .trendingtopics-text {
   font-size: 0.85rem;
