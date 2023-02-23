@@ -1,6 +1,6 @@
 export const Clock = ({
   className = '',
-  style,
+  style = {},
 }: {
   className: string;
   style: React.CSSProperties;

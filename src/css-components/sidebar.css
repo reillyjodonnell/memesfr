@@ -1,5 +1,5 @@
 .sidebar-fixed {
-  height: 90vh;
+  height: calc(100vh - var(--header-height));
   display: flex;
   overflow: hidden;
   top: var(--header-height);

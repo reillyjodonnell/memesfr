@@ -62,6 +62,8 @@ html {
   --background-transparent-light: #4a4a4a17;
   --background-transparent-dark: #9d9d9d14;
 
+  --overlay-bg: rgba(255, 255, 255, 0.267);
+
   --bg: var(--dark-bg);
   --text-color: var(--light-text);
   --secondary-text-color: var(--dark-text-secondary);

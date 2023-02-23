@@ -10,16 +10,18 @@ import {
   Crown,
 } from '../assets';
 import { useMobile } from '@/src/contexts/mobile-context';
-import FollowButton from './follow-button';
-import FollowingButton from './following-button';
-import { fileType } from '@/src/constants/common';
-import Link from 'next/link';
 
+import { fileType as FileType } from '@/src/constants/common';
+import Link from 'next/link';
+import Image from 'next/image';
+import AvatarContainer from './avatar-container';
+import FollowContainer from './follow-container';
+import FullscreenPlayer from '../fullscreen-player';
 export default function Card({
   likes = 0,
   enableFullScreen,
   login,
-  following,
+  followsUser,
   author,
   authorPic,
   userName,
@@ -28,12 +30,20 @@ export default function Card({
   image,
   shares = 0,
   comments = 0,
+  likedPost,
+  url,
+  userHandle,
+  userBio,
+  followingCount,
+  followerCount,
+  authorId,
 }) {
-  const [thumbUp, setThumbUp] = useState(false);
+  // const [thumbUp, setThumbUp] = useState(false);
   // const [thumbDown, setThumbDown] = useState(false);
   const [options, expandOptions] = useState(false);
   // const [followsUser, setFollowsUser] = useState(false);
   // const { isMobile } = useMobile();
+  const [fullscreen, setFullscreen] = useState(false);
 
   /* FOR DEV ONLY */
   const isVerified = true;
@@ -42,23 +52,26 @@ export default function Card({
 
   const isAuthor = currentUser ? currentUser.uid === author : false;
 
-  const toggleFollowUser = () => {
-    if (currentUser) {
-      setFollowsUser(true);
-      followUser(currentUser.uid, author);
-    } else {
-      login();
-    }
-  };
+  const toggleFollowUser = () => {};
+  const toggleUnfollowUser = () => {};
 
-  const toggleUnfollowUser = () => {
-    if (currentUser) {
-      setFollowsUser(false);
-      unfollowUser(currentUser.uid, props.item.author);
-    } else {
-      login();
-    }
-  };
+  // const toggleFollowUser = () => {
+  //   if (currentUser) {
+  //     setFollowsUser(true);
+  //     followUser(currentUser.uid, author);
+  //   } else {
+  //     login();
+  //   }
+  // };
+
+  // const toggleUnfollowUser = () => {
+  //   if (currentUser) {
+  //     setFollowsUser(false);
+  //     unfollowUser(currentUser.uid, props.item.author);
+  //   } else {
+  //     login();
+  //   }
+  // };
 
   // const toggleThumbUp = () => {
   //   // setNeedSubmit(true);
@@ -97,12 +110,23 @@ export default function Card({
       // onMouseLeave={captureUserInput}
       // onScrollCapture={isMobile ? captureUserInput : null}
     >
+      <FullscreenPlayer
+        source={image}
+        type={fileType}
+        open={fullscreen}
+        openChange={setFullscreen}
+      />
+
       <div className="card-container">
         <div className="card-container-padding">
-          <DisplayAvatar
+          <AvatarContainer
             authorId={author}
             avatar={authorPic ?? ''}
             username={username}
+            userHandle={userHandle}
+            userBio={userBio}
+            followingCount={followingCount}
+            followerCount={followerCount}
           />
 
           <div className="card">
@@ -128,23 +152,22 @@ export default function Card({
 
                   <span className="hashtag-identifier"></span>
                 </div>
-                {following ? (
-                  <FollowingButton toggleUnfollowUser={toggleUnfollowUser} />
-                ) : isAuthor ? (
-                  <Pencil />
-                ) : (
-                  <FollowButton toggleFollowUser={toggleFollowUser} />
-                )}
+                <FollowContainer follows={followsUser} />
               </div>
 
-              <div
-                onClick={() => enableFullScreen({ meme: item })}
-                className="image-container"
-              >
-                {fileType === fileType.VIDEO ? (
-                  <video autoPlay muted src={image} poster={poster} controls />
+              <Link href={'/'} className="image-container cursor-pointer">
+                {fileType === FileType.VIDEO ? (
+                  <video
+                    onClick={() => setFullscreen((prev) => !prev)}
+                    autoPlay
+                    muted
+                    src={image}
+                    loop
+                    controls
+                  />
                 ) : (
                   <img
+                    onClick={() => setFullscreen((prev) => !prev)}
                     alt=""
                     loading="lazy"
                     // onDoubleClick={currentUser ? toggleHeart : activatePrompt}
@@ -152,9 +175,9 @@ export default function Card({
                     width={500}
                     height={500}
                     src={image}
-                  ></img>
+                  />
                 )}
-              </div>
+              </Link>
 
               <div className="upper-top"></div>
             </div>
@@ -163,7 +186,7 @@ export default function Card({
               <div
                 // onClick={currentUser ? toggleThumbUp : login}
                 className={
-                  thumbUp ? 'crown-container-active' : 'crown-container'
+                  likedPost ? 'crown-container-active' : 'crown-container'
                 }
               >
                 <Crown className="w-6 h-6 card-icon" />
@@ -193,20 +216,6 @@ export default function Card({
     </div>
   );
 }
-
-const DisplayAvatar = ({ avatar, username = '', authorId }) => {
-  return (
-    <Link href={`/${username}`}>
-      <div className="avatar-picture">
-        <img
-          alt="user's avatar"
-          src={avatar}
-          style={{ height: '100%', width: '100%' }}
-        />
-      </div>
-    </Link>
-  );
-};
 
 function ExpandedPencil() {
   return (

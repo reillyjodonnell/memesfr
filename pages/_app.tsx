@@ -4,6 +4,7 @@ import '@/src/css-components/sidebar.css';
 import '@/src/css-components/card.css';
 import '@/src/css-components/trending-topics.css';
 import '../src/css-components/topbar.css';
+import '@/src/css-components/dashboard.css';
 
 import { useState } from 'react';
 import AuthProvider from '@/src/contexts/auth-context';

@@ -357,7 +357,6 @@
 .meme-title {
   font-weight: 500;
   color: var(--secondary-title-color);
-  margin-top: 6px;
 }
 .lower {
   display: flex;
